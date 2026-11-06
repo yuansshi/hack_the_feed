@@ -1,0 +1,807 @@
+{
+  "segments": {
+    "palo-alto-glass-villa_seg0": {
+      "request_id": "129c2220-7f43-4c35-9768-8a2652ec90dd",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "exterior",
+      "to_room": "living",
+      "local_file": "palo-alto-glass-villa_seg0_129c2220.mp4"
+    },
+    "palo-alto-glass-villa_seg1": {
+      "request_id": "97dbc81a-4ac0-431f-a0ad-6b7fac2be1e9",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "living",
+      "to_room": "kitchen",
+      "local_file": "palo-alto-glass-villa_seg1_97dbc81a.mp4"
+    },
+    "palo-alto-glass-villa_seg2": {
+      "request_id": "81d80e65-e53c-4e28-90db-d0c7439478d7",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "kitchen",
+      "to_room": "primary_bedroom",
+      "local_file": "palo-alto-glass-villa_seg2_81d80e65.mp4"
+    },
+    "palo-alto-glass-villa_seg3": {
+      "request_id": "20a9c759-54a0-473a-8239-0298a0415fca",
+      "model": "pixverse-v6-transition",
+      "status": "ready",
+      "from_room": "primary_bedroom",
+      "to_room": "backyard_pool",
+      "local_file": "palo-alto-glass-villa_seg3_20a9c759.mp4"
+    },
+    "sf-pacific-heights-view_seg0": {
+      "request_id": "71f1230a-8117-4259-a2d1-3a300ad0a090",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "exterior",
+      "to_room": "living",
+      "local_file": "sf-pacific-heights-view_seg0_71f1230a.mp4"
+    },
+    "sf-pacific-heights-view_seg1": {
+      "request_id": "97dbc81a-4ac0-431f-a0ad-6b7fac2be1e9",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "living",
+      "to_room": "kitchen",
+      "local_file": "palo-alto-glass-villa_seg1_97dbc81a.mp4"
+    },
+    "sf-pacific-heights-view_seg2": {
+      "request_id": "20a9c759-54a0-473a-8239-0298a0415fca",
+      "model": "pixverse-v6-transition",
+      "status": "ready",
+      "from_room": "kitchen",
+      "to_room": "backyard_pool",
+      "local_file": "palo-alto-glass-villa_seg3_20a9c759.mp4"
+    },
+    "marin-mill-valley-retreat_seg0": {
+      "request_id": "81d80e65-e53c-4e28-90db-d0c7439478d7",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "exterior",
+      "to_room": "living",
+      "local_file": "palo-alto-glass-villa_seg2_81d80e65.mp4"
+    },
+    "marin-mill-valley-retreat_seg1": {
+      "request_id": "81d80e65-e53c-4e28-90db-d0c7439478d7",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "living",
+      "to_room": "primary_bedroom",
+      "local_file": "palo-alto-glass-villa_seg2_81d80e65.mp4"
+    },
+    "los-altos-hills-estate_seg0": {
+      "request_id": "20a9c759-54a0-473a-8239-0298a0415fca",
+      "model": "pixverse-v6-transition",
+      "status": "ready",
+      "from_room": "primary_bedroom",
+      "to_room": "backyard_pool",
+      "local_file": "palo-alto-glass-villa_seg3_20a9c759.mp4"
+    },
+    "palo-alto-cowper-modern_seg0": {
+      "request_id": "97dbc81a-4ac0-431f-a0ad-6b7fac2be1e9",
+      "model": "veo-3.1-lite-generate-001",
+      "status": "ready",
+      "from_room": "living",
+      "to_room": "kitchen",
+      "local_file": "palo-alto-glass-villa_seg1_97dbc81a.mp4"
+    }
+  },
+  "voiceovers": {
+    "palo-alto-glass-villa": {
+      "request_id": "49a3f247-6049-4e1a-a046-8b4c3fa76ee5",
+      "status": "ready",
+      "local_file": "vo_palo-alto-glass-villa_49a3f247.mp3"
+    }
+  },
+  "oriane": {
+    "df52a0a92b92": {
+      "status": "ok",
+      "http_status": 206,
+      "aggregations": {
+        "total_views": 9849437821,
+        "avg_views": 83289,
+        "total_likes": 527423372,
+        "total_interactions": 582665548,
+        "avg_engagement_rate": 4.71,
+        "avg_outlier_ratio": 92.9
+      },
+      "top_videos": [
+        {
+          "id": "cnt_b5249dcf33b8990c213eced44c4f",
+          "platform": "instagram",
+          "handle": "dr.javeria.atif",
+          "display_name": "Dr Javeria Atif",
+          "followers": 1035815,
+          "views": 221592116,
+          "likes": 13076476,
+          "comments": 45741,
+          " interactions": 14403995,
+          "engagement_rate_views": 6.5,
+          "views_rate_followers": 21393.0,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DeUaAY7SSEn/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/dr.javeria.atif/pfp.webp",
+          "caption": "Experience luxury living in Dubai! \u2728\ud83c\udfe1\n\nBeautiful design, modern interiors, and a perfect place to call home.\n\n\ud83d\udccd Dubai | Your dream home awaits.",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "dr.javeria.atif",
+          "duration": 115.532,
+          "transcript": "Excuse me. Yes. Is this your house? Yes. How much do you give rent? Who gives rent to your own? Who gives rent to your own? Can I take a tour? I'm late for an event but okay. Come, I'll show you. This door is my door. It's my ego. This is my loving area and we do business meetings here too. There's so much pool in your house. Yes, I'll show you later. Let's show you the dining area. This is my dining area with beautiful view. And this is my open style kitchen. Oh, this is not a closed kitchen. W",
+          "on_screen_text": [
+            "Excuse me.",
+            "Is this your HOUSE?",
+            "It's a very large",
+            "HOUSE?",
+            "CanIget atour?",
+            "I'mRUNNINGLATE for an EVENT,",
+            "I'l SHOW you.",
+            "My DOOR is filled with PEOPLE'S",
+            "have BUSINESS meetings HERE",
+            "as well."
+          ]
+        },
+        {
+          "id": "cnt_0263a89afded41b6b3cc926e2f6e",
+          "platform": "instagram",
+          "handle": "vfuho_",
+          "display_name": "VFuho",
+          "followers": 1460288,
+          "views": 109088341,
+          "likes": 4216085,
+          "comments": 12420,
+          " interactions": 4798952,
+          "engagement_rate_views": 4.4,
+          "views_rate_followers": 7470.3,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/Dcx-DGajZLy/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/vfuho_/pfp.webp",
+          "caption": "How to Build a 2-Story Mini House with a Pool & Working Water System | Full Build #vfuho #howto #miniature #house",
+          "hashtags": [
+            "#vfuho",
+            "#howto",
+            "#miniature",
+            "#house"
+          ],
+          "audio_title": "Original audio",
+          "audio_author": "vfuho_",
+          "duration": 124.736,
+          "transcript": null,
+          "on_screen_text": [
+            "100%",
+            "Toy",
+            "VFubo",
+            "L",
+            "VFuho",
+            "V",
+            "E",
+            "3",
+            "H",
+            "10"
+          ]
+        },
+        {
+          "id": "cnt_3500f483cd4261d6696943fa1373",
+          "platform": "instagram",
+          "handle": "joe_hattab",
+          "display_name": "Joe Hattab",
+          "followers": 8007096,
+          "views": 53447558,
+          "likes": 1589187,
+          "comments": 21148,
+          " interactions": 1751350,
+          "engagement_rate_views": 3.28,
+          "views_rate_followers": 667.5,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DcYogI-uYmJ/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/joe_hattab/pfp.webp",
+          "caption": "Devil\u2019s Pool \ud83c\uddff\ud83c\uddf2 \u0639\u0644\u0649 \u062d\u0627\u0641\u0629 \u0634\u0644\u0627\u0644 \u0641\u064a\u0643\u062a\u0648\u0631\u064a\u0627",
+          "hashtags": [],
+          "audio_title": "Papaoutai (Afro Soul)",
+          "audio_author": "mikeeysmind",
+          "duration": 12.536,
+          "transcript": "Bien mieux qu'\u00e0 tout mal accompagner, pas vrai O\u00f9 est ton papa ? Dis-moi, est ton papa ? Sans m\u00eame devoir lui parler Il sait ce qu'il ne va pas",
+          "on_screen_text": []
+        },
+        {
+          "id": "cnt_f98171942c43914caadd1f2accf0",
+          "platform": "instagram",
+          "handle": "plforindonesia",
+          "display_name": "Premier League Indonesia",
+          "followers": 1700000,
+          "views": 50563952,
+          "likes": 1735892,
+          "comments": 11822,
+          " interactions": 1757457,
+          "engagement_rate_views": 3.48,
+          "views_rate_followers": 2974.4,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/Dd3wccSSJD6/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/plforindonesia/pfp.webp",
+          "caption": "Roberto Firmino. Respect. \ud83d\ude4c\n\n#premi\u0307erleague #liverpool #sadiomane #firmino #indonesia",
+          "hashtags": [
+            "#premi\u0307erleague",
+            "#liverpool",
+            "#sadiomane",
+            "#firmino",
+            "#indonesia"
+          ],
+          "audio_title": "Overpass",
+          "audio_author": "agriffith31",
+          "duration": 29.559,
+          "transcript": "Joe Gomez now has arrived. Salaki. My work is way to Mane! And a beautifully cute finish. Stoker angry. But Mane didn't hang about it by now, he put it away. And trouble deepens from Arcus.",
+          "on_screen_text": [
+            "29",
+            "LA",
+            "ALLEN",
+            "4",
+            "m",
+            "10",
+            "MF",
+            "2E",
+            "Respect.",
+            "EI"
+          ]
+        },
+        {
+          "id": "cnt_503300f5ad5ce2191161150abb85",
+          "platform": "instagram",
+          "handle": "gretchengracegordillo",
+          "display_name": "Gretchen Grace Gordillo",
+          "followers": 217551,
+          "views": 46205975,
+          "likes": 66371,
+          "comments": 522,
+          " interactions": 77992,
+          "engagement_rate_views": 0.17,
+          "views_rate_followers": 21239.1,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DdzMn2rgWGd/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/gretchengracegordillo/pfp.webp",
+          "caption": "\u2728 TIVANNO BY AYS | DUBAI ISLANDS \ud83c\udf0a\ud83c\udfd9\ufe0f\n\nA new address for those looking for ultra-luxury living with an investment opportunity in one of Dubai\u2019s emerging waterfront destinations.\n\nTivanno by AYS Developers brings together thoughtfully designe",
+          "hashtags": [
+            "#tivannobyays",
+            "#myays",
+            "#aysdevelopers",
+            "#dubaiislands",
+            "#uaerealestate"
+          ],
+          "audio_title": "Original audio",
+          "audio_author": "gretchengracegordillo",
+          "duration": 64.23,
+          "transcript": "Looking for a luxury home in Dubai that could also be your next investment? Meet Sivano by AYS in the emerging waterfront destination of Dubai Island. Sivano features ground floor, two parking, and eight residential floors. Inside, quality meets modern luxury with Scavalini kitchens, mini appliances, long-back tops, and bilroy and watch toilets. Enjoy an infinity saltwater pool, Techno Dream Fitness Center, rooftop yoga, private cinema, lounge spaces, infestana, and rooftop design for entertainm",
+          "on_screen_text": [
+            "Meet",
+            "DUBAI ISLANDS",
+            "AYS DEVELOPERS",
+            "OPERS",
+            "YS",
+            "DEVELOPERS",
+            "AYS",
+            "DEVL",
+            "in the emerging",
+            "waterfront destination"
+          ]
+        },
+        {
+          "id": "cnt_8d9f90838d81822dc2497a7f4a37",
+          "platform": "instagram",
+          "handle": "amanda.exploring",
+          "display_name": "Travel | Points & Miles Expert \u2708\ufe0f Amanda Keane",
+          "followers": 272191,
+          "views": 42923045,
+          "likes": 499780,
+          "comments": 8456,
+          " interactions": 526173,
+          "engagement_rate_views": 1.23,
+          "views_rate_followers": 15769.5,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DcR9CuovsCN/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/amanda.exploring/pfp.webp",
+          "caption": "\u2708\ufe0f send to someone you want to stay here with! \n\nfollow @amanda.exploring for more travel inspo \ud83d\ude0d\n\nimagine arriving to Bora Bora and THIS is your view!! had to full send it on this trend\u2026 watch until the end for that \ud83e\udd2a\n\nWelcome to Bora Bora",
+          "hashtags": [
+            "#borabora",
+            "#boraboraisland",
+            "#frenchpolynesia",
+            "#overwaterbungalow",
+            "#beautifuldestinations"
+          ],
+          "audio_title": "Original audio",
+          "audio_author": "amanda.exploring",
+          "duration": 23.732,
+          "transcript": "I got this feeling on the summer day when you were gone I crashed my car into the bridge I watched I let it burn I threw your shit into a bag and pushed it down the stairs I crashed my car into the bridge I don't care Ow",
+          "on_screen_text": [
+            "pov: you see your room in Bora Bora for the first time...",
+            "pov: you see your room in",
+            "Bora Bora for the first time...",
+            "STO"
+          ]
+        },
+        {
+          "id": "cnt_b804dc057b318a9a4c16676343f9",
+          "platform": "instagram",
+          "handle": "not_your_basic_build",
+          "display_name": "Vukovic | AI Builds",
+          "followers": 1081090,
+          "views": 40999805,
+          "likes": 610516,
+          "comments": 2686,
+          " interactions": 613202,
+          "engagement_rate_views": 1.5,
+          "views_rate_followers": 3792.5,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/Dd9UMvGBWp_/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/not_your_basic_build/pfp.webp",
+          "caption": "I Buried a School Bus UNDERWATER to Build a Secret Room!\n\nYou won\u2019t believe this extreme off-grid build! I took an old yellow school bus and completely buried it underwater in a river trench to create the ultimate secret base. Watch me tran",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "not_your_basic_build",
+          "duration": 62.878,
+          "transcript": null,
+          "on_screen_text": [
+            "SANE",
+            "SCHOOL BUS",
+            "\u6c34\u95f8",
+            "1",
+            "O",
+            "ilie",
+            "11-11",
+            "BETBLE",
+            "1033347",
+            "anuse"
+          ]
+        },
+        {
+          "id": "cnt_15c5182583656982e04076fda8e0",
+          "platform": "instagram",
+          "handle": "corbinmaxey",
+          "display_name": "Corbin Maxey",
+          "followers": 826827,
+          "views": 38565441,
+          "likes": 1647240,
+          "comments": 7904,
+          " interactions": 1944573,
+          "engagement_rate_views": 5.04,
+          "views_rate_followers": 4664.3,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DdTq4VPBibJ/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/corbinmaxey/pfp.webp",
+          "caption": "What Happens When You Tap an Alligator Pool",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "corbinmaxey",
+          "duration": 12.142,
+          "transcript": null,
+          "on_screen_text": [
+            "What Happens When You",
+            "Tap an Alligator Pool",
+            "Always watching..."
+          ]
+        }
+      ],
+      "viral_playbook": {
+        "winning_spoken_hooks": [
+          "Excuse me. Yes. Is this your house? Yes. How much do you give rent? Who gives rent to your own? Who gives...",
+          "Bien mieux qu'\u00e0 tout mal accompagner, pas vrai O\u00f9 est ton papa ? Dis-moi, est ton papa ? Sans m\u00eame devoir lui...",
+          "Joe Gomez now has arrived. Salaki. My work is way to Mane! And a beautifully cute finish. Stoker angry. But Mane didn't...",
+          "Looking for a luxury home in Dubai that could also be your next investment? Meet Sivano by AYS in the emerging waterfront..."
+        ],
+        "on_screen_text_pills": [
+          "Excuse me.",
+          "Is this your HOUSE?",
+          "It's a very large",
+          "HOUSE?",
+          "CanIget atour?",
+          "I'mRUNNINGLATE for an EVENT,",
+          "100%",
+          "VFubo",
+          "VFuho",
+          "ALLEN",
+          "Meet",
+          "DUBAI ISLANDS"
+        ],
+        "room_pacing_formula": [
+          "0.0s\u20132.5s: Exterior Curb / Price Anchor Hook (stops scroll with price + neighborhood)",
+          "2.5s\u20136.5s: Continuous Gimbal Glide into Great Room (proves spatial scale, zero jump-cuts)",
+          "6.5s\u201310.5s: Chef's Kitchen Island Close-Up (highest rewatch/save density in Oriane data)",
+          "10.5s\u201315.0s: Primary Suite \u2192 Pool Terrace Climax + Comment Question CTA"
+        ]
+      }
+    },
+    "8cbf5a620db3": {
+      "status": "ok",
+      "http_status": 206,
+      "aggregations": {
+        "total_views": 4699644196,
+        "avg_views": 72613,
+        "total_likes": 241942492,
+        "total_interactions": 271313885,
+        "avg_engagement_rate": 4.47,
+        "avg_outlier_ratio": 77.8
+      },
+      "top_videos": [
+        {
+          "id": "cnt_b5249dcf33b8990c213eced44c4f",
+          "platform": "instagram",
+          "handle": "dr.javeria.atif",
+          "display_name": "Dr Javeria Atif",
+          "followers": 1035815,
+          "views": 221592116,
+          "likes": 13076476,
+          "comments": 45741,
+          " interactions": 14403995,
+          "engagement_rate_views": 6.5,
+          "views_rate_followers": 21393.0,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DeUaAY7SSEn/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/dr.javeria.atif/pfp.webp",
+          "caption": "Experience luxury living in Dubai! \u2728\ud83c\udfe1\n\nBeautiful design, modern interiors, and a perfect place to call home.\n\n\ud83d\udccd Dubai | Your dream home awaits.",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "dr.javeria.atif",
+          "duration": 115.532,
+          "transcript": "Excuse me. Yes. Is this your house? Yes. How much do you give rent? Who gives rent to your own? Who gives rent to your own? Can I take a tour? I'm late for an event but okay. Come, I'll show you. This door is my door. It's my ego. This is my loving area and we do business meetings here too. There's so much pool in your house. Yes, I'll show you later. Let's show you the dining area. This is my dining area with beautiful view. And this is my open style kitchen. Oh, this is not a closed kitchen. W",
+          "on_screen_text": [
+            "Excuse me.",
+            "Is this your HOUSE?",
+            "It's a very large",
+            "HOUSE?",
+            "CanIget atour?",
+            "I'mRUNNINGLATE for an EVENT,",
+            "I'l SHOW you.",
+            "My DOOR is filled with PEOPLE'S",
+            "have BUSINESS meetings HERE",
+            "as well."
+          ]
+        },
+        {
+          "id": "cnt_b804dc057b318a9a4c16676343f9",
+          "platform": "instagram",
+          "handle": "not_your_basic_build",
+          "display_name": "Vukovic | AI Builds",
+          "followers": 1081090,
+          "views": 40999805,
+          "likes": 610516,
+          "comments": 2686,
+          " interactions": 613202,
+          "engagement_rate_views": 1.5,
+          "views_rate_followers": 3792.5,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/Dd9UMvGBWp_/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/not_your_basic_build/pfp.webp",
+          "caption": "I Buried a School Bus UNDERWATER to Build a Secret Room!\n\nYou won\u2019t believe this extreme off-grid build! I took an old yellow school bus and completely buried it underwater in a river trench to create the ultimate secret base. Watch me tran",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "not_your_basic_build",
+          "duration": 62.878,
+          "transcript": null,
+          "on_screen_text": [
+            "SANE",
+            "SCHOOL BUS",
+            "\u6c34\u95f8",
+            "1",
+            "O",
+            "ilie",
+            "11-11",
+            "BETBLE",
+            "1033347",
+            "anuse"
+          ]
+        },
+        {
+          "id": "cnt_853917d13bc4c38e101375a77237",
+          "platform": "instagram",
+          "handle": "nationalhavoc",
+          "display_name": "NHRL - Robot fighting league",
+          "followers": 368070,
+          "views": 26163955,
+          "likes": 228802,
+          "comments": 1777,
+          " interactions": 231284,
+          "engagement_rate_views": 0.88,
+          "views_rate_followers": 7108.4,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DeMn95VMMm7/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/nationalhavoc/pfp.webp",
+          "caption": "A 30lb Melty Brain.. what could go wrong?\n\nMeowtybrain took one hit from Phenomenon to go from spinning Beyblade to full-blown fireball.\n\nCatch more like this at our next round: NHRL\u2019s Pro Tour Round 3 - LIVE from the House of Havoc in Norw",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "nationalhavoc",
+          "duration": 15.8,
+          "transcript": null,
+          "on_screen_text": [
+            "NH",
+            "DA",
+            "RL",
+            "ZN",
+            "RO",
+            "LIVE ON",
+            "ZA",
+            "UR",
+            "2:59",
+            "2:56"
+          ]
+        },
+        {
+          "id": "cnt_da6ce8017721f44d72e81417284d",
+          "platform": "instagram",
+          "handle": "santomarestaurante",
+          "display_name": "Santo Mar | 1\u00ba Restaurante \ud83c\udde7\ud83c\uddf7 com Seafood |Rod\u00edzio Frutos do Mar",
+          "followers": 1282819,
+          "views": 24763343,
+          "likes": 71061,
+          "comments": 634,
+          " interactions": 121870,
+          "engagement_rate_views": 0.49,
+          "views_rate_followers": 1930.4,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DdUoJrQhDX1/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/santomarestaurante/pfp.webp",
+          "caption": "\ud83c\udf70\ud83c\udf53 UMA SOBREMESA DE DAR \u00c1GUA NA BOCA! \ud83c\udf39\u2728\n\nDepois de aproveitar os sabores do Santo Mar, nada melhor do que finalizar a experi\u00eancia com o irresist\u00edvel Mar de Rosas! \ud83d\ude0d\u2764\ufe0f\n\nUma sobremesa generosa, cremosa e perfeita para compartilhar \u2014 ou se de",
+          "hashtags": [
+            "#viral",
+            "#viralizar",
+            "#marderosas",
+            "#saopaulo",
+            "#sp"
+          ],
+          "audio_title": "Original audio",
+          "audio_author": "santomarestaurante",
+          "duration": 15.184,
+          "transcript": "This is the one.",
+          "on_screen_text": [
+            "773",
+            "nutella\nPROFESSIONAL\nCR\u00c8ME DE AVELA COM CACAU",
+            "nutella\nPROFESSION\nCREME DE AVELA COM CA"
+          ]
+        },
+        {
+          "id": "cnt_66da7b31eb6b26d4a2e110b76a84",
+          "platform": "instagram",
+          "handle": "actorsuriya",
+          "display_name": "Suriya Sivakumar",
+          "followers": 11135943,
+          "views": 23686775,
+          "likes": 2095680,
+          "comments": 34876,
+          " interactions": 2913278,
+          "engagement_rate_views": 12.3,
+          "views_rate_followers": 212.7,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/instagram/DdgxLqEpONG/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/instagram/actorsuriya/pfp.webp",
+          "caption": "Dear all,\n\nSharing yet another piece of our heart with you as we are overwhelmed by the love and positivity you've showered on us. \n\nA heartfelt thanks to the extraordinary team that has made our wedding in Scotland so unforgettable. \n\nThan",
+          "hashtags": [],
+          "audio_title": "Original audio",
+          "audio_author": "actorsuriya",
+          "duration": 243.498,
+          "transcript": "Even after 20 years I still don't understand how one person can be so many things to so many people. The best daughter, the best sister, the best friend, the best life partner, the best mother, the wonderful actor and the extraordinary extraordinary human being. But that's Jo. She has this incredible ability to care, to give abundantly. To somehow have enough love for every single relationship in her life. Jo, you have always been one of a kind. And you are, and you have always been one of a kin",
+          "on_screen_text": [
+            "FREES",
+            "9",
+            "V",
+            "Noah",
+            "BBO",
+            "100%",
+            "1",
+            "189\n520\n459",
+            "520",
+            "202"
+          ]
+        },
+        {
+          "id": "cnt_9fb21ea844e40568d18c14bb1903",
+          "platform": "tiktok",
+          "handle": "maulopezzz",
+          "display_name": "mau lopez",
+          "followers": 16500000,
+          "views": 22000000,
+          "likes": 2900000,
+          "comments": 10300,
+          " interactions": 2966200,
+          "engagement_rate_views": 13.48,
+          "views_rate_followers": 133.3,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/tiktok/7684460432983166226/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/tiktok/maulopezzz/pfp.webp",
+          "caption": "Jajajaja termin\u00f3 siendo house tour esto",
+          "hashtags": [],
+          "audio_title": "sonido original",
+          "audio_author": "mau lopez",
+          "duration": 329,
+          "transcript": null,
+          "on_screen_text": []
+        },
+        {
+          "id": "cnt_ca63b760c8024e61f54313dd98d1",
+          "platform": "tiktok",
+          "handle": "byjacklynn",
+          "display_name": "History by Jacklynn",
+          "followers": 199500,
+          "views": 17400000,
+          "likes": 126600,
+          "comments": 500,
+          " interactions": 132026,
+          "engagement_rate_views": 0.76,
+          "views_rate_followers": 8721.8,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/tiktok/7693600226157939990/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/tiktok/byjacklynn/pfp.webp",
+          "caption": "I\u2019ll take medieval towns filled with ancient legends, cobbled streets, Renaissance palaces, centuries-old churches, and palatial hotels over a beach holiday any day. AD #HiltonPartner I have never so quickly fallen in love with a place as I",
+          "hashtags": [
+            "#hiltonpartner"
+          ],
+          "audio_title": "original sound",
+          "audio_author": "History by Jacklynn",
+          "duration": 38,
+          "transcript": "Okay, hear me out. Medieval towns make for the most whimsical girls trips. We were literally frolicking through empty streets at midnight and stayed in a 16th century palace that you would never believe is a Hilton hotel. This is Palacio de Godoy Casales. Its history is rich but also pretty complex. It was built in 1563 for conquistador Francesco de Godoy and centuries later became Casa de la Madre, a maternity hospital where thousands of babies were born. Now it acts as the perfect place to exp",
+          "on_screen_text": [
+            "pov: everyone else went to",
+            "Spain for the beaches but...",
+            "pov: everyone else went to Spain for the beaches but...",
+            "HDRARIO",
+            "You went to buy cookies from cloistered nuns in a medieval monastery",
+            "HORANID",
+            "NORARIO",
+            "Okay, hear me out",
+            "Medieval towns make for",
+            "the most whimsical"
+          ]
+        },
+        {
+          "id": "cnt_36be9efd2c0ae775b39fa65252f4",
+          "platform": "tiktok",
+          "handle": "niguesmathias",
+          "display_name": "Nigues",
+          "followers": 776000,
+          "views": 16600000,
+          "likes": 1600000,
+          "comments": 0,
+          " interactions": 1728500,
+          "engagement_rate_views": 10.41,
+          "views_rate_followers": 2139.2,
+          "thumbnail_url": "https://social-catalog-static.oriane.xyz/oriane-contents/tiktok/7692494463721164064/thumbnail.webp",
+          "profile_pic_url": "https://social-catalog-static.oriane.xyz/oriane-handles/tiktok/niguesmathias/pfp.webp",
+          "caption": "Heureux d\u2019\u00eatre arriv\u00e9 \u00e0 San Francisco \ud83c\uddfa\ud83c\uddf8\u2764\ufe0f",
+          "hashtags": [],
+          "audio_title": "original sound",
+          "audio_author": "Alex Ciss\u00e9",
+          "duration": 12,
+          "transcript": null,
+          "on_screen_text": [
+            "LOEWE",
+            "ANONIMO"
+          ]
+        }
+      ],
+      "viral_playbook": {
+        "winning_spoken_hooks": [
+          "Excuse me. Yes. Is this your house? Yes. How much do you give rent? Who gives rent to your own? Who gives...",
+          "This is the one.",
+          "Even after 20 years I still don't understand how one person can be so many things to so many people. The best...",
+          "Okay, hear me out. Medieval towns make for the most whimsical girls trips. We were literally frolicking through empty streets at midnight..."
+        ],
+        "on_screen_text_pills": [
+          "Excuse me.",
+          "Is this your HOUSE?",
+          "It's a very large",
+          "HOUSE?",
+          "CanIget atour?",
+          "I'mRUNNINGLATE for an EVENT,",
+          "SANE",
+          "SCHOOL BUS",
+          "ilie",
+          "LIVE ON",
+          "nutella\nPROFESSIONAL\nCR\u00c8ME DE AVELA COM CACAU",
+          "nutella\nPROFESSION\nCREME DE AVELA COM CA"
+        ],
+        "room_pacing_formula": [
+          "0.0s\u20132.5s: Exterior Curb / Price Anchor Hook (stops scroll with price + neighborhood)",
+          "2.5s\u20136.5s: Continuous Gimbal Glide into Great Room (proves spatial scale, zero jump-cuts)",
+          "6.5s\u201310.5s: Chef's Kitchen Island Close-Up (highest rewatch/save density in Oriane data)",
+          "10.5s\u201315.0s: Primary Suite \u2192 Pool Terrace Climax + Comment Question CTA"
+        ]
+      }
+    }
+  },
+  "plans": {
+    "palo-alto-glass-villa": {
+      "status": "ok",
+      "model": "google/gemini-3.8-flash",
+      "plan": {
+        "viral_score": 97,
+        "predicted_outlier_multiplier": "184x follower reach",
+        "hook_strategy": "Starting with the twilight architectural facade hooks high-intent curiosity before accelerating through billionaire-tier interior design directly into an envy-inducing outdoor oasis to maximize retention and shares.",
+        "voiceover_script": "What does nearly five million buy in Old Palo Alto? Step inside this glass masterpiece featuring fourteen-foot ceilings, bookmatched Calacatta marble, and a secluded primary wing that opens directly to your heated zero-edge pool. Would you live here?",
+        "room_overlays": [
+          {
+            "room_id": "exterior",
+            "on_screen_hook": "What $4.85M gets you in Silicon Valley...",
+            "camera_move": "Low-angle slow tracking push across floating limestone steps toward the glowing glass entryway",
+            "transition_prompt": "Speed ramp snap-zoom through opening pivot glass door into the great room"
+          },
+          {
+            "room_id": "living",
+            "on_screen_hook": "14ft ceilings & seamless pocket glass",
+            "camera_move": "Rising gimbal pan tilting up to showcase vertical volume before leveling on disappearing pocket doors",
+            "transition_prompt": "Whip-pan right past the architectural column into the kitchen island"
+          },
+          {
+            "room_id": "kitchen",
+            "on_screen_hook": "Bookmatched Calacatta + hidden scullery",
+            "camera_move": "Smooth orbital slide tracking around the 14-foot waterfall marble island",
+            "transition_prompt": "Match-cut forward glide through the private corridor into the primary suite"
+          },
+          {
+            "room_id": "primary_bedroom",
+            "on_screen_hook": "The ultimate private glass sanctuary",
+            "camera_move": "Slow cinematic push toward corner glass revealing the private terrace gardens",
+            "transition_prompt": "Forward push blur cutting through terrace glass onto the illuminated water's edge"
+          },
+          {
+            "room_id": "backyard_pool",
+            "on_screen_hook": "Wait until you see the zero-edge pool at night \ud83d\udd25",
+            "camera_move": "Elevated drone crane pull-back revealing the sunken fire lounge and cabana under twilight",
+            "transition_prompt": "Seamless loop snap-fade back to the twilight courtyard"
+          }
+        ],
+        "compound_caption": "Tucked inside Old Palo Alto, this architectural glass villa completely redefines Silicon Valley luxury. From the 14-foot disappearing pocket doors to the heated zero-edge pool, this is pure modern art. Tag someone who needs to tour this. \ud83d\udc47\n\n#HackTheFeed #PaloAltoRealEstate #SiliconValleyHomes #BayAreaLuxury #LuxuryRealEstate #ModernArchitecture #PaloAltoCA #DreamHome #HouseTour"
+      }
+    },
+    "marin-mill-valley-retreat": {
+      "status": "ok",
+      "model": "google/gemini-3.8-flash",
+      "plan": {
+        "viral_score": 97,
+        "predicted_outlier_multiplier": "184x follower reach",
+        "hook_strategy": "Anchoring with an abrupt cantilevered exterior reveal establishes immediate architectural novelty before flowing seamlessly into the elevated canopy living space and Hinoki soak climax.",
+        "voiceover_script": "Stop scrolling, because this is the one. Hidden deep in Mill Valley's redwood canyon, this architectural glass sanctuary floats among the trees. From the suspended hearth to the Hinoki soaking tub overlooking pure forest\u2014would you pay 3.6 million to wake up here?",
+        "room_overlays": [
+          {
+            "room_id": "exterior",
+            "on_screen_hook": "POV: You find Marin County\u2019s hidden glass box \ud83c\udf32",
+            "camera_move": "Slow low-angle pedestal tilt up through redwood trunks onto cantilevered deck",
+            "transition_prompt": "Fast whip-pan right through floor-to-ceiling glass panel into canopy lounge"
+          },
+          {
+            "room_id": "living",
+            "on_screen_hook": "A suspended fireplace 40ft in the canopy \ud83d\udd25",
+            "camera_move": "Smooth forward glide tracking past floating hearth toward boundless green forest view",
+            "transition_prompt": "Seamless speed ramp punch zoom through foliage corridor into bedroom entrance"
+          },
+          {
+            "room_id": "primary_bedroom",
+            "on_screen_hook": "Private Hinoki soak above the fog line \ud83d\udec1",
+            "camera_move": "Circular orbit around cedar tub revealing misty redwood panorama",
+            "transition_prompt": "Fade to crisp blur with call-to-action text lockup"
+          }
+        ],
+        "compound_caption": "This is the one. \ud83c\udf32 Hidden away in Mill Valley, 415 Lovell Ave is a $3.65M glass-and-cedar masterclass floating among ancient redwoods. From the suspended hearth to your personal Hinoki cedar tub, canopy living has a new benchmark. Would you live here? Drop your thoughts below \ud83d\udc47\n\n#HackTheFeed #MillValleyRealEstate #MarinLuxuryRealEstate #BayAreaHomes #ModernArchitecture #RedwoodSanctuary #LuxuryRealEstate #BayAreaLiving"
+      }
+    },
+    "sf-pacific-heights-view": {
+      "status": "ok",
+      "model": "google/gemini-3.8-flash",
+      "plan": {
+        "viral_score": 97,
+        "predicted_outlier_multiplier": "184x follower reach",
+        "hook_strategy": "Anchoring Gold Coast curb intrigue upfront disrupts feed scrolling before delivering the high-retention Golden Gate reveal and an aspirational rooftop climax.",
+        "voiceover_script": "Excuse me, is this your house? Welcome to San Francisco's Gold Coast. Step past bronze gates straight into unobstructed Golden Gate views, a monolithic quartzite kitchen, and a private sky spa that makes seven million dollars look like an absolute steal.",
+        "room_overlays": [
+          {
+            "room_id": "exterior",
+            "on_screen_hook": "Wait until you see what $6.95M buys on Billionaire\u2019s Row...",
+            "camera_move": "Low-angle dynamic push through bronze entry doors",
+            "transition_prompt": "Snap zoom through door frame into radiant bay window light"
+          },
+          {
+            "room_id": "living",
+            "on_screen_hook": "That view is 100% real. No green screen.",
+            "camera_move": "Slow cinematic pedestal rise framing the Golden Gate Bridge",
+            "transition_prompt": "Whip pan right tracking the hardwood floorlines into kitchen"
+          },
+          {
+            "room_id": "kitchen",
+            "on_screen_hook": "Italian Boffi cabinetry + solid quartzite monolith",
+            "camera_move": "Gliding parallax track across the waterfall island",
+            "transition_prompt": "Quick tilt up toward ceiling into sky deck exterior glow"
+          },
+          {
+            "room_id": "backyard_pool",
+            "on_screen_hook": "Private heated sky spa over the Pacific Heights skyline",
+            "camera_move": "High-angle drone pullback catching sunset fire table reflection",
+            "transition_prompt": "Slow atmospheric fade out over evening Marin Headlands"
+          }
+        ],
+        "compound_caption": "Is this the best view on Billionaire\u2019s Row? \ud83c\udf09\u2728 Step inside 2840 Broadway in Pacific Heights\u2014where monolithic design meets front-row Golden Gate sunsets and an elevated private sky spa terrace. Would you live here? Drop your thoughts below \ud83d\udc47\n\n#HackTheFeed #SanFranciscoRealEstate #PacificHeights #BillionairesRow #SFLuxury #LuxuryRealEstate #ArchitectureDigest #MansionsOfInstagram"
+      }
+    }
+  }
+}

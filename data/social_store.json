@@ -1,0 +1,259 @@
+{
+  "palo-alto-glass-villa": {
+    "thumbs_up": 1420,
+    "thumbs_down": 28,
+    "open_house_live_count": 34,
+    "amazon_stars": 4.9,
+    "verified_checkins": 86,
+    "star_breakdown": {
+      "5": 88,
+      "4": 9,
+      "3": 2,
+      "2": 1,
+      "1": 0
+    },
+    "attributes": {
+      "Matches AI Walkthrough": 4.9,
+      "Natural Light & Warmth": 5.0,
+      "Floorplan Spatial Flow": 4.9,
+      "Price-to-Value (94301)": 4.7
+    },
+    "visitor_media": [
+      {
+        "id": "m1",
+        "author": "@sarah_chen_vc",
+        "badge": "\u2713 Verified at Open House \u00b7 4m ago",
+        "room": "03 \u00b7 Chef's Kitchen",
+        "media_type": "video",
+        "media_url": "/api/cache/palo-alto-glass-villa_seg1_97dbc81a.mp4",
+        "caption": "Standing in the kitchen right now \u2014 the 14ft Calacatta island lighting is 100% real!",
+        "helpful_count": 48
+      },
+      {
+        "id": "m2",
+        "author": "@marcus_arch",
+        "badge": "\u2713 Verified at Open House \u00b7 11m ago",
+        "room": "05 \u00b7 Zero-Edge Pool",
+        "media_type": "image",
+        "media_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+        "caption": "Pocket glass doors slide completely into the wall. Zero-edge pool water is heated.",
+        "helpful_count": 31
+      }
+    ],
+    "comments": [
+      {
+        "id": "c1",
+        "author": "@sarah_chen_vc",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "Chef's Kitchen",
+        "time_ago": "2m ago",
+        "text": "At the open house now! The transition from the great room to the Calacatta island feels even bigger in person \ud83d\udc4d",
+        "helpful": 42
+      },
+      {
+        "id": "c2",
+        "author": "@david_k_bayarea",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "Zero-Edge Pool",
+        "time_ago": "6m ago",
+        "text": "Verified: zero road noise in the backyard and the cedar soffits smell amazing. Worth top rank in 94301.",
+        "helpful": 29
+      },
+      {
+        "id": "c3",
+        "author": "@elena_design",
+        "verified": false,
+        "vote": "up",
+        "stars": 5,
+        "room": "Twilight Courtyard",
+        "time_ago": "14m ago",
+        "text": "Love that people at the open house are uploading real clips to verify the AI tour!",
+        "helpful": 19
+      }
+    ]
+  },
+  "sf-pacific-heights-view": {
+    "thumbs_up": 1190,
+    "thumbs_down": 39,
+    "open_house_live_count": 27,
+    "amazon_stars": 4.8,
+    "verified_checkins": 64,
+    "star_breakdown": {
+      "5": 84,
+      "4": 11,
+      "3": 3,
+      "2": 1,
+      "1": 1
+    },
+    "attributes": {
+      "Matches AI Walkthrough": 4.9,
+      "Golden Gate View Accuracy": 5.0,
+      "Floorplan Spatial Flow": 4.7,
+      "Price-to-Value (94115)": 4.6
+    },
+    "visitor_media": [
+      {
+        "id": "sf_m1",
+        "author": "@alex_pac_heights",
+        "badge": "\u2713 Verified at Open House \u00b7 7m ago",
+        "room": "02 \u00b7 Golden Gate View Salon",
+        "media_type": "video",
+        "media_url": "/api/cache/sf-pacific-heights-view_seg0_71f1230a.mp4",
+        "caption": "Live from 2840 Broadway \u2014 no fog today, unobstructed Golden Gate view from the salon!",
+        "helpful_count": 37
+      }
+    ],
+    "comments": [
+      {
+        "id": "sf_c1",
+        "author": "@alex_pac_heights",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "View Salon",
+        "time_ago": "5m ago",
+        "text": "Just walked the 3rd floor salon \u2014 Golden Gate bridge sightline is dead-on. Elevator is whisper quiet \ud83d\udc4d",
+        "helpful": 33
+      }
+    ]
+  },
+  "marin-mill-valley-retreat": {
+    "thumbs_up": 980,
+    "thumbs_down": 19,
+    "open_house_live_count": 19,
+    "amazon_stars": 4.9,
+    "verified_checkins": 51,
+    "star_breakdown": {
+      "5": 89,
+      "4": 8,
+      "3": 2,
+      "2": 1,
+      "1": 0
+    },
+    "attributes": {
+      "Matches AI Walkthrough": 4.9,
+      "Redwood Privacy & Quiet": 5.0,
+      "Floorplan Spatial Flow": 4.8,
+      "Price-to-Value (94941)": 4.8
+    },
+    "visitor_media": [
+      {
+        "id": "mv_m1",
+        "author": "@marin_trail_runner",
+        "badge": "\u2713 Verified at Open House \u00b7 9m ago",
+        "room": "02 \u00b7 Canopy Lounge",
+        "media_type": "image",
+        "media_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=900&q=80",
+        "caption": "Afternoon light filtering through the redwoods into the lounge right now.",
+        "helpful_count": 24
+      }
+    ],
+    "comments": [
+      {
+        "id": "mv_c1",
+        "author": "@marin_trail_runner",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "Canopy Lounge",
+        "time_ago": "8m ago",
+        "text": "The Hinoki cedar spa bath on the canyon deck is unreal in person \ud83d\udc4d",
+        "helpful": 21
+      }
+    ]
+  },
+  "los-altos-hills-estate": {
+    "thumbs_up": 1650,
+    "thumbs_down": 31,
+    "open_house_live_count": 41,
+    "amazon_stars": 4.95,
+    "verified_checkins": 94,
+    "star_breakdown": {
+      "5": 92,
+      "4": 6,
+      "3": 1,
+      "2": 1,
+      "1": 0
+    },
+    "attributes": {
+      "Matches AI Walkthrough": 5.0,
+      "Infinity Pool & Acreage": 5.0,
+      "Floorplan Spatial Flow": 4.9,
+      "Price-to-Value (94022)": 4.8
+    },
+    "visitor_media": [
+      {
+        "id": "la_m1",
+        "author": "@sv_founder_homes",
+        "badge": "\u2713 Verified at Open House \u00b7 3m ago",
+        "room": "02 \u00b7 Zero-Edge Infinity Pool",
+        "media_type": "video",
+        "media_url": "/api/cache/palo-alto-glass-villa_seg3_20a9c759.mp4",
+        "caption": "Live check-in at 26800 Moody Rd \u2014 65ft infinity edge overlooking the hills!",
+        "helpful_count": 59
+      }
+    ],
+    "comments": [
+      {
+        "id": "la_c1",
+        "author": "@sv_founder_homes",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "Infinity Pool",
+        "time_ago": "3m ago",
+        "text": "Hands down the #1 ranked estate in Silicon Valley today. Pool terrace fits 80+ people easily \ud83d\udc4d",
+        "helpful": 54
+      }
+    ]
+  },
+  "palo-alto-cowper-modern": {
+    "thumbs_up": 1085,
+    "thumbs_down": 24,
+    "open_house_live_count": 22,
+    "amazon_stars": 4.85,
+    "verified_checkins": 58,
+    "star_breakdown": {
+      "5": 86,
+      "4": 10,
+      "3": 3,
+      "2": 1,
+      "1": 0
+    },
+    "attributes": {
+      "Matches AI Walkthrough": 4.9,
+      "Calacatta Marble Quality": 5.0,
+      "Floorplan Spatial Flow": 4.8,
+      "Price-to-Value (94301)": 4.7
+    },
+    "visitor_media": [
+      {
+        "id": "pa2_m1",
+        "author": "@palo_alto_mom",
+        "badge": "\u2713 Verified at Open House \u00b7 6m ago",
+        "room": "02 \u00b7 Chef's Kitchen",
+        "media_type": "image",
+        "media_url": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=900&q=80",
+        "caption": "Hidden scullery behind the Gaggenau wine wall is huge!",
+        "helpful_count": 27
+      }
+    ],
+    "comments": [
+      {
+        "id": "pa2_c1",
+        "author": "@palo_alto_mom",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "Chef's Kitchen",
+        "time_ago": "6m ago",
+        "text": "Walked over from Ramirez St \u2014 super warm oak floors and the scullery kitchen is a dream \ud83d\udc4d",
+        "helpful": 27
+      }
+    ]
+  }
+}

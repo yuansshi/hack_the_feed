@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>homi — Hack the Feed Pitch Deck &amp; Architecture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0a09;
+      --card: rgba(24, 20, 17, 0.88);
+      --gold: #ebc388;
+      --cream: #faf6f0;
+      --muted: #c2b9ad;
+      --border: rgba(235, 195, 136, 0.35);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--cream);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      height: 100vh;
+    }
+    .slide {
+      height: 100vh;
+      width: 100vw;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 90px;
+      position: relative;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(235, 195, 136, 0.12), transparent 45%),
+        radial-gradient(circle at 80% 75%, rgba(214, 132, 76, 0.1), transparent 50%);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .eyebrow {
+      font-family: "JetBrains Mono", monospace;
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 64px;
+      line-height: 1.06;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 48px;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    p.lead {
+      font-size: 22px;
+      color: var(--muted);
+      max-width: 880px;
+      line-height: 1.5;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-top: 28px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 28px;
+    }
+    .box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 26px;
+    }
+    .box .step {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .box h3 {
+      font-family: "Cormorant Garamond", serif;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+    .box p {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .nav-bar {
+      position: fixed;
+      top: 20px;
+      right: 32px;
+      z-index: 50;
+      display: flex;
+      gap: 10px;
+    }
+    .btn {
+      background: var(--gold);
+      color: #14100c;
+      text-decoration: none;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="nav-bar">
+    <a class="btn" href="/">← Back to Live Demo App</a>
+  </div>
+
+  <!-- SLIDE 1: TITLE & PROBLEM -->
+  <section class="slide">
+    <div class="eyebrow">HACK THE FEED · CREATOR TOOLS HACKATHON (ORIANE × GMI CLOUD × LOVABLE × COMPOUND)</div>
+    <h1>homi<br /><span style="color:var(--gold)">Redfin-to-Viral Real Estate Spatial Engine</span></h1>
+    <p class="lead">
+      Static real estate listings force buyers to click through 40 disconnected photos.
+      <strong>homi</strong> transforms any Bay Area Zip Code or Redfin URL into a
+      <strong>TikTok / YouTube 35–45s 4-way swipeable video feed</strong>, a <strong>Full-Screen Automatic Walkthrough</strong>,
+      an interactive <strong>3D Deep Explore Studio</strong>, and an <strong>Amazon × YouTube Live Open House Ranking</strong> system.
+    </p>
+    <div class="grid-3">
+      <div class="box">
+        <div class="step">THE PROBLEM</div>
+        <h3>Static Photo Fatigue</h3>
+        <p>Buyers hate clicking through 40 flat photos on Redfin/Zillow with zero sense of room-to-room spatial flow or architectural warmth.</p>
+      </div>
+      <div class="box">
+        <div class="step">THE CREATOR BOTTLENECK</div>
+        <h3>$2,500+ Gimbal Shoots</h3>
+        <p>Filming smooth gimbal house tours + scripting viral hooks + editing 35s reels takes days per listing.</p>
+      </div>
+      <div class="box">
+        <div class="step">THE ESTATEFLOW SOLUTION</div>
+        <h3>Zip Code → Viral 3D Feed</h3>
+        <p>Pick a Bay Area Zip Code (`94301`, `94115`, `94941`, `94022`), flip through live 35s viral house tours, and step into 3D Deep Explore on demand.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 2: HIGH-LEVEL ARCHITECTURE -->
+  <section class="slide">
+    <div class="eyebrow">SLIDE 02 · HIGH-LEVEL SYSTEM ARCHITECTURE</div>
+    <h2>Closed-Loop Viral Real Estate Pipeline</h2>
+    <p class="lead">Four sponsor technologies chained into one seamless real-time creator engine:</p>
+    <div class="grid-4">
+      <div class="box">
+        <div class="step">01 · DATA INGEST</div>
+        <h3>Redfin + Zip Code Spatial Graph</h3>
+        <p>Extracts high-res architectural room pairs (`Courtyard → Great Room → Chef's Kitchen → Primary → Pool`) and property specs across Bay Area Zip Codes.</p>
+      </div>
+      <div class="box">
+        <div class="step">02 · ORIANE VIRAL AI</div>
+        <h3>9.85B Views Analyzed</h3>
+        <p>Queries `connect.oriane.xyz/rest/contents/search` to extract top outlier real estate hooks (`21,393%` outlier ratio, `4.71%` engagement) &amp; retention triggers.</p>
+      </div>
+      <div class="box">
+        <div class="step">03 · GMI CLOUD ENGINE</div>
+        <h3>Veo 3.1 FLFV + Inworld TTS</h3>
+        <p>Generates glitch-free First-to-Last-Frame room transitions (`veo-3.1-lite-generate-001` &amp; `pixverse-v6-transition`) + `inworld-tts-2-flash` voiceover (`34s–43s` MP4s).</p>
+      </div>
+      <div class="box">
+        <div class="step">04 · AMAZON × YOUTUBE RANK</div>
+        <h3>Live Open House Crowd Proof</h3>
+        <p>Real-time 👍/👎 voting, live Open House video/photo uploads, and Amazon-style verified star breakdowns dynamically rank every home in the Zip Code feed.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3: 3-STAGE NATURAL USER JOURNEY -->
+  <section class="slide">
+    <div class="eyebrow">SLIDE 03 · 3-STAGE NATURAL BROWSING UX</div>
+    <h2>Zero-Click Browsing → Full-Screen Auto Tour → 3D Deep Explore</h2>
+    <div class="grid-3">
+      <div class="box">
+        <div class="step">STAGE 01 · FRONT PAGE</div>
+        <h3>TikTok / YouTube Zip Feed</h3>
+        <p>Pick a Zip Code (`94301`, `94115`, `94941`, `94022`), toggle `9:16 Vertical` or `16:9 YouTube`, and flip through multiple houses playing 34s–43s viral loops simultaneously.</p>
+      </div>
+      <div class="box">
+        <div class="step">STAGE 02 · CLICK A HOUSE</div>
+        <h3>Automatic Full-Screen Walkthrough</h3>
+        <p>Clicking any home launches a full-screen hands-free room-to-room walkthrough movie with AI voiceover and subtle bottom-left price/address caption.</p>
+      </div>
+      <div class="box">
+        <div class="step">STAGE 03 · ON DEMAND</div>
+        <h3>3D Deep Explore Mode</h3>
+        <p>Click <strong>🧭 Switch to 3D Deep Explore</strong> to unlock 3D mouse-look parallax, glowing architectural hotspots (`✦`), 2.5D floorplan radar, and Oriane viral insights.</p>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

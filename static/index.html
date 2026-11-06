@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>homi — TikTok / YouTube Real Estate Viral Feed + Amazon × YouTube Open House Rank</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css?v=8" />
+</head>
+<body>
+  <!-- Warm Ambient Background Glow -->
+  <div id="ambient-bg" class="ambient-bg"></div>
+
+  <!-- Minimal Floating Top Bar: Brand + Zip Code Selector + Vertical/Horizontal Toggle -->
+  <header class="floating-topbar">
+    <div class="brand-minimal" id="brand-home-btn" title="Return to homi Zip Code Feed">
+      <span class="brand-dot"></span>
+      <span class="brand-name">homi</span>
+      <span class="brand-tag">4-Way Swipe · Amazon × YouTube Rank</span>
+    </div>
+
+    <!-- Zip Code Filter Bar -->
+    <div class="zip-filter-bar" id="zip-filter-bar">
+      <div id="zip-pills-container" class="zip-pills-container">
+        <button class="zip-pill active" data-zip="ALL">All Bay Area</button>
+        <button class="zip-pill" data-zip="94301">94301 · Palo Alto</button>
+        <button class="zip-pill" data-zip="94115">94115 · San Francisco</button>
+        <button class="zip-pill" data-zip="94941">94941 · Mill Valley</button>
+        <button class="zip-pill" data-zip="94022">94022 · Los Altos Hills</button>
+        <button class="zip-pill saved-filter-pill" id="btn-filter-saved" data-zip="SAVED">💛 Saved (<span id="saved-count-badge">0</span>)</button>
+      </div>
+      <div class="zip-search-box">
+        <input
+          id="zip-search-input"
+          type="text"
+          placeholder="Filter zip or city..."
+          maxlength="24"
+        />
+      </div>
+    </div>
+
+    <!-- Right Controls: TikTok 9:16 vs YouTube 16:9 + Open House Live + Architecture Deck -->
+    <div class="topbar-actions">
+      <div class="aspect-pill-group" title="Switch between TikTok Shorts (9:16) and YouTube Cinema (16:9)">
+        <button id="mode-reel" class="aspect-pill active" data-mode="reel">
+          📱 TikTok / Shorts (9:16)
+        </button>
+        <button id="mode-gallery" class="aspect-pill" data-mode="gallery">
+          ▶️ YouTube (16:9)
+        </button>
+      </div>
+      <button id="btn-top-openhouse" class="subtle-action-btn gold-border-btn" title="Open Live Open House Reviews, Thumbs Up/Down & Upload Photo/Video">
+        🔴 Live Open House &amp; Rank
+      </button>
+      <button id="btn-open-arch-deck" class="subtle-action-btn" title="Open High-Level Architecture & Hackathon Pitch Slides">
+        📊 Pitch Deck
+      </button>
+      <button id="btn-toggle-redfin-popover" class="subtle-action-btn">
+        + Redfin URL
+      </button>
+    </div>
+
+    <!-- Collapsible Redfin URL Input Popover -->
+    <div id="redfin-popover" class="redfin-popover hidden">
+      <input
+        id="redfin-input"
+        type="text"
+        placeholder="Paste any Bay Area Redfin URL..."
+        value="https://www.redfin.com/CA/Palo-Alto/1420-Bryant-St-94301/home/1489201"
+      />
+      <button id="btn-import-redfin" class="btn-warm">Transform Space →</button>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- STAGE 1 (FRONT PAGE): TIKTOK / YOUTUBE FLIP DECK + MULTI-HOUSE FEED   -->
+  <!-- ===================================================================== -->
+  <section id="zip-feed-stage" class="zip-feed-stage">
+    <div class="front-showcase-layout">
+      <!-- Left/Center: Active TikTok / YouTube Flip-Through Reel Player (34s-43s video) -->
+      <div class="flip-reel-column">
+        <div id="flip-player-frame" class="flip-player-frame mode-9-16">
+          <video
+            id="flip-main-video"
+            class="flip-main-video"
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="auto"
+          ></video>
+          <div class="feed-card-shade"></div>
+
+          <!-- Floating reaction burst container -->
+          <div id="reaction-burst-layer" class="reaction-burst-layer"></div>
+
+          <!-- Live 4-Way Swipe Stamp Overlay (Shows when dragging Left/Right/Up/Down) -->
+          <div id="swipe-stamp-badge" class="swipe-stamp-badge hidden">💛 SAVE HOUSE</div>
+
+          <!-- Top Pill Row inside Flip Player -->
+          <div class="flip-top-bar">
+            <span class="feed-zip-badge" id="flip-zip-badge">
+              <span class="pulse-dot"></span>
+              #1 RANK · 94301 Palo Alto
+            </span>
+            <span class="feed-loop-indicator" id="flip-duration-badge">★ 4.9 · 98% 👍 · 0:34</span>
+          </div>
+
+          <!-- 4-Way Gesture Compass Guide Banner -->
+          <div class="swipe-compass-bar">
+            <button id="btn-compass-left" class="compass-chip" title="Swipe Left / ← Key: Previous House">◀ Swipe L: Prev</button>
+            <button id="btn-compass-right" class="compass-chip" title="Swipe Right / → Key: Next House">Swipe R: Next ▶</button>
+            <button id="btn-compass-up" class="compass-chip save-chip" title="Swipe Up / ↑ Key: Save House">▲ Swipe Up: Save 💛</button>
+            <button id="btn-compass-down" class="compass-chip hide-chip" title="Swipe Down / ↓ Key: Don't Show House">▼ Swipe Down: Hide 🚫</button>
+          </div>
+
+          <!-- Real-Time Floating Open House Comment Ticker -->
+          <div id="flip-live-comment-ticker" class="flip-live-comment-ticker" title="Click to open Live Open House Comments & Photo/Video Check-Ins">
+            <span class="live-red-dot"></span>
+            <span id="flip-ticker-text">✓ @sarah_chen_vc (At Open House): Standing in the kitchen now — 14ft Calacatta island is 100% real! 👍</span>
+          </div>
+
+          <!-- Right-Side TikTok / YouTube Flip & Real-Time Thumbs Up / Down Rail -->
+          <div class="flip-side-rail">
+            <button id="btn-flip-prev" class="flip-nav-btn" title="Sweep Left to Previous House (←)">
+              ◀<span>Prev</span>
+            </button>
+            <button id="btn-flip-next" class="flip-nav-btn" title="Sweep Right to Next House (→)">
+              ▶<span>Next</span>
+            </button>
+            <button id="btn-flip-save-up" class="flip-nav-btn save-rail-btn" title="Swipe Up (↑) to Save House">
+              💛<span id="flip-save-label">Save ▲</span>
+            </button>
+            <button id="btn-flip-hide-down" class="flip-nav-btn hide-rail-btn" title="Swipe Down (↓) to Not Show House">
+              🚫<span>Hide ▼</span>
+            </button>
+            <button id="btn-flip-thumb-up" class="flip-nav-btn vote-up-btn" title="Real-Time Thumbs Up (Boosts YouTube × Amazon Rank)">
+              👍<span id="flip-up-count">1,420</span>
+            </button>
+            <button id="btn-flip-thumb-down" class="flip-nav-btn vote-down-btn" title="Real-Time Thumbs Down">
+              👎<span id="flip-down-count">28</span>
+            </button>
+            <button id="btn-flip-comments" class="flip-nav-btn" title="Live Open House Comments & Upload Photo/Video">
+              📸<span id="flip-comments-count">Live</span>
+            </button>
+            <button id="btn-flip-sound" class="flip-nav-btn" title="Toggle AI Voiceover Audio">
+              🔇<span id="flip-sound-label">Muted</span>
+            </button>
+            <button id="btn-flip-enter-3d" class="flip-nav-btn gold-rail-btn" title="Open Full-Screen Walkthrough & 3D Mode">
+              🧭<span>3D Tour</span>
+            </button>
+          </div>
+
+          <!-- Bottom-Left Subtle Creator & Property Overlay + CTA -->
+          <div class="flip-bottom-overlay">
+            <div class="creator-row">
+              <span class="creator-handle">@homi.viral</span>
+              <span class="verified-dot">✓</span>
+              <span id="flip-neighborhood">Old Palo Alto · 94301</span>
+            </div>
+            <h2 id="flip-hook-title" class="flip-hook-title">
+              WHAT $4.85M BUYS IN OLD PALO ALTO 👀🏡
+            </h2>
+            <div class="flip-subtle-specs" id="flip-subtle-specs">
+              <span class="feed-card-price">$4.85M</span> · 1420 Bryant St · 5 bd · 5.5 ba · 4,620 sqft
+            </div>
+
+            <!-- Live 30-45s Video Scrubber Bar -->
+            <div class="flip-progress-row">
+              <input id="flip-video-scrubber" type="range" min="0" max="1000" value="0" class="warm-scrubber" />
+              <span id="flip-time-readout" class="flip-time-readout">0:00 / 0:34</span>
+            </div>
+
+            <div class="flip-cta-buttons">
+              <button id="btn-launch-fullscreen-walk" class="btn-warm">
+                🎬 Full-Screen Walkthrough →
+              </button>
+              <button id="btn-launch-openhouse-upload" class="btn-3d-explore">
+                📸 Post Open House Video/Photo
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Multi-House Live Video Feed Ranked by Amazon × YouTube Hybrid Score -->
+      <div class="multi-house-feed-column">
+        <div class="feed-subbar">
+          <div class="feed-status-left">
+            <span class="pulse-dot"></span>
+            <span id="feed-summary-text">AMAZON × YOUTUBE HYBRID LEADERBOARD · 34s–43s CLIPS</span>
+          </div>
+          <div class="ranking-sort-bar">
+            <button id="btn-restore-hidden" class="sort-pill hidden" title="Restore hidden houses back to feed">↺ Restore Hidden (<span id="hidden-count-badge">0</span>)</button>
+            <span class="sort-label">Rank By:</span>
+            <button class="sort-pill active" data-sort="hybrid">🏆 Amazon × YouTube Rank</button>
+            <button class="sort-pill" data-sort="upvotes">👍 Most Upvoted (YouTube)</button>
+            <button class="sort-pill" data-sort="stars">⭐ Verified Open House (Amazon)</button>
+          </div>
+        </div>
+
+        <div id="zip-feed-grid" class="zip-feed-grid view-vertical"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- STAGE 2 & STAGE 3: FULL-SCREEN AUTO WALKTHROUGH & 3D DEEP EXPLORE     -->
+  <!-- ===================================================================== -->
+  <main id="walkthrough-stage" class="gallery-stage-container hidden">
+    <div id="stage-frame" class="stage-frame mode-16-9">
+      <div id="spatial-viewport" class="spatial-viewport">
+        <!-- High-Res Still Layer for Paused / 3D Deep Explore Parallax -->
+        <img id="room-still-img" class="media-layer still-layer" src="" alt="Architectural Space" />
+
+        <!-- Continuous Smooth GMI FLFV Walkthrough Video Layer -->
+        <video
+          id="walkthrough-video"
+          class="media-layer video-layer"
+          playsinline
+          preload="auto"
+        ></video>
+
+        <!-- Top Story Progress Segments -->
+        <div id="story-progress-bars" class="story-progress-bars"></div>
+
+        <!-- Top Navigation & Mode Switcher Row inside Full-Screen Walkthrough -->
+        <div class="top-overlay-row">
+          <div class="top-left-nav-group">
+            <button id="btn-back-to-feed" class="back-feed-btn">
+              ← Back to Zip Feed
+            </button>
+            <div class="live-walk-pill" id="hud-state-pill">
+              <span class="pulse-dot"></span>
+              <span id="hud-state-label">STAGE 2 · AUTO FULL-SCREEN WALKTHROUGH (CONTINUOUS REPLAY)</span>
+            </div>
+            <div class="room-counter-pill" id="hud-room-pill">01 / 05 · Twilight Courtyard</div>
+          </div>
+
+          <!-- Stage 2 <-> Stage 3 Prominent Switch Button -->
+          <div class="top-right-mode-group">
+            <button id="btn-stage-openhouse" class="back-feed-btn">
+              🔴 Live Open House (<span id="stage-up-count">1,420</span> 👍)
+            </button>
+            <button id="btn-switch-3d-mode" class="btn-3d-explore">
+              🧭 Switch to 3D Deep Explore Mode
+            </button>
+          </div>
+        </div>
+
+        <!-- Warm Glowing 3D Spatial Hotspots (Active in Stage 3: 3D Deep Explore Mode) -->
+        <div id="hotspots-container" class="hotspots-container hidden"></div>
+
+        <!-- Bottom-Left Subtle Creator & Property Caption -->
+        <div class="social-caption-overlay">
+          <div class="creator-row">
+            <span class="creator-handle">@homi.gallery</span>
+            <span class="verified-dot">✓</span>
+            <span id="prop-neighborhood-pill" class="location-crumb">Old Palo Alto, CA</span>
+          </div>
+
+          <h2 id="viral-hook-text" class="viral-caption-hook">
+            What does a warm glass sanctuary feel like at golden hour?
+          </h2>
+
+          <p id="spoken-subtitle-text" class="spoken-caption-line">
+            "Step through the glass courtyard into 4,600 sq ft of pure California indoor-outdoor flow..."
+          </p>
+
+          <div class="subtle-meta-row">
+            <button id="btn-subtle-specs" class="subtle-specs-pill" title="Click to enter 3D Deep Explore & view full specs">
+              <span id="prop-title-subtle">1420 Bryant St</span>
+              <span class="sep">·</span>
+              <span id="prop-price-subtle" class="subtle-price">$4.85M</span>
+              <span class="sep">·</span>
+              <span id="prop-beds-subtle">5 bd</span>
+              <span class="sep">·</span>
+              <span id="prop-sqft-subtle">4,620 sq ft</span>
+              <span class="expand-hint">✦ 3D Deep Explore</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right-Side Floating Social Action Rail -->
+        <aside class="social-action-rail">
+          <button id="btn-play-pause" class="rail-btn primary-rail-btn" title="Toggle Auto Walkthrough / 3D Deep Explore (Space)">
+            <span id="play-pause-icon" class="rail-icon">⏸</span>
+            <span id="play-pause-label" class="rail-label">Pause</span>
+          </button>
+
+          <button id="btn-stage-thumb-up" class="rail-btn" title="Real-Time Thumbs Up">
+            <span class="rail-icon">👍</span>
+            <span id="rail-up-label" class="rail-label">1.4K</span>
+          </button>
+
+          <button id="btn-stage-thumb-down" class="rail-btn" title="Real-Time Thumbs Down">
+            <span class="rail-icon">👎</span>
+            <span id="rail-down-label" class="rail-label">28</span>
+          </button>
+
+          <button id="btn-play-vo" class="rail-btn" title="Toggle Warm Creator Voiceover (GMI Inworld TTS)">
+            <span class="rail-icon">🎙️</span>
+            <span id="vo-rail-label" class="rail-label">Voice</span>
+          </button>
+
+          <button id="btn-toggle-vibe-drawer" class="rail-btn" title="3D Deep Explore & Warm Architectural Vibe">
+            <span class="rail-icon">🧭</span>
+            <span class="rail-label">3D Mode</span>
+          </button>
+
+          <button id="btn-toggle-radar" class="rail-btn" title="Toggle 2.5D Room Floorplan Radar">
+            <span class="rail-icon">🗺️</span>
+            <span class="rail-label">Map</span>
+          </button>
+
+          <button id="btn-toggle-oriane" class="rail-btn" title="Oriane Viral Intelligence (9.85B Views Analyzed)">
+            <span class="rail-icon">🔥</span>
+            <span id="oriane-score-rail" class="rail-label">97%</span>
+          </button>
+
+          <button id="btn-download-video" class="rail-btn" title="Share / Export Viral MP4 to Compound (#HackTheFeed)">
+            <span class="rail-icon">↗</span>
+            <span class="rail-label">Share</span>
+          </button>
+        </aside>
+
+        <!-- Compact Floating 2.5D Floorplan Radar -->
+        <div id="floating-radar" class="floating-radar hidden">
+          <div class="radar-header">
+            <span>3D SPATIAL FLOORPLAN RADAR</span>
+            <span id="segments-ready-badge" class="radar-ready">4/4 Smooth AI</span>
+          </div>
+          <div id="floorplan-map" class="floorplan-map">
+            <svg id="floorplan-svg" viewBox="0 0 100 100" preserveAspectRatio="none"></svg>
+            <div id="floorplan-nodes"></div>
+          </div>
+          <div id="room-quick-pills" class="room-quick-pills"></div>
+        </div>
+
+        <!-- Stage 3: 3D Deep Explore Warm Vibe & Architectural Detail Sheet -->
+        <div id="warm-vibe-card" class="warm-vibe-card hidden">
+          <div class="vibe-card-header">
+            <div>
+              <span class="vibe-eyebrow">STAGE 3 · 3D DEEP EXPLORE &amp; WARM ROOM VIBE</span>
+              <h3 id="vibe-room-title">01 · Twilight Glass Courtyard</h3>
+            </div>
+            <button id="btn-resume-from-vibe" class="btn-warm-small">▶ Auto Walkthrough</button>
+          </div>
+
+          <p id="vibe-room-description" class="vibe-atmosphere-copy">
+            Warm cedar soffits + floating limestone steps at golden hour.
+          </p>
+
+          <div class="hotspot-detail-box">
+            <div class="hotspot-detail-top">
+              <span class="hotspot-star">✦</span>
+              <strong id="inspector-title">12-Ft Pivot Glass Entry</strong>
+            </div>
+            <p id="inspector-detail">
+              Motorized double-pane acoustic glass door framing the through-view to the rear pool.
+            </p>
+            <div class="hotspot-viral-whisper" id="inspector-viral-note">
+              Oriane Signal: 'Glass door reveal' in first 2.5s boosts completion rate by +44%.
+            </div>
+          </div>
+
+          <div class="vibe-property-footer">
+            <div>
+              <div id="vibe-prop-address" class="vibe-address">1420 Bryant St, Old Palo Alto, CA 94301</div>
+              <div id="vibe-prop-specs" class="vibe-specs">Listed at $4,850,000 · 5 Beds · 5.5 Baths · 4,620 Sq Ft ($1,050/sqft)</div>
+            </div>
+            <div id="prop-vibe-tags" class="vibe-tags"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Minimal Bottom Scrubber & Room Stepper Bar -->
+      <div id="minimal-scrubber-bar" class="minimal-scrubber-bar">
+        <button id="btn-prev-room" class="step-link" title="Previous Space (↓ / S)">← Prev Space</button>
+        <div class="scrubber-track-wrap">
+          <input
+            id="spatial-scrubber"
+            type="range"
+            min="0"
+            max="1000"
+            value="0"
+            class="warm-scrubber"
+          />
+        </div>
+        <span id="scrubber-readout" class="scrubber-readout">Courtyard</span>
+        <button id="btn-next-room" class="step-link" title="Next Space (↑ / W)">Next Space →</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- AMAZON × YOUTUBE HYBRID RANKING & LIVE OPEN HOUSE UPLOAD DRAWER       -->
+  <!-- ===================================================================== -->
+  <aside id="openhouse-drawer" class="slide-drawer openhouse-drawer hidden">
+    <div class="drawer-header">
+      <div>
+        <span class="vibe-eyebrow">AMAZON VERIFIED REVIEWS × YOUTUBE REAL-TIME VELOCITY</span>
+        <h3 id="oh-drawer-title">Live Open House Check-Ins &amp; Hybrid Ranking</h3>
+      </div>
+      <button id="btn-close-openhouse" class="btn-close">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Amazon × YouTube Hybrid Score Summary Card -->
+      <div class="hybrid-rank-hero">
+        <div class="hybrid-score-circle">
+          <span class="hybrid-score-num" id="oh-hybrid-score">98.4</span>
+          <span class="hybrid-score-sub">HYBRID RANK</span>
+        </div>
+        <div class="hybrid-metrics-col">
+          <div class="amz-star-row">
+            <span class="amz-stars-gold" id="oh-amz-stars">★★★★★ 4.9 out of 5</span>
+            <span class="amz-verified-pill" id="oh-verified-count">86 Verified Open House Visitors</span>
+          </div>
+          <div class="yt-ratio-row">
+            <span id="oh-yt-ratio">👍 98.1% YouTube Upvote Ratio (1,420 👍 / 28 👎)</span>
+          </div>
+          <div class="quick-vote-bar">
+            <button id="btn-drawer-vote-up" class="btn-vote-pill up">👍 Give Thumbs Up</button>
+            <button id="btn-drawer-vote-down" class="btn-vote-pill down">👎 Give Thumbs Down</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Amazon-Style Attribute Breakdown -->
+      <div class="drawer-section">
+        <div class="sub-label">AMAZON-STYLE OPEN HOUSE VERIFICATION ATTRIBUTES</div>
+        <div id="oh-attributes-grid" class="oh-attributes-grid"></div>
+      </div>
+
+      <!-- Post Live Open House Comment + Upload Real-Time Video or Picture -->
+      <div class="drawer-section upload-checkin-box">
+        <div class="sub-label">📸 POST LIVE FROM OPEN HOUSE (VIDEO, PHOTO OR REAL-TIME REVIEW)</div>
+        <div class="checkin-form-row">
+          <input id="oh-input-author" type="text" placeholder="Your handle (e.g. @john_bayarea)" value="@john_openhouse" />
+          <select id="oh-input-room">
+            <option value="03 · Chef's Kitchen">In: Chef's Kitchen</option>
+            <option value="02 · Great Room">In: Great Room</option>
+            <option value="05 · Zero-Edge Pool">In: Backyard Pool</option>
+            <option value="01 · Twilight Courtyard">In: Exterior Entry</option>
+            <option value="04 · Primary Suite">In: Primary Suite</option>
+          </select>
+          <select id="oh-input-stars">
+            <option value="5">★★★★★ (5.0) 👍</option>
+            <option value="4">★★★★☆ (4.0) 👍</option>
+            <option value="3">★★★☆☆ (3.0)</option>
+            <option value="2">★★☆☆☆ (2.0) 👎</option>
+          </select>
+        </div>
+        <textarea
+          id="oh-input-text"
+          rows="2"
+          placeholder="Share what you see in real time at the open house (e.g. 'Natural light in the kitchen is incredible, matches the AI video!')..."
+        ></textarea>
+        <div class="upload-actions-row">
+          <label class="file-upload-label">
+            📹 Upload Live Video / Photo
+            <input id="oh-file-input" type="file" accept="image/*,video/*" hidden />
+          </label>
+          <span id="oh-file-name" class="oh-file-name">No file selected</span>
+          <button id="btn-submit-openhouse" class="btn-warm">Post Live Check-In →</button>
+        </div>
+        <button id="btn-instant-demo-checkin" class="subtle-action-btn full-width" style="margin-top:7px;">
+          ⚡ 1-Click Demo: Simulate Live Open House Video Check-In + 👍 Boost
+        </button>
+      </div>
+
+      <!-- Visitor-Uploaded Live Videos & Pictures Strip -->
+      <div class="drawer-section">
+        <div class="sub-label">🎥 LIVE VISITOR VIDEOS &amp; PHOTOS FROM THE OPEN HOUSE</div>
+        <div id="oh-visitor-media-list" class="oh-visitor-media-list"></div>
+      </div>
+
+      <!-- Real-Time Verified Open House Comments & Reviews (Amazon × YouTube Sorted) -->
+      <div class="drawer-section">
+        <div class="sub-label">💬 REAL-TIME OPEN HOUSE COMMENTS &amp; VERIFIED REVIEWS</div>
+        <div id="oh-comments-list" class="oh-comments-list"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Slide-Over Drawer: Oriane Video Intelligence & GMI Engine -->
+  <aside id="oriane-drawer" class="slide-drawer hidden">
+    <div class="drawer-header">
+      <div>
+        <span class="vibe-eyebrow">BEHIND THE VIRAL LOOP · ORIANE + GMI CLOUD</span>
+        <h3>Why This Walkthrough Goes Viral</h3>
+      </div>
+      <button id="btn-close-oriane" class="btn-close">✕</button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="oriane-agg-grid">
+        <div class="agg-box">
+          <span class="agg-label">ORIANE NICHE VIEWS</span>
+          <span id="oriane-total-views" class="agg-val">9.85B</span>
+        </div>
+        <div class="agg-box">
+          <span class="agg-label">TOP OUTLIER RATIO</span>
+          <span id="oriane-outlier-ratio" class="agg-val warm-accent">21,393%</span>
+        </div>
+        <div class="agg-box">
+          <span class="agg-label">AVG ENGAGEMENT</span>
+          <span id="oriane-eng-rate" class="agg-val">4.71%</span>
+        </div>
+        <div class="agg-box">
+          <span class="agg-label">VIRAL SCORE</span>
+          <span id="gmi-viral-score" class="agg-val">97 / 100</span>
+        </div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="sub-label">CLICK ANY ORIANE HOOK TO PREVIEW ON STAGE</div>
+        <div id="oriane-ost-pills" class="ost-pills"></div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="sub-label">TOP OUTLIER REAL ESTATE REELS (ORIANE API)</div>
+        <div id="oriane-videos-list" class="oriane-videos-list"></div>
+      </div>
+
+      <div class="drawer-section">
+        <div class="sub-label">GMI FIRST-TO-LAST-FRAME (FLFV) ROOM TRANSITIONS</div>
+        <div class="gmi-control-row">
+          <select id="gmi-model-select" class="gmi-select">
+            <option value="veo-3.1-lite-generate-001">Google Veo 3.1 Lite FLFV ($0.12 / clip)</option>
+            <option value="pixverse-v6-transition">PixVerse v6 Transition ($0.17 / clip)</option>
+            <option value="vidu-q2-pro-flfv">Vidu Q2 Pro FLFV ($0.05 / clip)</option>
+            <option value="kling-o1-flfv">Kling O1 FLFV Master ($0.42 / clip)</option>
+          </select>
+          <button id="btn-generate-missing" class="btn-warm full-width" style="margin-top:8px;">
+            ⚡ Generate / Refresh GMI Room Transitions
+          </button>
+        </div>
+        <div id="transitions-list" class="transitions-list" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Share / Compound Viral Export Modal -->
+  <div id="export-modal" class="modal-backdrop hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="vibe-eyebrow">04 · COMPOUND VIRAL DISTRIBUTION (#HackTheFeed)</span>
+          <h3>Share &amp; Export 35s–45s Viral Walkthrough</h3>
+        </div>
+        <button id="btn-close-modal" class="btn-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size:13px; color:#c8c2b8; margin-bottom:10px;">
+          Download the 35s–45s stitched walkthrough movie (with warm AI voiceover) or publish to TikTok, YouTube Shorts &amp; Compound (<code>compound.mov</code> code <code>FEED</code>):
+        </p>
+        <div class="export-links" id="export-video-links"></div>
+        <div class="sub-label" style="margin-top:14px;">VIRAL CAPTION &amp; HASHTAGS:</div>
+        <textarea id="export-caption-box" rows="3" readonly></textarea>
+        <div style="display:flex; gap:10px; margin-top:12px;">
+          <button id="btn-copy-caption" class="btn-warm">Copy Viral Caption</button>
+          <a href="https://compound.mov" target="_blank" rel="noopener" class="subtle-action-btn" style="text-decoration:none; display:inline-flex; align-items:center;">Open compound.mov ↗</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- High-Level Architecture & Hackathon Pitch Slide Deck Modal -->
+  <div id="arch-deck-modal" class="modal-backdrop hidden">
+    <div class="modal-card arch-modal-card">
+      <div class="modal-header">
+        <div>
+          <span class="vibe-eyebrow">HACK THE FEED · HIGH-LEVEL SYSTEM ARCHITECTURE &amp; PITCH DECK</span>
+          <h3>homi — Redfin-to-Viral Real Estate Spatial Engine</h3>
+        </div>
+        <button id="btn-close-arch-deck" class="btn-close">✕</button>
+      </div>
+      <div class="arch-deck-grid">
+        <div class="arch-stage-box">
+          <div class="arch-step-num">01 · REDFIN + ZIP INGEST</div>
+          <h4>Bay Area Zip Feed</h4>
+          <p>Scrapes &amp; structures Redfin listing rooms (`Exterior → Great Room → Kitchen → Primary → Pool`) by Zip Code (`94301`, `94115`, `94941`, `94022`).</p>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage-box">
+          <div class="arch-step-num">02 · ORIANE VIRAL AI</div>
+          <h4>9.85B Views Analyzed</h4>
+          <p>`POST /rest/contents/search` extracts top outlier real-estate hooks (`21,393%` outlier ratio, `4.71%` engagement) &amp; retention triggers.</p>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage-box">
+          <div class="arch-step-num">03 · GMI CLOUD ENGINE</div>
+          <h4>Veo 3.1 FLFV + TTS</h4>
+          <p>Generates glitch-free First-to-Last-Frame room transitions (`veo-3.1-lite-generate-001` &amp; `pixverse-v6-transition`) + `inworld-tts-2-flash` voiceover (`34s–43s` movies).</p>
+        </div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-stage-box">
+          <div class="arch-step-num">04 · AMAZON × YOUTUBE</div>
+          <h4>Live Open House Rank</h4>
+          <p>Real-time 👍/👎 votes, live Open House video/photo uploads &amp; verified star reviews combine Amazon trust with YouTube velocity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="vo-audio-player" preload="auto"></audio>
+  <script src="/static/app.js?v=8"></script>
+</body>
+</html>

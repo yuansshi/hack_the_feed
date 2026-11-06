@@ -1,0 +1,20 @@
+# Secrets & API Keys
+api_key.md
+.env
+.env.*
+
+# Virtualenv & Python bytecode
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Scratch / intermediate ffmpeg files
+data/cache/_norm_*.mp4
+data/cache/_raw_*.mp4
+data/cache/_concat_*.txt
+data/cache/concat_list.txt
+
+# Editor / Agent local config
+.agents/
+.DS_Store
