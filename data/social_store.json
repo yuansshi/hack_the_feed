@@ -1,10 +1,10 @@
 {
   "palo-alto-glass-villa": {
-    "thumbs_up": 1420,
+    "thumbs_up": 1422,
     "thumbs_down": 28,
     "open_house_live_count": 34,
     "amazon_stars": 4.9,
-    "verified_checkins": 86,
+    "verified_checkins": 87,
     "star_breakdown": {
       "5": 88,
       "4": 9,
@@ -19,6 +19,16 @@
       "Price-to-Value (94301)": 4.7
     },
     "visitor_media": [
+      {
+        "id": "m_1794009850376",
+        "author": "@bayarea_buyer_live",
+        "badge": "\u2713 Verified Live at Open House \u00b7 Just now",
+        "room": "05 \u00b7 Zero-Edge Pool",
+        "media_type": "video",
+        "media_url": "/api/cache/palo-alto-glass-villa_seg3_20a9c759.mp4",
+        "caption": "Just stepped onto the heated limestone pool deck at the Open House \u2014 10/10 matches the GMI Veo 3.1 walkthrough! \ud83d\udc4d\ud83d\udd25",
+        "helpful_count": 1
+      },
       {
         "id": "m1",
         "author": "@sarah_chen_vc",
@@ -41,6 +51,17 @@
       }
     ],
     "comments": [
+      {
+        "id": "c_1794009850376",
+        "author": "@bayarea_buyer_live",
+        "verified": true,
+        "vote": "up",
+        "stars": 5,
+        "room": "05 \u00b7 Zero-Edge Pool",
+        "time_ago": "Just now \u00b7 Live",
+        "text": "Just stepped onto the heated limestone pool deck at the Open House \u2014 10/10 matches the GMI Veo 3.1 walkthrough! \ud83d\udc4d\ud83d\udd25",
+        "helpful": 1
+      },
       {
         "id": "c1",
         "author": "@sarah_chen_vc",
@@ -74,7 +95,9 @@
         "text": "Love that people at the open house are uploading real clips to verify the AI tour!",
         "helpful": 19
       }
-    ]
+    ],
+    "upvote_ratio": 98.1,
+    "hybrid_rank_score": 92.4
   },
   "sf-pacific-heights-view": {
     "thumbs_up": 1190,

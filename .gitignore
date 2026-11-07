@@ -14,6 +14,8 @@ data/cache/_norm_*.mp4
 data/cache/_raw_*.mp4
 data/cache/_concat_*.txt
 data/cache/concat_list.txt
+data/cache/_wclip_*.mp4
+data/cache/_walk_*
 
 # Editor / Agent local config
 .agents/
