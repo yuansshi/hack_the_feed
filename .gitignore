@@ -20,3 +20,8 @@ data/cache/_walk_*
 # Editor / Agent local config
 .agents/
 .DS_Store
+
+# Downloaded listing originals and local visual verification
+data/94404/assets/
+artifacts/
+.pytest_cache/

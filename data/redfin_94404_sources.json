@@ -1,0 +1,318 @@
+{
+  "source": "https://www.redfin.com/zipcode/94404",
+  "requested_count": 10,
+  "selection": "Requested: ten highest-priced single-family houses in 94404. Six active/coming-soon houses were verified in accessible search and listing pages, ordered by asking price descending. Coverage is incomplete; this is not a verified market-wide top ten.",
+  "selection_complete": false,
+  "snapshot_date": "2026-11-06",
+  "snapshot_timezone": "America/Los_Angeles",
+  "excluded": [
+    {
+      "address": "1195 Balclutha Dr",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "560 Trinidad Ln",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "806 Chrysopolis Dr",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "286 Puffin Ct",
+      "reason": "Conflicting cached status; excluded pending confirmation"
+    },
+    {
+      "address": "310 Mainsail Ct",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "700 Bahama Ln",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "623 Cornwallis Ln",
+      "reason": "Sold September 2026"
+    },
+    {
+      "address": "516 Saint Vincent Ln",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "280 Pelican Ct",
+      "reason": "Sold September 2026"
+    },
+    {
+      "address": "608 Anacapa Ln",
+      "reason": "Refreshed Redfin page says off market; inconsistent with older MLS search"
+    },
+    {
+      "address": "290 Billingsgate Ln",
+      "reason": "Refreshed Redfin page says off market"
+    }
+  ],
+  "listings": [
+    {
+      "source_url": "https://www.redfin.com/CA/Foster-City/829-Gull-Ave-94404/home/928311",
+      "address": "829 Gull Ave, Foster City, CA 94404",
+      "urls": [
+        "https://ssl.cdn-redfin.com/photo/217/bigphoto/ktf/cmvlvg97t025bs601edymyktf_0.jpg"
+      ],
+      "price": 3489999,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1780,
+      "listing_status": "for_sale",
+      "id": "redfin-928311",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/Foster-City/829-Gull-Ave-94404/home/928311"
+    },
+    {
+      "source_url": "https://www.redfin.com/CA/San-Mateo/444-Fathom-Dr-94404/home/1565622",
+      "urls": [
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_7_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_23_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_4_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_15_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_1_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_3_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_5_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_8_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_9_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_10_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_11_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_13_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_14_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_16_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_17_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_19_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_20_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_22_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_26_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_27_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_28_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_29_7.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_30_7.jpg"
+      ],
+      "address": "444 Fathom Dr, San Mateo, CA 94404",
+      "price": 2199000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2250,
+      "listing_status": "for_sale",
+      "id": "redfin-1565622",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/San-Mateo/444-Fathom-Dr-94404/home/1565622"
+    },
+    {
+      "source_url": "https://www.redfin.com/CA/Foster-City/796-Ranger-Cir-94404/home/1204357",
+      "urls": [
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_6_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_19_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_10_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_15_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_3_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_13_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_1_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_2_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_4_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_5_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_7_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_8_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_9_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_11_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_12_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_14_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_16_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_17_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_20_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_21_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_22_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_23_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_24_6.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_25_6.jpg"
+      ],
+      "address": "796 Ranger Cir, Foster City, CA 94404",
+      "price": 2198880,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1930,
+      "listing_status": "for_sale",
+      "id": "redfin-1204357",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/Foster-City/796-Ranger-Cir-94404/home/1204357"
+    },
+    {
+      "source_url": "https://www.redfin.com/CA/Foster-City/736-Coronado-Ln-94404/home/1325664",
+      "address": "736 Coronado Ln, Foster City, CA 94404",
+      "urls": [
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_13_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_39_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_20_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_31_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_7_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_26_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_1_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_2_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_3_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_4_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_5_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_6_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_8_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_9_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_10_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_11_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_12_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_14_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_15_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_16_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_17_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_18_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_19_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_21_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_22_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_23_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_24_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_25_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_27_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_28_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_29_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_30_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_32_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_34_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_35_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_37_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_38_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_40_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_42_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_43_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_44_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_45_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_46_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_47_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_48_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_49_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_50_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_51_0.jpg"
+      ],
+      "price": 2155000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2110,
+      "listing_status": "for_sale",
+      "id": "redfin-1325664",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/Foster-City/736-Coronado-Ln-94404/home/1325664"
+    },
+    {
+      "source_url": "https://www.redfin.com/CA/Foster-City/140-Spinnaker-St-94404/home/1062292",
+      "address": "140 Spinnaker St, Foster City, CA 94404",
+      "urls": [
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_11_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_33_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_18_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_27_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_6_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_22_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_1_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_2_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_3_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_4_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_5_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_7_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_8_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_10_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_12_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_13_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_14_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_15_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_16_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_17_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_19_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_20_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_21_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_23_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_24_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_25_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_26_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_28_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_29_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_30_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_31_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_32_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_34_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_35_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_36_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_37_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_38_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_39_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_40_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_41_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_42_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_43_0.jpg",
+        "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_44_0.jpg"
+      ],
+      "price": 1998000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1950,
+      "listing_status": "for_sale",
+      "id": "redfin-1062292",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/Foster-City/140-Spinnaker-St-94404/home/1062292",
+      "floor_plan": {
+        "index": 43,
+        "crop": [
+          378,
+          26,
+          902,
+          820
+        ]
+      }
+    },
+    {
+      "source_url": "https://www.redfin.com/CA/San-Mateo/608-Port-Dr-94404/home/1047473",
+      "urls": [
+        "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_1.jpg",
+        "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_2.jpg",
+        "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_3.jpg",
+        "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_4.jpg"
+      ],
+      "address": "608 Port Dr, San Mateo, CA 94404",
+      "price": 1795000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2050,
+      "listing_status": "coming_soon",
+      "id": "redfin-1047473",
+      "zip_code": "94404",
+      "property_type": "single_family",
+      "type_evidence": "https://www.redfin.com/CA/San-Mateo/608-Port-Dr-94404/home/1047473"
+    }
+  ],
+  "coverage_evidence": {
+    "mls_search_url": "https://www.mlslistings.com/Search/Result/94404/1?criteria=H4sIAAAAAAAACnVQyU7DMBD9l7mSIGdp0vhWBEhISEVKOXBCrj1pLTlOsKfQgPh3ZJLSReI28-Zt9hd4FE5unz26Gg1K0p19UMBZNF3CAkWqMEvnKm7ySsV5mjTxPF-zuElYmapMqLyp4KBY4Z6AQ5XnLD8DV0OPwOEPqztHS6fQAYfeaYmvCr2ECMgJ68Vvl0mz3g0QQavtU-CNJq3Yn27T7b5zrSBCdU66gNeoPHBgYRS0Pcy963p0NEypCxtS_bb7WFozAAdhDERgtCdtNzUJ2gXlQpJ-x7FD_daEx4_JJ4u2j93x8Debjmr9iVOeD_wINsKJDda9kHgo1mr7gsLd7LQ5ulwg0qEgvBUUrFKWFnGSxKxcsZLPMp7NrqusKFmRXDHGWTA1wtPdHuVu_Jb_JfNJ8v0D3dVdQi8CAAA4GXWI2ZWlQ29Ule6yHGnzyqcVeHU55RI6E1pxJQYDOQ",
+    "mls_result_count": 31,
+    "mls_active_single_family_count": 4,
+    "mls_active_single_family_addresses": [
+      "444 Fathom Dr",
+      "796 Ranger Cir",
+      "736 Coronado Ln",
+      "140 Spinnaker St"
+    ],
+    "supplemental_redfin_listings": [
+      "829 Gull Ave (for sale by owner)",
+      "608 Port Dr (coming soon)"
+    ],
+    "note": "A live MLS search corroborates the four active MLS houses. Redfin supplies the FSBO and coming-soon entries. This does not prove exhaustive market coverage."
+  }
+}

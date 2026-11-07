@@ -1722,6 +1722,8 @@ function setupEventListeners() {
         body: JSON.stringify({ url }),
       });
       const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Listing could not be imported.");
+      if (data.viewer_url) { window.location.assign(data.viewer_url); return; }
       if (data.listing) {
         const exists = state.listings.find((x) => x.id === data.listing.id);
         if (!exists) state.listings.unshift(data.listing);
@@ -1729,6 +1731,8 @@ function setupEventListeners() {
         applyZipFilterAndRenderFeed();
         await openHouseAutoWalkthrough(data.listing, false);
       }
+    } catch (error) {
+      alert(error.message);
     } finally {
       els.btnImportRedfin.textContent = "Transform Space →";
     }

@@ -1,0 +1,1260 @@
+{
+  "source": "https://www.redfin.com/zipcode/94404",
+  "selection": "Requested: ten highest-priced single-family houses in 94404. Six active/coming-soon houses were verified in accessible search and listing pages, ordered by asking price descending. Coverage is incomplete; this is not a verified market-wide top ten.",
+  "snapshot_date": "2026-11-06",
+  "snapshot_timezone": "America/Los_Angeles",
+  "requested_count": 10,
+  "selection_complete": false,
+  "excluded": [
+    {
+      "address": "1195 Balclutha Dr",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "560 Trinidad Ln",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "806 Chrysopolis Dr",
+      "reason": "Pending on refreshed listing page"
+    },
+    {
+      "address": "286 Puffin Ct",
+      "reason": "Conflicting cached status; excluded pending confirmation"
+    },
+    {
+      "address": "310 Mainsail Ct",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "700 Bahama Ln",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "623 Cornwallis Ln",
+      "reason": "Sold September 2026"
+    },
+    {
+      "address": "516 Saint Vincent Ln",
+      "reason": "Sold August 2026"
+    },
+    {
+      "address": "280 Pelican Ct",
+      "reason": "Sold September 2026"
+    },
+    {
+      "address": "608 Anacapa Ln",
+      "reason": "Refreshed Redfin page says off market; inconsistent with older MLS search"
+    },
+    {
+      "address": "290 Billingsgate Ln",
+      "reason": "Refreshed Redfin page says off market"
+    }
+  ],
+  "conversion_complete": false,
+  "summary": {
+    "homes": 6,
+    "original_images": 147,
+    "schematic_models": 1,
+    "verified_photorealistic_models": 0,
+    "needs_floor_plan": 5,
+    "unfilled_selection_slots": 4
+  },
+  "listings": [
+    {
+      "id": "redfin-928311",
+      "rank": 1,
+      "address": "829 Gull Ave, Foster City, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/Foster-City/829-Gull-Ave-94404/home/928311",
+      "price": 3489999,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1780,
+      "property_type": "single_family",
+      "listing_status": "for_sale",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-928311",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/photo/217/bigphoto/ktf/cmvlvg97t025bs601edymyktf_0.jpg",
+          "path": "assets/redfin-928311-000.jpg",
+          "sha256": "43156ed5a280da72465a1350f066be288812c7290d1373dc594c950658fd5305"
+        }
+      ],
+      "model": null,
+      "status": "needs_floor_plan",
+      "blocker": "No usable floor-plan image retrieved; verified whole-home 3D conversion is blocked.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 1,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    },
+    {
+      "id": "redfin-1565622",
+      "rank": 2,
+      "address": "444 Fathom Dr, San Mateo, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/San-Mateo/444-Fathom-Dr-94404/home/1565622",
+      "price": 2199000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2250,
+      "property_type": "single_family",
+      "listing_status": "for_sale",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-1565622",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_7.jpg",
+          "path": "assets/redfin-1565622-000.jpg",
+          "sha256": "f6ffe5096e67f6f847b407d9ea2f0d102424eacd18f1d7ac6320dfda08d7f5fb"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 1,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_7_7.jpg",
+          "path": "assets/redfin-1565622-001.jpg",
+          "sha256": "d5f5bba8f57c92c1a30889b7f7afa5b6d130b34cf01ed4ff8e4e3e8f8acd0699"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 2,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_23_7.jpg",
+          "path": "assets/redfin-1565622-002.jpg",
+          "sha256": "4a5f9a73ba7a1dae8c6ee3619618ffefbd3749627b3a963420e38bf70363df5f"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 3,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_4_7.jpg",
+          "path": "assets/redfin-1565622-003.jpg",
+          "sha256": "064b838adfaf855725e9816082183af29d71b4cbdfb8d5f0cf147f2c0c7f0840"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 4,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_15_7.jpg",
+          "path": "assets/redfin-1565622-004.jpg",
+          "sha256": "be0c6af938fb4733cc2ed42398258fabb2067e6be3119b6ed1333cff6e413764"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 5,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_1_7.jpg",
+          "path": "assets/redfin-1565622-005.jpg",
+          "sha256": "8044e53756eabe5d3a417e0934f1eefcdb4323f6bc76d4df6f4f0aaac5b9a70c"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 6,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_3_7.jpg",
+          "path": "assets/redfin-1565622-006.jpg",
+          "sha256": "2ca9012cc513b0eb0808b9b44852bb0363cfccc1fcb2bb1be3714fd6bb398f0a"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 7,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_5_7.jpg",
+          "path": "assets/redfin-1565622-007.jpg",
+          "sha256": "f45f9acc3a246dc2166dfc4771f5f9da4afc87ecec5baf07eb506af97ab5b9f0"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 8,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_8_7.jpg",
+          "path": "assets/redfin-1565622-008.jpg",
+          "sha256": "e9971c063c6e02add3a692f981f8f9f28570b2930911a849122c5eca0b3b5c17"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 9,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_9_7.jpg",
+          "path": "assets/redfin-1565622-009.jpg",
+          "sha256": "77dc69ea4bdabf9e353785bbbcc1b12d6df7caf2a6375f152a81447c15669d44"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 10,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_10_7.jpg",
+          "path": "assets/redfin-1565622-010.jpg",
+          "sha256": "9f4cae922a8be28bb2ad5b6de09ca374e308d16739bb45919d60a7d6efdcd319"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 11,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_11_7.jpg",
+          "path": "assets/redfin-1565622-011.jpg",
+          "sha256": "389e462139c7cafd4db75e89f460548e70332e29627a750c104ca3cc551ac8ce"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 12,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_13_7.jpg",
+          "path": "assets/redfin-1565622-012.jpg",
+          "sha256": "d550bc38643a10e98fb1c09aa5b01ca732d360beec659785656bc7fe4a7a1fb4"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 13,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_14_7.jpg",
+          "path": "assets/redfin-1565622-013.jpg",
+          "sha256": "d9bcd74cd02e302fcb5fdb0842f886d24cc18ef3cb02a42362296a1d75addb8e"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 14,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_16_7.jpg",
+          "path": "assets/redfin-1565622-014.jpg",
+          "sha256": "66e3c5a5286b243cbbbd58598ab771ead219042b22db9df24743af085d1e7113"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 15,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_17_7.jpg",
+          "path": "assets/redfin-1565622-015.jpg",
+          "sha256": "066bb524dfdca39595cc0a924df30b76bae554a1c286d0a914ffc541830d3403"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 16,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_19_7.jpg",
+          "path": "assets/redfin-1565622-016.jpg",
+          "sha256": "39620d363130b7b4dfb2da4c2e2b1f2f37295efa2dedcc8fbef8b2cd4e722644"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 17,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_20_7.jpg",
+          "path": "assets/redfin-1565622-017.jpg",
+          "sha256": "347dad06c968b98ebaaab7622c57ac00501b1720ed75be9c1e962ca180b11212"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 18,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_22_7.jpg",
+          "path": "assets/redfin-1565622-018.jpg",
+          "sha256": "1e23118aea98c191ce6e5cbbc84a5771a55404de808674bc20dd82639e1abcf3"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 19,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_26_7.jpg",
+          "path": "assets/redfin-1565622-019.jpg",
+          "sha256": "edbe1533d2ec08942279f599dafb22d443d9bfd48a8095d86c91798a50e5a802"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 20,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_27_7.jpg",
+          "path": "assets/redfin-1565622-020.jpg",
+          "sha256": "c43c9f512c1c17bba999c086b2182f331108ab0bcb58f5e7d5818d4a619367fd"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 21,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_28_7.jpg",
+          "path": "assets/redfin-1565622-021.jpg",
+          "sha256": "6ce9752e7ef2f6f387ec8897f3a3cb2730a66361ef0915375ead83234589f632"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 22,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_29_7.jpg",
+          "path": "assets/redfin-1565622-022.jpg",
+          "sha256": "eb4cacba2703a17592f8b6d3d3fd4d5b7bb571791857c735c7e11df18472e7a5"
+        },
+        {
+          "listing_id": "redfin-1565622",
+          "index": 23,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/554/ML82051554_30_7.jpg",
+          "path": "assets/redfin-1565622-023.jpg",
+          "sha256": "c79dcfc3b0884735ca438f1b4eb0d35a316a2a487c874e46cded284d2f0e1c7a"
+        }
+      ],
+      "model": null,
+      "status": "needs_floor_plan",
+      "blocker": "No usable floor-plan image retrieved; verified whole-home 3D conversion is blocked.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 24,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    },
+    {
+      "id": "redfin-1204357",
+      "rank": 3,
+      "address": "796 Ranger Cir, Foster City, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/Foster-City/796-Ranger-Cir-94404/home/1204357",
+      "price": 2198880,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1930,
+      "property_type": "single_family",
+      "listing_status": "for_sale",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-1204357",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_6.jpg",
+          "path": "assets/redfin-1204357-000.jpg",
+          "sha256": "39c0f1fc2035a4ebe9c88d1e8f26df93c35bcf0da8c96433765cf10dcf26166d"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 1,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_6_6.jpg",
+          "path": "assets/redfin-1204357-001.jpg",
+          "sha256": "8a427cc52b8a9543fc3d397c60c04c6e790475c3a397639e09c158c2ca4bf0b0"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 2,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_19_6.jpg",
+          "path": "assets/redfin-1204357-002.jpg",
+          "sha256": "a54d968566e7b51383e786dccdf96ed11d96e5ee3b712e7cd899b2ee83169966"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 3,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_10_6.jpg",
+          "path": "assets/redfin-1204357-003.jpg",
+          "sha256": "d8ef9dda20b41aeb9547cbebe593ee63af9ee3c28c4dc5247d77f946676941ba"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 4,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_15_6.jpg",
+          "path": "assets/redfin-1204357-004.jpg",
+          "sha256": "a9ec58cd66b4473bfd5c0e3e4d18825ea1db26abf015ca058e1cc59ac751d34b"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 5,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_3_6.jpg",
+          "path": "assets/redfin-1204357-005.jpg",
+          "sha256": "42035a19fbde2a79683ce9d72e8ef73ab26345bdb313e41fc9a4b3a4b3cab9ad"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 6,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_13_6.jpg",
+          "path": "assets/redfin-1204357-006.jpg",
+          "sha256": "b82411e3b424d2b9138820ede1af469a3900dbaa94afe5ef17a4e8b26b350463"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 7,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_1_6.jpg",
+          "path": "assets/redfin-1204357-007.jpg",
+          "sha256": "a0e0d71b156902ad6623d652501c289b6c1d74e33fb4b0b62f533d3e7937b662"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 8,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_2_6.jpg",
+          "path": "assets/redfin-1204357-008.jpg",
+          "sha256": "f79c3f16c1c9771de2b27f672bc412aa981b88bdd3abfcad7621cc2f5bdae8ed"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 9,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_4_6.jpg",
+          "path": "assets/redfin-1204357-009.jpg",
+          "sha256": "dd3fd69f8f298e744774c6c54a9056bba84aeac0559410e3730484822c464719"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 10,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_5_6.jpg",
+          "path": "assets/redfin-1204357-010.jpg",
+          "sha256": "10b5e71067a359d14d67ccf8226b34be13077addb6813e34a63900c26b98e678"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 11,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_7_6.jpg",
+          "path": "assets/redfin-1204357-011.jpg",
+          "sha256": "a9e405f441aa9a427f2ef466c4a5bb69b69c1284a2b8e9531a82c142b29be4ae"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 12,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_8_6.jpg",
+          "path": "assets/redfin-1204357-012.jpg",
+          "sha256": "7f8669d845174ac659c6d2b826252b5d263f92eae480b49600e955d54f0635c2"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 13,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_9_6.jpg",
+          "path": "assets/redfin-1204357-013.jpg",
+          "sha256": "72cf3d1650453c9cc3d285a1f8e6e44595281b0a65e998149192bf956f624053"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 14,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_11_6.jpg",
+          "path": "assets/redfin-1204357-014.jpg",
+          "sha256": "6ac6930e560014bdc79b5f312f5690fba4d09f11df33277a42bea17b160a603b"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 15,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_12_6.jpg",
+          "path": "assets/redfin-1204357-015.jpg",
+          "sha256": "e99566a64797cc3ccd1d2768779c8c8e748d0c22f7afbca130dfea93e148dbd9"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 16,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_14_6.jpg",
+          "path": "assets/redfin-1204357-016.jpg",
+          "sha256": "882829d78547b656da7b6dde6b6ecba79febe1f161c6900324cb41b4e435b6f6"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 17,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_16_6.jpg",
+          "path": "assets/redfin-1204357-017.jpg",
+          "sha256": "c5942a2025efdf29a2c0a615900b0eb2a0d9b2631f259356ae6078e163fd715f"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 18,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_17_6.jpg",
+          "path": "assets/redfin-1204357-018.jpg",
+          "sha256": "6fe964ed9841b1e7fa9532a6ab11940f66bb890a3b7b30f59c333fe8da54d9da"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 19,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_20_6.jpg",
+          "path": "assets/redfin-1204357-019.jpg",
+          "sha256": "41e1b93d627507834caa0848dfa5b5b80a1812cc1d1a1c7f4920fe8b116cf034"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 20,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_21_6.jpg",
+          "path": "assets/redfin-1204357-020.jpg",
+          "sha256": "5e8a6c36a08ee8e7b1ad9fe18aa40958a7b90cae156b85b1f18deb8595363c01"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 21,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_22_6.jpg",
+          "path": "assets/redfin-1204357-021.jpg",
+          "sha256": "aa098cf33152ab681281948295e0b441bfb937ec68d2c2c552e66e364cddf678"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 22,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_23_6.jpg",
+          "path": "assets/redfin-1204357-022.jpg",
+          "sha256": "d3b0c4448953041c4f9efa1b5b9ca7cb9d3f6277941deed2089f0527fb706d37"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 23,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_24_6.jpg",
+          "path": "assets/redfin-1204357-023.jpg",
+          "sha256": "7bf49f3b43d43a0e37b6862d8c1762b5480473fefda33d0fd4a24f19849ce2f8"
+        },
+        {
+          "listing_id": "redfin-1204357",
+          "index": 24,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/135/ML82062135_25_6.jpg",
+          "path": "assets/redfin-1204357-024.jpg",
+          "sha256": "02edacd4054f484b1de1917a1f689463268eea72d3ef59d74ead8242c8a2e4ab"
+        }
+      ],
+      "model": null,
+      "status": "needs_floor_plan",
+      "blocker": "No usable floor-plan image retrieved; verified whole-home 3D conversion is blocked.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 25,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    },
+    {
+      "id": "redfin-1325664",
+      "rank": 4,
+      "address": "736 Coronado Ln, Foster City, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/Foster-City/736-Coronado-Ln-94404/home/1325664",
+      "price": 2155000,
+      "beds": 3,
+      "baths": 2,
+      "sqft": 2110,
+      "property_type": "single_family",
+      "listing_status": "for_sale",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-1325664",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_0.jpg",
+          "path": "assets/redfin-1325664-000.jpg",
+          "sha256": "8ed2b6911f6769fc55881e786b3769cd19a85798a925b5c7ba3ac35dc4996a62"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 1,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_13_0.jpg",
+          "path": "assets/redfin-1325664-001.jpg",
+          "sha256": "651df18cc7e8909ede78c283aed886ea79a548096f90cda024b4384e950cdb8e"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 2,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_39_0.jpg",
+          "path": "assets/redfin-1325664-002.jpg",
+          "sha256": "5d5fad51f68c50bbe5ca36235cbad0181435cd35127a93d388707e1e4670b36f"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 3,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_20_0.jpg",
+          "path": "assets/redfin-1325664-003.jpg",
+          "sha256": "5986a79a80639b22eb4873d8b84b7698fb8a317205ce1912d5ca2759513cede3"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 4,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_31_0.jpg",
+          "path": "assets/redfin-1325664-004.jpg",
+          "sha256": "56f7d0f9d996281b3ee604efe84eb04b81dfad265fd42b9c9f53eaf0050127dc"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 5,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_7_0.jpg",
+          "path": "assets/redfin-1325664-005.jpg",
+          "sha256": "15e39efb696514f72b11033c43535754a2bb35a3e369f74b9497fb24e650f616"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 6,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_26_0.jpg",
+          "path": "assets/redfin-1325664-006.jpg",
+          "sha256": "4c315d6c92dd1bdc090cd0cdcdd5828e5488353d0cc3336b360f791a897cc4e9"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 7,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_1_0.jpg",
+          "path": "assets/redfin-1325664-007.jpg",
+          "sha256": "b6c47673de4d80f85df3f97a0d4b32131101864fc762935a179e7ddce2a9d495"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 8,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_2_0.jpg",
+          "path": "assets/redfin-1325664-008.jpg",
+          "sha256": "9c6d9ba35faa494b8acfd8cca28197d7efc463e7f328b285056bda5d0f4b4bab"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 9,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_3_0.jpg",
+          "path": "assets/redfin-1325664-009.jpg",
+          "sha256": "f2b579336726d925a181b5e9b5522a6a2f9d2c6e4ad521d409381dd6eba7664f"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 10,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_4_0.jpg",
+          "path": "assets/redfin-1325664-010.jpg",
+          "sha256": "93a1c1e3d35d6899a835f0db610c42b594a3566aef122534c5bded63d0108a21"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 11,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_5_0.jpg",
+          "path": "assets/redfin-1325664-011.jpg",
+          "sha256": "db690232a17461cb0b4a80b48ede11108618e662442a29ee1bbb7a27f64c8eb8"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 12,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_6_0.jpg",
+          "path": "assets/redfin-1325664-012.jpg",
+          "sha256": "27fe71c6b48fe9771ffad4fbe157ce262e6170be62b0a9fff843c6e46139abbb"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 13,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_8_0.jpg",
+          "path": "assets/redfin-1325664-013.jpg",
+          "sha256": "00fa990b50e0d0273d0ae692dd1ed4e2a436a0900715446cc0ff66da510c30e6"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 14,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_9_0.jpg",
+          "path": "assets/redfin-1325664-014.jpg",
+          "sha256": "215ba8ecdc261e376a45022c56a46ba85cb2307e4f7ae59f4793353ad786cd6d"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 15,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_10_0.jpg",
+          "path": "assets/redfin-1325664-015.jpg",
+          "sha256": "652b0724625f63b04a829268ee5635ee7987a02e7ec040446373034e4a8cb5a4"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 16,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_11_0.jpg",
+          "path": "assets/redfin-1325664-016.jpg",
+          "sha256": "b35339b23ac786852eb754b75d25acc229c40ca569b42342880768cb64b0aabb"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 17,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_12_0.jpg",
+          "path": "assets/redfin-1325664-017.jpg",
+          "sha256": "4203b16c7084a7e17a43ac0316bf761af23c446801fd7bfa671a3fc23e1f46ca"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 18,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_14_0.jpg",
+          "path": "assets/redfin-1325664-018.jpg",
+          "sha256": "f3b681273ad3b34d958e1d396c1aba119c529702f32abcf6eb190f7b8c46bf28"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 19,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_15_0.jpg",
+          "path": "assets/redfin-1325664-019.jpg",
+          "sha256": "6e52e78b6972656a4990bf54baa2287284a863e3c863bf27ca52d7fd41044e36"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 20,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_16_0.jpg",
+          "path": "assets/redfin-1325664-020.jpg",
+          "sha256": "fe2d8b85d64a319b7f252f6291ea0cf8cc0ce2d84882758a84750541fa754434"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 21,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_17_0.jpg",
+          "path": "assets/redfin-1325664-021.jpg",
+          "sha256": "57d30ec10738277e59a696b03d087bd7ed4f8ff037438395df4407de5457d9cf"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 22,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_18_0.jpg",
+          "path": "assets/redfin-1325664-022.jpg",
+          "sha256": "bdee1d90a54a5370b4bcc8da3693c521be93fcdef4434534ca9d52489833e86e"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 23,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_19_0.jpg",
+          "path": "assets/redfin-1325664-023.jpg",
+          "sha256": "f5c7b7045cacc175e94435c51133b6a1db4777c0f625183dddbcd834e3767b54"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 24,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_21_0.jpg",
+          "path": "assets/redfin-1325664-024.jpg",
+          "sha256": "978614b4e6ba2bb2c5f44c62e4a79f1b017999256fcb28b74160a3f9e77bea1f"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 25,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_22_0.jpg",
+          "path": "assets/redfin-1325664-025.jpg",
+          "sha256": "b19fda2b1594a06671d7cb347b1ebd8b9090ff65f18a79ff0419b73ffe866ca4"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 26,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_23_0.jpg",
+          "path": "assets/redfin-1325664-026.jpg",
+          "sha256": "8190ae60c35ea32a62d2ab7932a021572789922371be97b145ba6287cfbb966a"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 27,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_24_0.jpg",
+          "path": "assets/redfin-1325664-027.jpg",
+          "sha256": "a2cf5c93260d68f63a405916ed89086090cc349ef8a9708332acd6b8f07da64a"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 28,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_25_0.jpg",
+          "path": "assets/redfin-1325664-028.jpg",
+          "sha256": "ad07becda4656b8cfe743179da8635ceee28092d320cbff968dadf89001c6dc8"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 29,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_27_0.jpg",
+          "path": "assets/redfin-1325664-029.jpg",
+          "sha256": "346da6363394bbe528fbfc13838e232378a1555fe4495f819ab3e7773e5f7fdd"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 30,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_28_0.jpg",
+          "path": "assets/redfin-1325664-030.jpg",
+          "sha256": "8f4a883ccf587d8a35515eb317103722c5293b95c18531245d64bf25d5ad3ce4"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 31,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_29_0.jpg",
+          "path": "assets/redfin-1325664-031.jpg",
+          "sha256": "9d1b3c06301bafc3d039dc1b9e5254a1826ea25434ff59cf0f6caa61c671198d"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 32,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_30_0.jpg",
+          "path": "assets/redfin-1325664-032.jpg",
+          "sha256": "7dd3a41c98a963982591ae4dcaeb56c954e6dfbbbb666eb049c05c7d4dabfd8f"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 33,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_32_0.jpg",
+          "path": "assets/redfin-1325664-033.jpg",
+          "sha256": "0b3d60475dff30a42bb4442f54121958fc1453a0656a81373fd50a3a7b9d9cff"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 34,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_34_0.jpg",
+          "path": "assets/redfin-1325664-034.jpg",
+          "sha256": "ee5e67637dadcc4b8eaacefe85d931b2c5bafc84789827443eb66a2efc596390"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 35,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_35_0.jpg",
+          "path": "assets/redfin-1325664-035.jpg",
+          "sha256": "3cb789ab99c576be7d92ec75c726ff62843f59cf4472cdc8a1bacf373e72b77b"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 36,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_37_0.jpg",
+          "path": "assets/redfin-1325664-036.jpg",
+          "sha256": "ed86e2e6a76c76059a5293107cf3c0aab955821d5214ce9e5a60281b1b7e3175"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 37,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_38_0.jpg",
+          "path": "assets/redfin-1325664-037.jpg",
+          "sha256": "ab29ddb1698d926b8fc0d64e9d258b3cb7d00bcaebfc0864eafb67f58d810a28"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 38,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_40_0.jpg",
+          "path": "assets/redfin-1325664-038.jpg",
+          "sha256": "09faf8e380dbd2e61b060e87b80334f69c1212e4778a590236fc3e8ebddebb0c"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 39,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_42_0.jpg",
+          "path": "assets/redfin-1325664-039.jpg",
+          "sha256": "b6c7c681a9b4851934672afa9ab5703c3e01e3f43e160e920a50f5c77d4f26eb"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 40,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_43_0.jpg",
+          "path": "assets/redfin-1325664-040.jpg",
+          "sha256": "83ca8ab00dbe607082e4d37938581bf211b8f7aa4de79fa721a5ff3fbac3fa06"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 41,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_44_0.jpg",
+          "path": "assets/redfin-1325664-041.jpg",
+          "sha256": "631654648f936ef3a135a7ad83988a1109e144782e07088327039a41b9238293"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 42,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_45_0.jpg",
+          "path": "assets/redfin-1325664-042.jpg",
+          "sha256": "a8eb42b945b48ecec489b01947fea22f379339c4ff3aaba407b6b2314b905b59"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 43,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_46_0.jpg",
+          "path": "assets/redfin-1325664-043.jpg",
+          "sha256": "a83d4fb1ead36429b06e39ded616547a82b2ac593bdfed8c8b65213c270ec43c"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 44,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_47_0.jpg",
+          "path": "assets/redfin-1325664-044.jpg",
+          "sha256": "4fea254d5b4a6d0c8be55daecdd5a1f63a34c582ca7a2f1850ac6dabbefdb033"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 45,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_48_0.jpg",
+          "path": "assets/redfin-1325664-045.jpg",
+          "sha256": "dd92b8f3ce6f133f4af792d90589f4bd0bc01cb76dc736f502ee305d71871f8d"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 46,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_49_0.jpg",
+          "path": "assets/redfin-1325664-046.jpg",
+          "sha256": "ed4a5375e83f9e1849029c6fd99176fa001e3ee0ebf0e6026b51bd7fb860d589"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 47,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_50_0.jpg",
+          "path": "assets/redfin-1325664-047.jpg",
+          "sha256": "b0514ab5fd2eecc7a632267eaaa6a8a6c32b442eee5919899662ca5c93260431"
+        },
+        {
+          "listing_id": "redfin-1325664",
+          "index": 48,
+          "source_url": "https://ssl.cdn-redfin.com/photo/8/bigphoto/801/ML82065801_51_0.jpg",
+          "path": "assets/redfin-1325664-048.jpg",
+          "sha256": "7233014f1721dd6fc4ca154368c61fe881bdc417adb239e4204791dea5c07dec"
+        }
+      ],
+      "model": null,
+      "status": "needs_floor_plan",
+      "blocker": "No usable floor-plan image retrieved; verified whole-home 3D conversion is blocked.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 49,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    },
+    {
+      "id": "redfin-1062292",
+      "rank": 5,
+      "address": "140 Spinnaker St, Foster City, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/Foster-City/140-Spinnaker-St-94404/home/1062292",
+      "price": 1998000,
+      "beds": 4,
+      "baths": 2,
+      "sqft": 1950,
+      "property_type": "single_family",
+      "listing_status": "for_sale",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-1062292",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_0.jpg",
+          "path": "assets/redfin-1062292-000.jpg",
+          "sha256": "4f83c96a7adfe3bdf733aea36cf7953cf0e13a0879fef6d22b25c0e3d6d61db9"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 1,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_11_0.jpg",
+          "path": "assets/redfin-1062292-001.jpg",
+          "sha256": "cb907bd9186a2fda909f076e88615ffd4f2fa7405b28bedd0590227029701245"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 2,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_33_0.jpg",
+          "path": "assets/redfin-1062292-002.jpg",
+          "sha256": "c5854b9224d67106271d573bbb9326c40e42f24c8abb6289f270850843014ff1"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 3,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_18_0.jpg",
+          "path": "assets/redfin-1062292-003.jpg",
+          "sha256": "86dc251bec5f8351092efa90e586aaf644a78bb0070952e1c5a7b08ecbd5387c"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 4,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_27_0.jpg",
+          "path": "assets/redfin-1062292-004.jpg",
+          "sha256": "38eb4e388a0e89eaa1c0f19c522322220b39288f4037d6554ac2c87df0224cab"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 5,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_6_0.jpg",
+          "path": "assets/redfin-1062292-005.jpg",
+          "sha256": "d1995210e315fbe01924be50d70a675ee640ef7ac22f608838ab4659f45dd722"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 6,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_22_0.jpg",
+          "path": "assets/redfin-1062292-006.jpg",
+          "sha256": "b9c5baadaa79298133170aeaca2c30339c95f155b20043a2ad70e1b2925965f1"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 7,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_1_0.jpg",
+          "path": "assets/redfin-1062292-007.jpg",
+          "sha256": "1084cef88357cf5c17318fe6f8811cff0d074eb2f55b40e5e24f0d3ccfe30e89"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 8,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_2_0.jpg",
+          "path": "assets/redfin-1062292-008.jpg",
+          "sha256": "c0f0ec9bb81fa38d650ad898c14ad1871328e708ff90390804ea72e432f932fb"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 9,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_3_0.jpg",
+          "path": "assets/redfin-1062292-009.jpg",
+          "sha256": "9a5c1e6091bc482430610baffc049a985f460f0b6caf0d395d055396eb46fbd9"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 10,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_4_0.jpg",
+          "path": "assets/redfin-1062292-010.jpg",
+          "sha256": "f066c8cb684c652c8469afbb97cbe549dccf0dc75de70b03a13f5f53c26bdbed"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 11,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_5_0.jpg",
+          "path": "assets/redfin-1062292-011.jpg",
+          "sha256": "938281fd6fd8530ac79b5e548451af9cc1daeb1ca8d45f412757b6c0e571edc0"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 12,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_7_0.jpg",
+          "path": "assets/redfin-1062292-012.jpg",
+          "sha256": "4f7230548377781bcf534f9b219328e90363043ee8a40b0f798c153d3fff9489"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 13,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_8_0.jpg",
+          "path": "assets/redfin-1062292-013.jpg",
+          "sha256": "d50ee16fc045e21815b574a293c9cc7761c8fd160b84fd1514d721e82a3c5900"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 14,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_10_0.jpg",
+          "path": "assets/redfin-1062292-014.jpg",
+          "sha256": "e5271284ad81d6fd09a2250173e1ec9d4569ac1d812ffae240023bc15592daa4"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 15,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_12_0.jpg",
+          "path": "assets/redfin-1062292-015.jpg",
+          "sha256": "88d214639f252c8096da71a56dbee0481b86ec2011db1e62d799b3fa8e3619ff"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 16,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_13_0.jpg",
+          "path": "assets/redfin-1062292-016.jpg",
+          "sha256": "6e828d1b1ba205023dfb0652684213d4b3b2335624e559d577e7771bf92b6090"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 17,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_14_0.jpg",
+          "path": "assets/redfin-1062292-017.jpg",
+          "sha256": "7a99a5cc75757094152a9a73864408ac8efe07055f0694d7b7890106a355c11a"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 18,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_15_0.jpg",
+          "path": "assets/redfin-1062292-018.jpg",
+          "sha256": "c28654cfb217808e17f7fd6d7718ff40b8a6bf34d834f1e11e298319094552c2"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 19,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_16_0.jpg",
+          "path": "assets/redfin-1062292-019.jpg",
+          "sha256": "93798451c385ae6122fa5f1b1fab03edf04d04b7ae5d65c761a0103588093c3f"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 20,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_17_0.jpg",
+          "path": "assets/redfin-1062292-020.jpg",
+          "sha256": "7a6a2df699bd61ee4b90307a12f6e1d3f70faec9162829f621dff2d7bde9cf88"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 21,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_19_0.jpg",
+          "path": "assets/redfin-1062292-021.jpg",
+          "sha256": "637a8d2944f59ca922261124fbc282f7c8d42d5fa5ea0fb3f0da18e0ac390daa"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 22,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_20_0.jpg",
+          "path": "assets/redfin-1062292-022.jpg",
+          "sha256": "8f4774435fe90bedd111fdf06c1fe344671d2481d01c6bafd0d4c53c20b13de4"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 23,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_21_0.jpg",
+          "path": "assets/redfin-1062292-023.jpg",
+          "sha256": "b7a32c14164a52e76a6b4b51b0cd53b94c62b7d61c5e0224f44400801250a304"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 24,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_23_0.jpg",
+          "path": "assets/redfin-1062292-024.jpg",
+          "sha256": "ea3ed71b50275f2e6e73ea3a3715221a63c00669cdbe88a3fcea018083e9fe34"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 25,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_24_0.jpg",
+          "path": "assets/redfin-1062292-025.jpg",
+          "sha256": "8f1dd3e88e80201be67cf7d52a434f9e2e883f9d8866a7804cdfc8b31a03f4cf"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 26,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_25_0.jpg",
+          "path": "assets/redfin-1062292-026.jpg",
+          "sha256": "70cb79e0d0078373c3469260996da909d5c091c84e73d879f7e7033dc24c85c7"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 27,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_26_0.jpg",
+          "path": "assets/redfin-1062292-027.jpg",
+          "sha256": "40d7399c03c21be141d97511791e3715118466a8cb13c5ea9a7bbbe8da583a79"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 28,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_28_0.jpg",
+          "path": "assets/redfin-1062292-028.jpg",
+          "sha256": "a7450d43ebfb6a8e06c9c01d11c301280e11242575705116e390fcf39bca3480"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 29,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_29_0.jpg",
+          "path": "assets/redfin-1062292-029.jpg",
+          "sha256": "6e74227a0431f22c08097b3d87e4009d0116f11c20079e89688a8f0690c5006f"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 30,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_30_0.jpg",
+          "path": "assets/redfin-1062292-030.jpg",
+          "sha256": "668f0dc5a76a24381930d68110a703da49213398cace2481977c6242326c55cd"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 31,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_31_0.jpg",
+          "path": "assets/redfin-1062292-031.jpg",
+          "sha256": "19a960eac2188a8864c3551f59388276e0a6e7fe321be53ceabc87af0e073b11"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 32,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_32_0.jpg",
+          "path": "assets/redfin-1062292-032.jpg",
+          "sha256": "275e78e6ec8e51f38f3351461eee1be9f1a65aba1bf2ea21858df79805e1863d"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 33,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_34_0.jpg",
+          "path": "assets/redfin-1062292-033.jpg",
+          "sha256": "6ddb1ff45d28ee4e5db8a57126a59c930f380d32e69049cb4b6ea75edda70904"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 34,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_35_0.jpg",
+          "path": "assets/redfin-1062292-034.jpg",
+          "sha256": "110b08e8b1796a3299ee4d7fddddb6433a7daf51d06f83efe379df3e9048e629"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 35,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_36_0.jpg",
+          "path": "assets/redfin-1062292-035.jpg",
+          "sha256": "46306727dd0b08e0998b14036d6090f463a4aaa05ab41265fdd6d6ac73784ae4"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 36,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_37_0.jpg",
+          "path": "assets/redfin-1062292-036.jpg",
+          "sha256": "6d8ca17ae1412ed58d836d2d02a992a78306f147ce3029084a6eef37662da46f"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 37,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_38_0.jpg",
+          "path": "assets/redfin-1062292-037.jpg",
+          "sha256": "0b1ada46143a74e3addfe407de979a5bb5056c87586a83e25c70c36fc13ccea0"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 38,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_39_0.jpg",
+          "path": "assets/redfin-1062292-038.jpg",
+          "sha256": "8e250e04742f201b42bf7d1f6fff234c6fffc43093dbf684c47f426d4b2067ca"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 39,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_40_0.jpg",
+          "path": "assets/redfin-1062292-039.jpg",
+          "sha256": "976a926cb10e175f9c2a22c6acb2a157bdb4cc6a9abd4d5c7bd4f50deb723a71"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 40,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_41_0.jpg",
+          "path": "assets/redfin-1062292-040.jpg",
+          "sha256": "fc5428e4897aba90b65351756e1e9723abf6f27e168131c8214dd168440f3226"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 41,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_42_0.jpg",
+          "path": "assets/redfin-1062292-041.jpg",
+          "sha256": "486df7738701fa33422631f924eea7b6ef618d0e7dc48b2daece708b7b30bb0e"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 42,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_43_0.jpg",
+          "path": "assets/redfin-1062292-042.jpg",
+          "sha256": "c4a8631d28c71c40805dac0c2112789ea297ebdda4f279bcbd91168b5685ea5b"
+        },
+        {
+          "listing_id": "redfin-1062292",
+          "index": 43,
+          "source_url": "https://ssl.cdn-redfin.com/photo/10/bigphoto/614/41152614_44_0.jpg",
+          "path": "assets/redfin-1062292-043.jpg",
+          "sha256": "9513c8fa6477e41feaa5dca241b57f8037fd9afa1cfcee3993c2728d4c0fa6ef"
+        }
+      ],
+      "model": {
+        "url": "/static/94404/spinnaker-model.json",
+        "floor_plan_index": 43,
+        "overlay_url": "/static/94404/spinnaker-wall-overlay.png",
+        "assumptions": [
+          "Wall height is schematic and uniform; ceiling heights are unknown.",
+          "Horizontal scale is uncalibrated. Do not use for measurements.",
+          "Dark thick plan linework is extruded. Some attached fixtures may remain.",
+          "Thin windows, door leaves and arcs are not reconstructed.",
+          "Furniture, finishes, lighting and unseen surfaces are not reconstructed."
+        ],
+        "verification": {
+          "box_footprint_iou": 1.0,
+          "meaning": "Export fidelity to the extracted mask, not building accuracy.",
+          "photo_realism": "not reconstructed or verified"
+        }
+      },
+      "status": "schematic_3d",
+      "blocker": "Schematic plan extrusion only. Furnished or photorealistic 3D reconstruction remains unverified.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 44,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    },
+    {
+      "id": "redfin-1047473",
+      "rank": 6,
+      "address": "608 Port Dr, San Mateo, CA 94404",
+      "redfin_url": "https://www.redfin.com/CA/San-Mateo/608-Port-Dr-94404/home/1047473",
+      "price": 1795000,
+      "beds": 4,
+      "baths": 2.5,
+      "sqft": 2050,
+      "property_type": "single_family",
+      "listing_status": "coming_soon",
+      "zip_code": "94404",
+      "photos": [
+        {
+          "listing_id": "redfin-1047473",
+          "index": 0,
+          "source_url": "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_1.jpg",
+          "path": "assets/redfin-1047473-000.jpg",
+          "sha256": "dccb66970d4fdad479dd192d4c6269c985489c686da6f8d2f42e49fb34c30263"
+        },
+        {
+          "listing_id": "redfin-1047473",
+          "index": 1,
+          "source_url": "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_2.jpg",
+          "path": "assets/redfin-1047473-001.jpg",
+          "sha256": "108d3491b72fedbe4a7d73e1112e91eb9747eb8fa99add4785b0dce887d70997"
+        },
+        {
+          "listing_id": "redfin-1047473",
+          "index": 2,
+          "source_url": "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_3.jpg",
+          "path": "assets/redfin-1047473-002.jpg",
+          "sha256": "279bab02fcabb7a29c6e2133533442e1c611de059790760b69242b5eb3369f1c"
+        },
+        {
+          "listing_id": "redfin-1047473",
+          "index": 3,
+          "source_url": "https://ssl.cdn-redfin.com/system_files/media/1285832_JPG/item_4.jpg",
+          "path": "assets/redfin-1047473-003.jpg",
+          "sha256": "b296e2f712615ec47c8cfc5a6480393a3f7685bb6d2c880968049a5d1e6424be"
+        }
+      ],
+      "model": null,
+      "status": "needs_floor_plan",
+      "blocker": "No usable floor-plan image retrieved; verified whole-home 3D conversion is blocked.",
+      "verification": {
+        "original_hashes": "pass",
+        "original_count": 4,
+        "photo_edits": "none; original bytes are served without retouching",
+        "spatial_fidelity": "not verified",
+        "novel_view_fidelity": "not verified"
+      }
+    }
+  ]
+}

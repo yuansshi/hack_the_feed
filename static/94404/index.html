@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>homi · 94404 source-backed tours</title>
+<link rel="stylesheet" href="/static/94404/viewer.css">
+</head>
+<body>
+<header><a class="brand" href="/">homi</a><span>94404 <small>Foster City &amp; San Mateo</small></span><a href="https://www.redfin.com/zipcode/94404" target="_blank" rel="noopener">Redfin search</a></header>
+<div class="workspace">
+<aside class="homes"><h1>94404 houses by price</h1><p id="selection-note">Target: ten highest-priced single-family houses. Six eligible listings verified; the complete ranking is unverified.</p><nav id="homes" aria-label="Choose a home"></nav></aside>
+<main>
+<div id="loading" role="status">Loading source-backed tours…</div>
+<section id="tour" hidden>
+<div class="property"><div><h2 id="address"></h2><p id="specs"></p></div><a id="listing-link" target="_blank" rel="noopener">View listing</a></div>
+<div class="notice" id="notice"></div>
+<div class="tabs" role="tablist" aria-label="Tour views">
+<button role="tab" id="photos-tab" aria-controls="photos" aria-selected="true" data-view="photos">Original photos</button>
+<button role="tab" id="model-tab" aria-controls="model" aria-selected="false" data-view="model">3D floor-plan model</button>
+<button role="tab" id="plan-tab" aria-controls="plan" aria-selected="false" data-view="plan">Source floor plan</button>
+<button role="tab" id="evidence-tab" aria-controls="evidence" aria-selected="false" data-view="evidence">Verification</button>
+</div>
+<section id="photos" role="tabpanel" aria-labelledby="photos-tab">
+<div class="photo-stage"><img id="photo" alt=""><div id="photo-error" hidden>Original unavailable. Rebuild the local asset cache or open the source image.</div></div>
+<div class="toolbar"><button id="prev" aria-label="Previous photo">Previous</button><span id="counter" aria-live="polite"></span><button id="next" aria-label="Next photo">Next</button><button id="play">Play photo sequence</button><a id="source-image" target="_blank" rel="noopener">Source image</a></div>
+<p class="caption">Unretouched listing photos, in gallery order. This photo sequence does not establish room adjacency or simulate travel between cameras.</p>
+<div id="thumbnails" class="thumbnails" aria-label="Choose a photo"></div>
+</section>
+<section id="model" role="tabpanel" aria-labelledby="model-tab" hidden>
+<div class="model-layout"><div><div id="canvas-wrap" tabindex="0" aria-label="Interactive 3D floor-plan model. Drag to look; W A S D to walk."></div><div class="toolbar"><button id="orbit">Orbit model</button><button id="walk">Walk inside</button><button id="guide">Guided plan walk</button><button id="reset">Reset view</button><button id="export-model">Download 3D model</button></div><div class="toolbar" id="move"><button data-move="left" aria-label="Turn left">Turn left</button><button data-move="forward">Forward</button><button data-move="backward">Back</button><button data-move="right" aria-label="Turn right">Turn right</button></div><p class="caption" id="model-help">Drag to orbit; scroll to zoom. Select Walk inside, then drag to look and use W A S D. Click the plan to move to an open area.</p></div><aside class="model-reference"><h3>Source plan</h3><canvas id="minimap" width="524" height="794" aria-label="Click an open area to walk there"></canvas><h3>Schematic only</h3><p>Walls come from the plan’s thick dark linework. Heights and scale are unmeasured. Photorealistic interiors have not been reconstructed.</p></aside></div>
+</section>
+<section id="plan" role="tabpanel" aria-labelledby="plan-tab" hidden><img id="plan-image" class="source-plan" alt="Original listing floor plan"><p class="caption">The original plan is preserved, including its measurement disclaimer. It is not a survey.</p></section>
+<section id="evidence" role="tabpanel" aria-labelledby="evidence-tab" hidden></section>
+</section>
+</main>
+</div>
+<footer id="batch-summary"></footer>
+<script type="module" src="/static/94404/viewer.js"></script>
+</body>
+</html>

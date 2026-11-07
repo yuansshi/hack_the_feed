@@ -9,7 +9,6 @@ from typing import Any, Dict, List, Optional
 from urllib.parse import urlparse
 
 import httpx
-from bs4 import BeautifulSoup
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
@@ -26,19 +25,17 @@ CACHE_INDEX_PATH = DATA_DIR / "cache_index.json"
 
 
 def load_api_key(name: str) -> str:
-    if os.environ.get(name):
-        return os.environ[name].strip()
+    if os.environ.get(f"HOMI_{name}"):
+        return os.environ[f"HOMI_{name}"].strip()
     for env_file in [BASE_DIR / "api_key.md", BASE_DIR / ".env"]:
         if env_file.exists():
             for line in env_file.read_text().splitlines():
                 line = line.strip()
                 if line.startswith(f"{name}="):
                     return line.split("=", 1)[1].strip()
-    raise RuntimeError(f"Missing required key {name} in environment or api_key.md")
+    raise HTTPException(status_code=503, detail=f"Configure project credential HOMI_{name} or a project .env before using this service.")
 
 
-GMI_API_KEY = load_api_key("GMI_API_KEY")
-ORIANE_API_KEY = load_api_key("ORIANE_API_KEY")
 GMI_LLM_BASE_URL = "https://api.gmi-serving.com/v1"
 GMI_QUEUE_BASE_URL = "https://console.gmicloud.ai/api/v1/ie/requestqueue/apikey"
 ORIANE_BASE_URL = "https://connect.oriane.xyz"
@@ -917,7 +914,7 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
 
 
 async def poll_and_download_gmi_request(request_id: str, target_prefix: str) -> Dict[str, Any]:
-    headers = {"Authorization": f"Bearer {GMI_API_KEY}"}
+    headers = {"Authorization": f"Bearer {load_api_key('GMI_API_KEY')}"}
     url = f"{GMI_QUEUE_BASE_URL}/requests/{request_id}"
     async with httpx.AsyncClient(timeout=30.0) as client:
         resp = await client.get(url, headers=headers)
@@ -1004,98 +1001,25 @@ def extract_base64_audio(data: Any) -> Optional[bytes]:
 
 @app.get("/api/listings")
 async def list_curated_listings():
-    # First refresh any processing jobs in cache_index
-    idx = load_cache_index()
-    changed = False
-    for seg_key, info in list(idx.get("segments", {}).items()):
-        if info.get("status") not in ("ready", "failed", "error") and info.get("request_id"):
-            res = await poll_and_download_gmi_request(info["request_id"], seg_key)
-            if res.get("status") == "ready":
-                info["status"] = "ready"
-                info["local_file"] = res["local_file"]
-                changed = True
-            elif res.get("status") in ("failed", "error", "cancelled"):
-                info["status"] = res["status"]
-                changed = True
-
-    for lid, info in list(idx.get("voiceovers", {}).items()):
-        if info.get("status") not in ("ready", "failed", "error") and info.get("request_id"):
-            res = await poll_and_download_gmi_request(info["request_id"], f"vo_{lid}")
-            if res.get("status") == "ready":
-                info["status"] = "ready"
-                info["local_file"] = res["local_file"]
-                changed = True
-            elif res.get("status") in ("failed", "error", "cancelled"):
-                info["status"] = res["status"]
-                changed = True
-
-    if changed:
-        save_cache_index(idx)
-
+    # Reading cached listings never submits or polls paid API jobs.
     return {"listings": [enrich_listing_with_cache(item) for item in CURATED_LISTINGS]}
 
 
 @app.post("/api/redfin/parse")
 async def parse_redfin_url(req: RedfinParseRequest):
     url = req.url.strip()
-    # Check if matches one of our curated URLs first
-    for item in CURATED_LISTINGS:
-        if item["redfin_url"].lower() in url.lower() or item["id"] in url.lower():
-            return {"listing": enrich_listing_with_cache(item), "source": "curated_bay_area"}
-
-    # Parse Redfin URL structure: https://www.redfin.com/CA/{City}/{Street}/home/{id}
     parsed = urlparse(url)
-    path_parts = [p for p in parsed.path.split("/") if p]
-    city = "Palo Alto"
-    state = "CA"
-    street = "Bay Area Luxury Residence"
-    if len(path_parts) >= 3 and len(path_parts[0]) == 2:
-        state = path_parts[0].upper()
-        city = path_parts[1].replace("-", " ")
-        street = path_parts[2].replace("-", " ")
-
-    # Try fetching live Redfin metadata if accessible, otherwise synthesize with GMI LLM + architectural photos
-    scraped_images: List[str] = []
-    scraped_title = f"{street}, {city}, {state}"
-    scraped_price = "$4,250,000"
-    try:
-        async with httpx.AsyncClient(
-            timeout=6.0,
-            headers={
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-            },
-            follow_redirects=True,
-        ) as client:
-            r = await client.get(url)
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.text, "lxml")
-                og_title = soup.find("meta", property="og:title")
-                if og_title and og_title.get("content"):
-                    scraped_title = og_title["content"]
-                og_img = soup.find("meta", property="og:image")
-                if og_img and og_img.get("content"):
-                    scraped_images.append(og_img["content"])
-                for img in soup.find_all("img"):
-                    src = img.get("src") or ""
-                    if "ssl.cdn-redfin.com/photo" in src and src not in scraped_images:
-                        scraped_images.append(src)
-    except Exception:
-        pass
-
-    base = json.loads(json.dumps(CURATED_LISTINGS[0]))
-    slug_id = "redfin-" + hashlib.md5(url.encode()).hexdigest()[:8]
-    base["id"] = slug_id
-    base["redfin_url"] = url
-    base["title"] = f"{city} Architectural Showcase — {street}"
-    base["address"] = scraped_title
-    base["neighborhood"] = f"{city}, {state} • Redfin Live Import"
-    base["price"] = scraped_price
-    if len(scraped_images) >= 3:
-        for idx_r, room in enumerate(base["rooms"]):
-            if idx_r < len(scraped_images):
-                room["image_url"] = scraped_images[idx_r]
-
-    return {"listing": enrich_listing_with_cache(base), "source": "redfin_parsed"}
+    if parsed.scheme != "https" or parsed.hostname not in ("www.redfin.com", "redfin.com"):
+        raise HTTPException(422, "Use an https://www.redfin.com listing URL.")
+    manifest_path = DATA_DIR / "94404" / "manifest.json"
+    if manifest_path.exists():
+        for listing in json.loads(manifest_path.read_text())["listings"]:
+            if parsed.path.rstrip("/") == urlparse(listing["redfin_url"]).path.rstrip("/"):
+                return {"viewer_url": f"/94404#{listing['id']}", "source": "listing_originals"}
+    for item in CURATED_LISTINGS:
+        if parsed.path.rstrip("/") == urlparse(item["redfin_url"]).path.rstrip("/"):
+            return {"listing": enrich_listing_with_cache(item), "source": "synthetic_demo"}
+    raise HTTPException(422, "This listing has no verified source manifest. Import original photos and a floor plan first; no substitute property will be generated.")
 
 
 @app.post("/api/oriane/analyze")
@@ -1125,7 +1049,7 @@ async def analyze_with_oriane(req: OrianeAnalyzeRequest):
     }
 
     headers = {
-        "Authorization": f"Bearer {ORIANE_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('ORIANE_API_KEY')}",
         "Content-Type": "application/json",
     }
     url = f"{ORIANE_BASE_URL}/rest/contents/search?sort=viewsCount:desc&offset=0&limit=8&projection=full"
@@ -1260,7 +1184,7 @@ async def plan_tour_with_gmi_llm(req: GMIPlanRequest):
     )
 
     headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('GMI_API_KEY')}",
         "Content-Type": "application/json",
     }
     body = {
@@ -1356,7 +1280,7 @@ async def generate_walkthrough_segment(req: GMIGenerateSegmentRequest):
         }
 
     headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('GMI_API_KEY')}",
         "Content-Type": "application/json",
     }
     async with httpx.AsyncClient(timeout=25.0) as client:
@@ -1395,7 +1319,7 @@ async def generate_voiceover(req: GMIVoiceoverRequest):
         }
 
     headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('GMI_API_KEY')}",
         "Content-Type": "application/json",
     }
     payload = {
@@ -1866,7 +1790,7 @@ async def serve_cached_media(filename: str):
 @app.middleware("http")
 async def disable_static_caching(request, call_next):
     response = await call_next(request)
-    if request.url.path == "/" or request.url.path.startswith("/static/"):
+    if request.url.path in ("/", "/94404", "/api/faithful/94404") or request.url.path.startswith("/static/"):
         response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     return response
 
@@ -1878,5 +1802,8 @@ async def serve_index():
         headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"},
     )
 
+
+from faithful_tours import router as faithful_router
+app.include_router(faithful_router)
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")

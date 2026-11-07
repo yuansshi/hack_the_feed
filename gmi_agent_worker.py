@@ -29,7 +29,7 @@ LOCK_PATH = BASE_DIR / "data" / "cache_index.lock"
 GMI_ROOMS_DIR = CACHE_DIR / "gmi_rooms"
 GMI_ROOMS_DIR.mkdir(parents=True, exist_ok=True)
 
-from server import CURATED_LISTINGS, GMI_API_KEY, GMI_QUEUE_BASE_URL, extract_media_url, extract_base64_audio
+from server import CURATED_LISTINGS, load_api_key, GMI_QUEUE_BASE_URL, extract_media_url, extract_base64_audio
 
 
 def atomic_update_cache_index(mutator_fn):
@@ -149,7 +149,7 @@ def submit_and_wait_gmi_job(
     max_wait_sec: int = 360,
 ) -> Optional[Path]:
     headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('GMI_API_KEY')}",
         "Content-Type": "application/json",
     }
     model = body.get("model")
