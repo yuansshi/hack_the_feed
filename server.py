@@ -400,7 +400,7 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "id": "marin-mill-valley-retreat",
         "zip_code": "94941",
         "city": "Mill Valley",
-        "video_duration_label": "0:34",
+        "video_duration_label": "0:42",
         "preview_clip_url": "/api/cache/tour_34s_mill_valley_94941.mp4",
         "full_tour_url": "/api/cache/tour_34s_mill_valley_94941.mp4",
         "redfin_url": "https://www.redfin.com/CA/Mill-Valley/415-Lovell-Ave-94941/home/2839104",
@@ -420,15 +420,17 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "oriane_hashtags": ["realestate", "housetour", "modernarchitecture", "dreamhome"],
         "voiceover_script": (
             "What if your living room floated inside a private redwood forest 20 minutes from San Francisco? "
-            "Welcome to 415 Lovell in Mill Valley — 3,490 square feet of warm organic modern architecture.",
+            "Welcome to 415 Lovell in Mill Valley — 3,490 square feet of warm organic modern architecture "
+            "gliding from the cantilevered redwood pavilion through the forest lounge and custom walnut kitchen "
+            "into a treetop primary suite."
         ),
         "rooms": [
             {
                 "id": "exterior",
                 "name": "01 · Redwood Pavilion Arrival",
                 "short_name": "Pavilion",
-                "floorplan_xy": [20, 74],
-                "image_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1280&q=85",
+                "floorplan_xy": [18, 76],
+                "image_url": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1280&q=85",
                 "vibe": "Cantilevered steel & warm cedar nestled under coastal redwoods",
                 "on_screen_hook": "$3.65M REDWOOD GLASS SANCTUARY 🌲✨",
                 "spoken_beat": "What if your living room floated inside a private redwood forest?",
@@ -445,10 +447,10 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
             },
             {
                 "id": "living",
-                "name": "02 · Canopy Lounge",
+                "name": "02 · Canopy Hearth Lounge",
                 "short_name": "Canopy Lounge",
-                "floorplan_xy": [50, 48],
-                "image_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1280&q=85",
+                "floorplan_xy": [42, 54],
+                "image_url": "https://images.unsplash.com/photo-1600585154084-4e5fe7c39198?auto=format&fit=crop&w=1280&q=85",
                 "vibe": "Floor-to-ceiling forest views with suspended fireplace",
                 "on_screen_hook": "FLOOR-TO-CEILING FOREST GLASS 🍃",
                 "spoken_beat": "Welcome to 415 Lovell in Mill Valley — warm organic modern flow.",
@@ -464,14 +466,34 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
                 ]
             },
             {
+                "id": "kitchen",
+                "name": "03 · Organic Walnut & Soapstone Kitchen",
+                "short_name": "Forest Kitchen",
+                "floorplan_xy": [64, 42],
+                "image_url": "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "Hand-milled American walnut cabinetry with honed soapstone island",
+                "on_screen_hook": "ORGANIC WALNUT CHEF KITCHEN 🌿",
+                "spoken_beat": "Glide into the custom walnut and soapstone kitchen framed by redwoods.",
+                "ambient_desc": "Integrated Gaggenau induction, herb skylight & canyon views",
+                "hotspots": [
+                    {
+                        "x": 48,
+                        "y": 60,
+                        "label": "Honed Soapstone & Walnut Island",
+                        "detail": "Sustainably harvested Marin walnut millwork with cantilevered bar.",
+                        "viral_note": "Warm wood kitchens generate 2.7x higher save rates than all-white kitchens."
+                    }
+                ]
+            },
+            {
                 "id": "primary_bedroom",
-                "name": "03 · Treetop Primary Suite",
+                "name": "04 · Treetop Primary Suite",
                 "short_name": "Treetop Suite",
-                "floorplan_xy": [80, 35],
-                "image_url": "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1280&q=85",
+                "floorplan_xy": [84, 32],
+                "image_url": "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1280&q=85",
                 "vibe": "Wake up in the redwood canopy with a private Hinoki cedar soaking tub",
                 "on_screen_hook": "WAKE UP IN THE REDWOOD CANOPY 🛌🌲",
-                "spoken_beat": "Every room opens directly onto the canyon deck.",
+                "spoken_beat": "Every room opens directly onto the tranquil canyon deck.",
                 "ambient_desc": "Private meditation deck & Japanese Hinoki spa bath",
                 "hotspots": [
                     {
@@ -490,14 +512,21 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
                 "from_room": "exterior",
                 "to_room": "living",
                 "title": "Redwood Pavilion → Canopy Lounge",
-                "prompt": "Smooth steady gimbal forward camera walkthrough moving from the modern glass house exterior terrace into the warm sunlit living room, architectural real estate tour, 3D spatial feel, no glitches."
+                "prompt": "Slow serene architectural Steadicam walkthrough moving smoothly from the modern redwood forest glass house exterior into the warm wood-paneled canopy living room, natural daylight, 3D spatial feel, no glitches."
             },
             {
                 "index": 1,
                 "from_room": "living",
+                "to_room": "kitchen",
+                "title": "Canopy Lounge → Forest Kitchen",
+                "prompt": "Slow serene architectural Steadicam walkthrough gliding smoothly from the warm forest living lounge into the organic walnut and stone chef kitchen, natural daylight, 3D spatial feel, no glitches."
+            },
+            {
+                "index": 2,
+                "from_room": "kitchen",
                 "to_room": "primary_bedroom",
-                "title": "Canopy Lounge → Treetop Primary Suite",
-                "prompt": "Smooth steady gimbal forward camera walkthrough gliding from the modern living room into the serene luxury primary bedroom suite with glass doors, architectural real estate tour, 3D spatial feel, no glitches."
+                "title": "Forest Kitchen → Treetop Primary Suite",
+                "prompt": "Slow serene architectural Steadicam walkthrough moving smoothly from the organic modern kitchen down the cedar gallery into the serene treetop primary bedroom suite, natural daylight, 3D spatial feel, no glitches."
             }
         ]
     },
@@ -505,7 +534,7 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "id": "los-altos-hills-estate",
         "zip_code": "94022",
         "city": "Los Altos Hills",
-        "video_duration_label": "0:43",
+        "video_duration_label": "0:45",
         "preview_clip_url": "/api/cache/tour_40s_los_altos_hills_94022.mp4",
         "full_tour_url": "/api/cache/tour_40s_los_altos_hills_94022.mp4",
         "redfin_url": "https://www.redfin.com/CA/Los-Altos-Hills/26800-Moody-Rd-94022/home/3910482",
@@ -524,19 +553,60 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "oriane_keywords": ["luxury home", "pool", "mansion tour", "real estate"],
         "oriane_hashtags": ["realestate", "luxuryrealestate", "housetour", "mansion"],
         "voiceover_script": (
-            "Welcome to 26800 Moody Road in Los Altos Hills — a 1.25-acre private Silicon Valley resort compound "
-            "where the primary glass sanctuary opens straight onto a heated zero-edge infinity pool overlooking the hills."
+            "Welcome to 26800 Moody Road in Los Altos Hills — an 8.45 million dollar, 1.25-acre private Silicon Valley resort compound. "
+            "Step through the limestone motor court into the soaring ridge-view great room, glide through the primary glass sanctuary, "
+            "and walk straight out onto a 65-foot heated zero-edge infinity pool overlooking the canyon."
         ),
         "rooms": [
             {
-                "id": "primary_bedroom",
-                "name": "01 · Primary Glass Sanctuary",
-                "short_name": "Primary Suite",
-                "floorplan_xy": [25, 55],
-                "image_url": "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1280&q=85",
-                "vibe": "Retractable corner glass walls opening directly to the limestone terrace",
+                "id": "exterior",
+                "name": "01 · Limestone Motor Court & Pavilion",
+                "short_name": "Estate Entry",
+                "floorplan_xy": [18, 74],
+                "image_url": "https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "1.25-acre gated ridge compound with floating travertine water court",
                 "on_screen_hook": "INSIDE AN $8.45M LOS ALTOS HILLS COMPOUND 🌊",
                 "spoken_beat": "Welcome to 26800 Moody Road — a 1.25-acre private Silicon Valley resort.",
+                "ambient_desc": "Gated olive tree drive, reflection pond & architectural bronze roofline",
+                "hotspots": [
+                    {
+                        "x": 50,
+                        "y": 52,
+                        "label": "Floating Travertine Water Court",
+                        "detail": "Custom bronze pivot entry flanked by infinity reflection basins.",
+                        "viral_note": "Oriane Signal: Resort compound exterior hooks drive 3.5x higher completion."
+                    }
+                ]
+            },
+            {
+                "id": "living",
+                "name": "02 · Canyon Ridge Great Room",
+                "short_name": "Ridge Salon",
+                "floorplan_xy": [42, 54],
+                "image_url": "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "16-foot acoustic ceilings with 40-foot motorized glass wall",
+                "on_screen_hook": "6,480 SQ FT OF HILLTOP GLASS ✨",
+                "spoken_beat": "Step into the soaring ridge-view great room with 40-foot disappearing glass.",
+                "ambient_desc": "Bookmatched travertine hearth, wet bar & private wine room",
+                "hotspots": [
+                    {
+                        "x": 55,
+                        "y": 48,
+                        "label": "40-Ft Motorized Canyon Glass",
+                        "detail": "Unobstructed Silicon Valley and Santa Cruz Mountain ridge views.",
+                        "viral_note": "Wide indoor-outdoor salon reveals retain 84% of viewers."
+                    }
+                ]
+            },
+            {
+                "id": "primary_bedroom",
+                "name": "03 · Primary Glass Sanctuary",
+                "short_name": "Primary Suite",
+                "floorplan_xy": [66, 40],
+                "image_url": "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "Retractable corner glass walls opening directly to the limestone terrace",
+                "on_screen_hook": "PRIMARY SUITE WITH VINEYARD VIEWS 🍷🛌",
+                "spoken_beat": "Glide through the primary glass sanctuary with dual spa baths...",
                 "ambient_desc": "Acoustic oak ceilings, automated shade pocket & private spa terrace",
                 "hotspots": [
                     {
@@ -550,13 +620,13 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
             },
             {
                 "id": "backyard_pool",
-                "name": "02 · Zero-Edge Infinity Pool & Cabana",
+                "name": "04 · 65-Ft Zero-Edge Infinity Pool & Cabana",
                 "short_name": "Infinity Pool",
-                "floorplan_xy": [75, 55],
-                "image_url": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1280&q=85",
+                "floorplan_xy": [86, 62],
+                "image_url": "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1280&q=85",
                 "vibe": "65-foot infinity edge, sunken fire lounge & private vineyard backdrop",
                 "on_screen_hook": "WAIT FOR THIS SUNSET POOL REVEAL 🔥",
-                "spoken_beat": "Step straight out onto a heated zero-edge infinity pool overlooking the canyon.",
+                "spoken_beat": "...and step straight out onto a 65-foot zero-edge infinity pool overlooking the hills.",
                 "ambient_desc": "Heated limestone deck, outdoor kitchen & sunset fire pit",
                 "hotspots": [
                     {
@@ -572,10 +642,24 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "transitions": [
             {
                 "index": 0,
+                "from_room": "exterior",
+                "to_room": "living",
+                "title": "Motor Court → Canyon Ridge Salon",
+                "prompt": "Slow serene architectural Steadicam walkthrough moving smoothly from the luxury hilltop estate exterior courtyard through glass doors into the grand modern living room, golden hour lighting, 3D spatial feel, no glitches."
+            },
+            {
+                "index": 1,
+                "from_room": "living",
+                "to_room": "primary_bedroom",
+                "title": "Ridge Salon → Primary Glass Sanctuary",
+                "prompt": "Slow serene architectural Steadicam walkthrough gliding smoothly from the grand modern living room into the luxury primary bedroom suite with warm lighting, architectural real estate tour, 3D spatial feel, no glitches."
+            },
+            {
+                "index": 2,
                 "from_room": "primary_bedroom",
                 "to_room": "backyard_pool",
-                "title": "Primary Suite → Infinity Pool",
-                "prompt": "Smooth steady gimbal forward camera walkthrough gliding out the sliding glass doors of the primary bedroom suite onto the resort-style backyard terrace and infinity pool at golden hour."
+                "title": "Primary Suite → 65-Ft Infinity Pool",
+                "prompt": "Slow serene architectural Steadicam walkthrough gliding out the glass doors of the luxury bedroom suite onto the resort infinity pool terrace overlooking the hills at sunset, 3D spatial feel, no glitches."
             }
         ]
     },
@@ -583,7 +667,7 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "id": "palo-alto-cowper-modern",
         "zip_code": "94301",
         "city": "Palo Alto",
-        "video_duration_label": "0:34",
+        "video_duration_label": "0:41",
         "preview_clip_url": "/api/cache/tour_35s_cowper_palo_alto_94301.mp4",
         "full_tour_url": "/api/cache/tour_35s_cowper_palo_alto_94301.mp4",
         "redfin_url": "https://www.redfin.com/CA/Palo-Alto/530-Cowper-St-94301/home/1490812",
@@ -602,19 +686,40 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
         "oriane_keywords": ["luxury home", "kitchen tour", "house tour", "modern home"],
         "oriane_hashtags": ["realestate", "housetour", "luxurykitchen", "paloalto"],
         "voiceover_script": (
-            "Step inside 530 Cowper Street in historic Professorville, Palo Alto — where a sunlit double-height great room "
-            "glides seamlessly into a 14-foot bookmatched Calacatta marble chef kitchen."
+            "Step inside 530 Cowper Street in historic Professorville, Palo Alto — where a gated architectural courtyard "
+            "leads into a sunlit double-height European oak great room, a 14-foot bookmatched Calacatta chef kitchen, "
+            "and a tranquil private courtyard lap pool."
         ),
         "rooms": [
             {
-                "id": "living",
-                "name": "01 · Double-Height Oak Great Room",
-                "short_name": "Great Room",
-                "floorplan_xy": [28, 58],
-                "image_url": "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1280&q=85",
-                "vibe": "Sunlit European oak planks & acoustic plaster ceilings",
-                "on_screen_hook": "PROFESSORVILLE PALO ALTO WARM MODERN 🏡✨",
+                "id": "exterior",
+                "name": "01 · Professorville Architectural Facade",
+                "short_name": "Courtyard Entry",
+                "floorplan_xy": [18, 74],
+                "image_url": "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "Warm limestone, vertical cedar louvers & olive tree entry court",
+                "on_screen_hook": "$5.25M PROFESSORVILLE PALO ALTO VILLA 🏡✨",
                 "spoken_beat": "Step inside 530 Cowper Street in historic Professorville, Palo Alto.",
+                "ambient_desc": "Architectural bronze gate, olive courtyard & concealed garage",
+                "hotspots": [
+                    {
+                        "x": 48,
+                        "y": 52,
+                        "label": "Cedar Louver & Limestone Facade",
+                        "detail": "Warm contemporary architecture just three blocks from downtown Palo Alto.",
+                        "viral_note": "Curb-to-interior walk-ins boost first-3-second hook retention."
+                    }
+                ]
+            },
+            {
+                "id": "living",
+                "name": "02 · Double-Height Oak Great Room",
+                "short_name": "Great Room",
+                "floorplan_xy": [42, 56],
+                "image_url": "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "Sunlit European oak planks & acoustic plaster ceilings",
+                "on_screen_hook": "SUNLIT EUROPEAN OAK GREAT ROOM ✨",
+                "spoken_beat": "Notice the sunlit double-height European oak great room...",
                 "ambient_desc": "Floor-to-ceiling Fleetwood sliders & linear limestone hearth",
                 "hotspots": [
                     {
@@ -628,13 +733,13 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
             },
             {
                 "id": "kitchen",
-                "name": "02 · Bookmatched Calacatta Chef's Kitchen",
+                "name": "03 · Bookmatched Calacatta Chef's Kitchen",
                 "short_name": "Chef's Kitchen",
-                "floorplan_xy": [72, 42],
-                "image_url": "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1280&q=85",
+                "floorplan_xy": [66, 42],
+                "image_url": "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1280&q=85",
                 "vibe": "14-ft waterfall island with Gaggenau & Miele integrated suite",
                 "on_screen_hook": "WAIT FOR THIS 14-FT MARBLE ISLAND 🔥",
-                "spoken_beat": "...gliding straight into a 14-foot bookmatched Calacatta chef kitchen.",
+                "spoken_beat": "...gliding straight into a 14-foot bookmatched Calacatta chef kitchen...",
                 "ambient_desc": "Concealed scullery, induction surface & 150-bottle wine wall",
                 "hotspots": [
                     {
@@ -645,15 +750,49 @@ CURATED_LISTINGS: List[Dict[str, Any]] = [
                         "viral_note": "Oriane Signal: Kitchen island glide transitions rank #1 in saves."
                     }
                 ]
+            },
+            {
+                "id": "backyard_pool",
+                "name": "04 · Private Courtyard Atrium & Lounge",
+                "short_name": "Atrium Lounge",
+                "floorplan_xy": [86, 60],
+                "image_url": "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1280&q=85",
+                "vibe": "Zero-threshold glass atrium opening to a private limestone garden lounge",
+                "on_screen_hook": "INDOOR-OUTDOOR CALIFORNIA ATRIUM 🌿👇",
+                "spoken_beat": "...and opening onto a tranquil private limestone courtyard lounge.",
+                "ambient_desc": "Heated pergola terrace, outdoor fireplace & mature bamboo privacy wall",
+                "hotspots": [
+                    {
+                        "x": 54,
+                        "y": 58,
+                        "label": "Heated Limestone Atrium Terrace",
+                        "detail": "Year-round outdoor living room with flush Infratech heaters.",
+                        "viral_note": "Private courtyard closers drive high comment engagement."
+                    }
+                ]
             }
         ],
         "transitions": [
             {
                 "index": 0,
+                "from_room": "exterior",
+                "to_room": "living",
+                "title": "Professorville Entry → Oak Great Room",
+                "prompt": "Slow serene architectural Steadicam walkthrough moving smoothly from the modern Palo Alto villa exterior courtyard into the sunlit oak living room, natural daylight, 3D spatial feel, no glitches."
+            },
+            {
+                "index": 1,
                 "from_room": "living",
                 "to_room": "kitchen",
-                "title": "Great Room → Chef's Kitchen",
-                "prompt": "Smooth steady gimbal forward camera walkthrough gliding from the sunlit modern living room straight into the open-concept marble chef kitchen with waterfall island."
+                "title": "Oak Great Room → Calacatta Kitchen",
+                "prompt": "Slow serene architectural Steadicam walkthrough gliding smoothly from the sunlit modern living room straight into the open-concept marble chef kitchen with island, natural daylight, 3D spatial feel, no glitches."
+            },
+            {
+                "index": 2,
+                "from_room": "kitchen",
+                "to_room": "backyard_pool",
+                "title": "Calacatta Kitchen → Courtyard Atrium",
+                "prompt": "Slow serene architectural Steadicam walkthrough gliding smoothly from the luxury kitchen out to the sunlit indoor-outdoor courtyard garden lounge, natural daylight, 3D spatial feel, no glitches."
             }
         ]
     }
@@ -714,33 +853,50 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
     idx = load_cache_index()
     enriched = json.loads(json.dumps(listing))
     lid = enriched["id"]
+
+    # Upgrade room photos to bespoke GMI 2K generated images if present in data/cache/
+    for room in enriched.get("rooms", []):
+        rid = room["id"]
+        gmi_imgs = sorted(
+            [p for p in CACHE_DIR.glob(f"img_{lid}_{rid}_*.jpg") if p.is_file() and p.stat().st_size > 10000],
+            key=lambda x: x.stat().st_mtime,
+            reverse=True,
+        )
+        if gmi_imgs:
+            room["image_url"] = f"/api/cache/{gmi_imgs[0].name}"
+
     for t in enriched.get("transitions", []):
-        seg_key = f"{lid}_seg{t['index']}"
+        t_idx = t["index"]
+        seg_key = f"{lid}_seg{t_idx}"
         seg_info = idx.get("segments", {}).get(seg_key)
-        if seg_info and seg_info.get("local_file") and (CACHE_DIR / seg_info["local_file"]).exists():
+        # Prefer newest real GMI video clip on disk for this house+segment
+        real_gmi_clips = sorted(
+            [
+                p for p in CACHE_DIR.glob(f"{lid}_seg{t_idx}_*.mp4")
+                if not p.name.endswith("_glide.mp4") and not p.name.startswith("slow_") and p.stat().st_size > 20000
+            ],
+            key=lambda x: x.stat().st_mtime,
+            reverse=True,
+        )
+        if real_gmi_clips:
+            best_clip = real_gmi_clips[0]
+            slow_clip = CACHE_DIR / f"slow_{best_clip.name}"
+            served_file = slow_clip.name if (slow_clip.exists() and slow_clip.stat().st_size > 20000) else best_clip.name
+            t["status"] = "ready"
+            t["video_url"] = f"/api/cache/{served_file}"
+            t["model"] = (seg_info or {}).get("model", "veo-3.1-fast-generate-001")
+            t["request_id"] = best_clip.stem.split("_")[-1]
+        elif seg_info and seg_info.get("local_file") and (CACHE_DIR / seg_info["local_file"]).exists():
             t["status"] = "ready"
             t["video_url"] = f"/api/cache/{seg_info['local_file']}"
             t["model"] = seg_info.get("model", "veo-3.1-lite-generate-001")
             t["request_id"] = seg_info.get("request_id")
-            if t["index"] == 0 and not enriched.get("preview_clip_url"):
-                enriched["preview_clip_url"] = t["video_url"]
-        elif seg_info and seg_info.get("request_id"):
-            t["status"] = seg_info.get("status", "processing")
-            t["request_id"] = seg_info["request_id"]
-            t["model"] = seg_info.get("model", "veo-3.1-lite-generate-001")
         else:
-            # Fallback to our cached Palo Alto FLFV clips so every listing walks smoothly out of the box
-            fallback_files = [
-                "palo-alto-glass-villa_seg0_129c2220.mp4",
-                "palo-alto-glass-villa_seg1_97dbc81a.mp4",
-                "palo-alto-glass-villa_seg2_81d80e65.mp4",
-                "palo-alto-glass-villa_seg3_20a9c759.mp4",
-            ]
-            fb = fallback_files[t["index"] % len(fallback_files)]
-            if (CACHE_DIR / fb).exists():
+            glide_file = f"{lid}_seg{t_idx}_glide.mp4"
+            if (CACHE_DIR / glide_file).exists():
                 t["status"] = "ready"
-                t["video_url"] = f"/api/cache/{fb}"
-                t["model"] = "veo-3.1-lite-generate-001"
+                t["video_url"] = f"/api/cache/{glide_file}"
+                t["model"] = "gmi-room-glide"
             else:
                 t["status"] = "not_generated"
                 t["video_url"] = None

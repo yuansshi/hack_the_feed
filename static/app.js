@@ -315,12 +315,15 @@ function renderFlipReelPlayer() {
   if (!els.flipMainVideo.src.endsWith(clipUrl)) {
     els.flipMainVideo.src = clipUrl;
     els.flipMainVideo.currentTime = 0;
+    els.flipMainVideo.playbackRate = 0.78;
     els.flipMainVideo.play().catch(() => {});
+  } else {
+    els.flipMainVideo.playbackRate = 0.78;
   }
 
   els.flipMainVideo.ontimeupdate = () => {
     const cur = els.flipMainVideo.currentTime || 0;
-    const dur = els.flipMainVideo.duration || 35;
+    const dur = els.flipMainVideo.duration || 42;
     els.flipVideoScrubber.value = Math.round((cur / dur) * 1000);
     els.flipTimeReadout.textContent = `${formatSeconds(cur)} / ${formatSeconds(dur)}`;
   };
@@ -336,7 +339,7 @@ function startLiveTickerCycle() {
     state.tickerIdx = (state.tickerIdx + 1) % comments.length;
     const c = comments[state.tickerIdx];
     els.flipTickerText.textContent = `✓ ${c.author} (${c.room}): ${c.text}`;
-  }, 4200);
+  }, 8500);
 }
 
 function flipToNextHouse(delta = 1) {
@@ -579,20 +582,30 @@ function renderZipFeedCards() {
       openOpenHouseDrawer(listing);
     };
 
-    card.onclick = () => {
-      state.activeFlipIndex = idx;
-      openHouseAutoWalkthrough(listing, false);
-    };
+    const enterPill = card.querySelector(".feed-enter-pill");
+    if (enterPill) {
+      enterPill.onclick = (e) => {
+        e.stopPropagation();
+        state.activeFlipIndex = idx;
+        openHouseAutoWalkthrough(listing, false);
+      };
+    }
 
-    card.onmouseenter = () => {
-      state.activeFlipIndex = idx;
-      renderFlipReelPlayer();
+    card.onclick = () => {
+      if (state.activeFlipIndex === idx) {
+        openHouseAutoWalkthrough(listing, false);
+      } else {
+        state.activeFlipIndex = idx;
+        renderFlipReelPlayer();
+        highlightActiveCardInGrid();
+      }
     };
 
     els.zipFeedGrid.appendChild(card);
 
     const vid = card.querySelector("video");
     if (vid) {
+      vid.playbackRate = 0.78;
       vid.play().catch(() => {});
     }
   });
@@ -1175,10 +1188,11 @@ async function playTransitionSegment(segIndex, onCompleteCallback = null) {
     els.roomStillImg.src = fromRoom.image_url;
     els.walkthroughVideo.src = seg.video_url;
     els.walkthroughVideo.currentTime = 0;
+    els.walkthroughVideo.playbackRate = 0.78;
     els.walkthroughVideo.classList.add("playing");
 
     els.walkthroughVideo.ontimeupdate = () => {
-      const dur = els.walkthroughVideo.duration || 4;
+      const dur = els.walkthroughVideo.duration || 6;
       const frac = Math.min(1, els.walkthroughVideo.currentTime / dur);
       const base = segIndex / Math.max(1, rooms.length - 1);
       const step = 1 / Math.max(1, rooms.length - 1);
@@ -1196,8 +1210,12 @@ async function playTransitionSegment(segIndex, onCompleteCallback = null) {
 
     els.walkthroughVideo.onended = () => {
       state.currentRoomIndex = segIndex + 1;
+      els.roomStillImg.src = toRoom.image_url;
+      els.walkthroughVideo.classList.remove("playing");
       if (onCompleteCallback) {
-        onCompleteCallback();
+        setTimeout(() => {
+          if (state.isAutoTour) onCompleteCallback();
+        }, 2200);
       } else {
         showRoomState(segIndex + 1, true);
       }
