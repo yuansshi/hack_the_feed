@@ -33,12 +33,12 @@
       "local_file": "palo-alto-glass-villa_seg3_20a9c759.mp4"
     },
     "sf-pacific-heights-view_seg0": {
-      "request_id": "71f1230a",
-      "model": "veo-3.1-lite-generate-001",
+      "request_id": "36121265",
+      "model": "veo-3.1-fast-generate-001",
       "status": "ready",
       "from_room": "exterior",
       "to_room": "living",
-      "local_file": "sf-pacific-heights-view_seg0_71f1230a.mp4"
+      "local_file": "sf-pacific-heights-view_seg0_36121265.mp4"
     },
     "sf-pacific-heights-view_seg1": {
       "request_id": "ceffe2cf",
@@ -73,20 +73,20 @@
       "local_file": "marin-mill-valley-retreat_seg1_glide.mp4"
     },
     "los-altos-hills-estate_seg0": {
-      "request_id": "glide-los-altos-hills-estate-0",
-      "model": "gmi-room-glide",
+      "request_id": "89f8d7e5",
+      "model": "pixverse-v5.6-transition",
       "status": "ready",
       "from_room": "exterior",
       "to_room": "living",
-      "local_file": "los-altos-hills-estate_seg0_glide.mp4"
+      "local_file": "los-altos-hills-estate_seg0_89f8d7e5.mp4"
     },
     "palo-alto-cowper-modern_seg0": {
-      "request_id": "glide-palo-alto-cowper-modern-0",
-      "model": "gmi-room-glide",
+      "request_id": "1b773bf7",
+      "model": "veo-3.1-lite-generate-001",
       "status": "ready",
       "from_room": "exterior",
       "to_room": "living",
-      "local_file": "palo-alto-cowper-modern_seg0_glide.mp4"
+      "local_file": "palo-alto-cowper-modern_seg0_1b773bf7.mp4"
     },
     "marin-mill-valley-retreat_seg2": {
       "request_id": "glide-marin-mill-valley-retreat-2",
@@ -1325,6 +1325,39 @@
       "model": "pixverse-v6-transition",
       "file": "palo-alto-cowper-modern_seg2_8cc3ea8b.mp4",
       "timestamp": 1794016046.666905
+    },
+    {
+      "type": "room_image",
+      "model": "seedream-5.0-pro",
+      "file": "img_palo-alto-glass-villa_living_r2_cd40a0e7.jpg",
+      "timestamp": 1794016090.6741834
+    },
+    {
+      "type": "video_segment",
+      "segment": "los-altos-hills-estate_seg0",
+      "model": "pixverse-v5.6-transition",
+      "file": "los-altos-hills-estate_seg0_89f8d7e5.mp4",
+      "timestamp": 1794016179.7335598
+    },
+    {
+      "type": "video_segment",
+      "segment": "palo-alto-cowper-modern_seg0",
+      "model": "veo-3.1-lite-generate-001",
+      "file": "palo-alto-cowper-modern_seg0_1b773bf7.mp4",
+      "timestamp": 1794016179.7378209
+    },
+    {
+      "type": "room_image",
+      "model": "seedream-5.0-pro",
+      "file": "img_sf-pacific-heights-view_exterior_r2_ec320591.jpg",
+      "timestamp": 1794016228.0994072
+    },
+    {
+      "type": "video_segment",
+      "segment": "sf-pacific-heights-view_seg0",
+      "model": "veo-3.1-fast-generate-001",
+      "file": "sf-pacific-heights-view_seg0_36121265.mp4",
+      "timestamp": 1794016307.847011
     }
   ],
   "rooms": {
@@ -1335,7 +1368,7 @@
     },
     "palo-alto-glass-villa_living": {
       "local_file": "rooms/palo-alto-glass-villa_living.jpg",
-      "gmi_raw_file": "img_palo-alto-glass-villa_living_r1_745540cb.jpg",
+      "gmi_raw_file": "img_palo-alto-glass-villa_living_r2_cd40a0e7.jpg",
       "status": "ready"
     },
     "los-altos-hills-estate_backyard": {
@@ -1420,7 +1453,7 @@
     },
     "sf-pacific-heights-view_exterior": {
       "local_file": "rooms/sf-pacific-heights-view_exterior.jpg",
-      "gmi_raw_file": "img_sf-pacific-heights-view_exterior_r1_09c52e2a.jpg",
+      "gmi_raw_file": "img_sf-pacific-heights-view_exterior_r2_ec320591.jpg",
       "status": "ready"
     },
     "sf-pacific-heights-view_kitchen": {
