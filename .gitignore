@@ -23,5 +23,7 @@ data/cache/_walk_*
 
 # Downloaded listing originals and local visual verification
 data/94404/assets/
+data/94404/video_jobs/
+data/94404/videos/
 artifacts/
 .pytest_cache/

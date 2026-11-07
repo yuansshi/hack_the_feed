@@ -1577,7 +1577,7 @@ function setupEventListeners() {
   };
   els.flipVideoScrubber.oninput = (e) => {
     const listing = getActiveFlipListing();
-    if (listing?.source_backed) {
+    if (listing?.source_backed && !listing.preview_clip_url) {
       showSourcePhoto(listing, Math.round(Number(e.target.value) / 1000 * (listing.photos.length - 1)));
       return;
     }

@@ -1,8 +1,10 @@
 # homi — Redfin-to-Viral Real Estate Feed, 3D Walkthrough & Amazon × YouTube Open House Rank
 
-> **Source-backed 94404 work:** open `/?zip=94404` in the original swipe feed for six eligible single-family houses in descending asking-price order, 147 unretouched source images, and one navigable floor-plan schematic. The requested ten-house selection remains incomplete; five current houses need usable plans. **Zero photorealistic 3D conversions are verified.** Open a home’s **3D walkthrough + research** action for the model, photos, floor plan and verification without leaving the feed. A direct entry is `/?zip=94404&home=redfin-1062292&view=model`. See [verification evidence and setup](docs/94404-verification.md). The hackathon feed below is a demo using stock/generated imagery.
+> **Source-backed 94404 work:** open `/?zip=94404` in the original swipe feed for six eligible single-family houses in descending asking-price order, 147 unretouched source images, and one navigable floor-plan schematic. The requested ten-house selection remains incomplete; five current houses need usable plans. **Zero generated walkthrough videos or photorealistic 3D conversions are verified.** Open a home’s **Plan + research** action for the model, photos, floor plan and verification without leaving the feed. A direct entry is `/?zip=94404&home=redfin-1062292&view=model`. See [verification evidence and setup](docs/94404-verification.md). The hackathon feed below is a demo using stock/generated imagery.
 
 Built for the **Hack the Feed: Creator Tools Hackathon** (Oriane × GMI Cloud × Lovable × Compound).
+
+**Generated walkthrough correction:** the 94404 target is a continuous, newly generated camera video within this original feed. The current photo sequence and schematic do not meet that target. A finite source-grounded GMI pilot and review process are prepared; no generated 94404 video is accepted yet. See [the pilot and credential setup](docs/grounded-video-pilot.md).
 
 **homi** transforms static Bay Area real estate listings (Redfin URLs or Zip Codes `94301`, `94115`, `94941`, `94022`) into a **35–45 second TikTok / YouTube viral video feed** with **4-way swipe gestures**, a **Full-Screen Automatic Room-to-Room Walkthrough**, an on-demand **3D Deep Explore Studio**, and a real-time **Amazon × YouTube Open House Ranking & Crowd Verification System**.
 

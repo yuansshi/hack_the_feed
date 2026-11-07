@@ -7,10 +7,12 @@ let researchResumeVideos = [];
 const sourceAssetURL = photo => `/api/faithful/assets/${photo.path.split('/').at(-1)}`;
 
 function setSourceFeedControls(source) {
+  const generated = source && Boolean(getActiveFlipListing()?.preview_clip_url);
   els.flipPlayerFrame.classList.toggle('source-backed', source);
-  document.getElementById('flip-source-photo').classList.toggle('hidden', !source);
-  els.flipMainVideo.classList.toggle('hidden', source);
-  for (const button of [els.btnFlipThumbUp, els.btnFlipThumbDown, els.btnFlipSound]) button.classList.toggle('hidden', source);
+  document.getElementById('flip-source-photo').classList.toggle('hidden', !source || generated);
+  els.flipMainVideo.classList.toggle('hidden', source && !generated);
+  for (const button of [els.btnFlipThumbUp, els.btnFlipThumbDown]) button.classList.toggle('hidden', source);
+  els.btnFlipSound.classList.toggle('hidden', source && !generated);
   els.btnTopOpenhouse.textContent = source ? 'Sources & verification' : '🔴 Live Open House & Rank';
   els.btnLaunchOpenhouseUpload.textContent = source ? 'Original photos & sources' : '📸 Post Open House Video/Photo';
   if (!source) {
@@ -32,7 +34,7 @@ function showSourcePhoto(listing, index) {
 
 function startSourcePhotos(listing) {
   clearInterval(sourceSlideTimer);
-  if (listing.photos.length < 2) return;
+  if (listing.preview_clip_url || listing.photos.length < 2) return;
   sourceSlideTimer = setInterval(() => {
     if (state.stageMode === 'feed' && getActiveFlipListing()?.id === listing.id) {
       showSourcePhoto(listing, (sourcePhotoIndex + 1) % listing.photos.length);
@@ -41,24 +43,44 @@ function startSourcePhotos(listing) {
 }
 
 function renderSourceReel(listing) {
-  els.flipMainVideo.pause();
-  els.flipMainVideo.removeAttribute('src');
-  els.flipMainVideo.load();
-  els.flipMainVideo.ontimeupdate = null;
   els.flipPlayerFrame.className = `flip-player-frame source-backed ${state.viewOrientation === 'reel' ? 'mode-9-16' : 'mode-16-9'}`;
   els.flipPlayerFrame.dataset.listingId = listing.id;
   els.flipZipBadge.textContent = `#${state.activeFlipIndex + 1} · 94404 · ${listing.city}`;
-  els.flipDurationBadge.textContent = listing.model ? '3D walkthrough available' : 'Original photos';
-  els.flipTickerText.textContent = listing.model ? 'Explore the floor-plan model, then compare the original photos.' : 'Explore original photos and listing sources. A 3D model needs a floor plan.';
+  els.flipDurationBadge.textContent = listing.video_duration_label || 'Video pending';
+  els.flipTickerText.textContent = listing.preview_clip_url ? 'AI-generated camera walkthrough pilot. Compare it with the original photos and floor plan in research.' : listing.model ? 'Video pending · 3D plan reference available. Compare the original photos and floor plan in research.' : 'Video pending · Explore original photos and listing sources. A plan reference needs a floor plan.';
   els.flipNeighborhood.textContent = `${listing.city} · ${listing.listing_status === 'coming_soon' ? 'Coming soon' : 'For sale'}`;
   els.flipHookTitle.textContent = listing.title;
   els.flipSubtleSpecs.textContent = `${listing.price} · ${listing.beds} bd · ${listing.baths} ba · ${listing.sqft.toLocaleString()} sq ft`;
   els.flipCommentsCount.textContent = 'Sources';
-  els.btnLaunchFullscreenWalk.textContent = listing.model ? '🧭 3D walkthrough & research' : 'Explore this home';
-  els.btnFlipEnter3d.querySelector('span').textContent = listing.model ? '3D Walk' : 'Research';
-  els.btnFlipEnter3d.title = listing.model ? 'Open the 3D walkthrough and in-depth research' : 'Open photos, sources and model availability';
+  els.btnLaunchFullscreenWalk.textContent = listing.model ? '🧭 Plan + research' : 'Explore this home';
+  els.btnFlipEnter3d.querySelector('span').textContent = listing.model ? '3D Plan' : 'Research';
+  els.btnFlipEnter3d.title = listing.model ? 'Open the 3D plan reference and in-depth research' : 'Open photos, sources and model availability';
   els.btnFlipSaveUp.classList.toggle('is-saved', state.savedIds.has(listing.id));
   els.flipSaveLabel.textContent = state.savedIds.has(listing.id) ? 'Saved 💛' : 'Save ▲';
+  if (listing.preview_clip_url) {
+    const video = els.flipMainVideo;
+    els.flipVideoScrubber.disabled = false;
+    video.playbackRate = 1;
+    video.poster = sourceAssetURL(listing.photos[0]);
+    if (video.getAttribute('src') !== listing.preview_clip_url) {
+      video.src = listing.preview_clip_url;
+      video.play().catch(() => {});
+    }
+    video.ontimeupdate = () => {
+      const duration = Number.isFinite(video.duration) ? video.duration : 0;
+      const current = video.currentTime || 0;
+      els.flipVideoScrubber.value = duration ? Math.round(current / duration * 1000) : 0;
+      els.flipTimeReadout.textContent = `${formatSeconds(current)} / ${duration ? formatSeconds(duration) : '…'}`;
+    };
+    video.ontimeupdate();
+    els.flipSoundLabel.textContent = video.muted ? 'Muted' : 'Sound On';
+    return;
+  }
+  els.flipMainVideo.pause();
+  els.flipMainVideo.removeAttribute('src');
+  els.flipMainVideo.removeAttribute('poster');
+  els.flipMainVideo.load();
+  els.flipMainVideo.ontimeupdate = null;
   if (sourcePhotoListingId !== listing.id) { sourcePhotoIndex = 0; sourcePhotoListingId = listing.id; }
   showSourcePhoto(listing, sourcePhotoIndex);
   startSourcePhotos(listing);
@@ -70,17 +92,24 @@ function renderSourceCard(listing, index) {
   card.dataset.listingId = listing.id;
   const image = document.createElement('img');
   image.className = 'feed-card-poster'; image.src = sourceAssetURL(listing.photos[0]); image.alt = listing.address;
+  let video;
+  if (listing.preview_clip_url) {
+    video = document.createElement('video');
+    video.className = 'feed-card-video'; video.src = listing.preview_clip_url;
+    video.autoplay = true; video.loop = true; video.muted = true; video.playsInline = true; video.preload = 'metadata';
+    video.setAttribute('aria-label', 'AI-generated walkthrough, reviewed pilot');
+  }
   const shade = document.createElement('div'); shade.className = 'feed-card-shade';
   const top = document.createElement('div'); top.className = 'feed-card-top';
-  const badge = document.createElement('span'); badge.className = 'feed-zip-badge'; badge.textContent = `#${index + 1} · 94404 · Source photos`;
+  const badge = document.createElement('span'); badge.className = 'feed-zip-badge'; badge.textContent = `#${index + 1} · 94404 · ${listing.preview_clip_url ? 'Reviewed AI pilot' : 'Video pending'}`;
   top.append(badge);
   const bottom = document.createElement('div'); bottom.className = 'feed-card-bottom';
   const title = document.createElement('h3'); title.className = 'feed-card-hook'; title.textContent = listing.title;
   const specs = document.createElement('p'); specs.className = 'feed-card-subtle-meta'; specs.textContent = `${listing.price} · ${listing.beds} bd · ${listing.sqft.toLocaleString()} sq ft`;
   const action = document.createElement('button'); action.className = 'btn-3d-explore source-research-button';
-  action.textContent = listing.model ? '🧭 3D walkthrough + research' : 'Photos + research';
+  action.textContent = listing.model ? '🧭 Plan + research' : 'Photos + research';
   action.onclick = event => { event.stopPropagation(); state.activeFlipIndex = index; renderFlipReelPlayer(); highlightActiveCardInGrid(); openSourceResearch(listing, listing.model ? 'model' : 'photos'); };
-  bottom.append(title, specs, action);card.append(image, shade, top, bottom);
+  bottom.append(title, specs, action);card.append(image);if (video) card.append(video);card.append(shade, top, bottom);
   card.onclick = () => {
     if (state.activeFlipIndex === index) { openSourceResearch(listing, listing.model ? 'model' : 'photos'); return; }
     state.activeFlipIndex = index;renderFlipReelPlayer();highlightActiveCardInGrid();
