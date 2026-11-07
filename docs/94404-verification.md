@@ -30,7 +30,7 @@ Direct browser and HTTP collection encountered Redfin’s rate-limit page. Publi
 - The 117 exported wall boxes reproduce the extracted mask exactly. The actual browser-generated glTF download was parsed and its node footprints were independently rasterized and compared with the model mask. This checks the export pipeline; it does not validate the extraction against the real building.
 - The guided route completed from the living area through the foyer/hall opening and family area to the kitchen. Movement checks the extracted walls and manually inspected exterior footprint, in small steps to prevent tunneling.
 - Browser rendering and navigation were checked at desktop size and 390 px mobile width, with no horizontal document overflow or page errors.
-- Nine automated checks cover offline browsing, safe imports, explicit partial status, original-byte integrity, missing assets and tampered originals. Python compilation and JavaScript syntax checks pass.
+- Thirteen automated checks cover offline browsing, safe imports, explicit partial status, original-byte integrity, missing assets and tampered originals. Python compilation and JavaScript syntax checks pass.
 
 ![Spinnaker source-plan schematic](94404-schematic-preview.png)
 
@@ -55,3 +55,22 @@ uv pip install --python .venv/bin/python -r requirements.txt pytest
 ```
 
 Open `http://127.0.0.1:8044/94404#redfin-1062292`, select **3D floor-plan model**, then **Guided plan walk**. The model can be downloaded as glTF. Floor-plan and Verification tabs expose the source and assumptions.
+
+
+## Feed integration and 3D visibility
+
+The original Instagram/TikTok-style reel, card grid, ZIP filters, aspect switch and swipe/save/hide interactions remain the main experience at `/?zip=94404`. Source homes use their own unretouched photo sequences; no unrelated demo video, ratings, live comments or crowd counts are substituted. The generated-video demo ZIPs remain available.
+
+The feed’s **3D walkthrough** action opens Spinnaker directly in a same-page research overlay. Its Photos, 3D model, Floor plan and Verification tabs support deeper inspection. **Back to feed** and Escape inside the model close research, unload its renderer, and retain the selected home/filter/save state. Mobile controls appear above the model.
+
+The earlier `/94404#redfin-1062292` URL encoded only a home ID and therefore opened Photos. Explicit `?view=model` routing now renders the model immediately; unknown/missing geometry opens the evidence panel. The standalone route is retained for direct inspection, while the primary deep entry preserves the feed behind it:
+
+`/?zip=94404&home=redfin-1062292&view=model`
+
+Run the real Chromium interaction check with agent-browser installed:
+
+```bash
+.venv/bin/python scripts/verify_feed_ui.py
+```
+
+It checks feed media identity, direct 3D opening, guided walking, iframe Escape and cleanup, feed-state preservation, source saves, empty filters, switching to demo ZIPs, mobile visibility and absence of paid/social requests or page errors.

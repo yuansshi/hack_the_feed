@@ -1,4 +1,9 @@
 const $ = (id) => document.getElementById(id);
+const viewNames = new Set(['photos', 'model', 'plan', 'evidence']);
+const query = new URLSearchParams(location.search);
+const embedded = query.get('embed') === '1';
+const initialView = viewNames.has(query.get('view')) ? query.get('view') : 'photos';
+document.documentElement.classList.toggle('research-embed', embedded);
 let manifest, current, photoIndex = 0, mode = 'photos', timer, modelViewer;
 const money = new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:0});
 const assetURL = (photo) => `/api/faithful/assets/${photo.path.split('/').at(-1)}`;
@@ -31,16 +36,36 @@ function evidence(){
   for(const photo of current.photos){const p=make('p',`Photo ${photo.index+1} `);const a=make('a','Source');a.href=photo.source_url;a.target='_blank';a.rel='noopener';p.append(a,make('br'),make('code',photo.sha256));details.append(p);}provenance.append(details);
 }
 async function view(next){
-  stop();mode=next;
+  stop();
+  const requested = viewNames.has(next) ? next : 'photos';
+  mode = !current.model && (requested === 'model' || requested === 'plan') ? 'evidence' : requested;
+  const url = new URL(location.href);
+  url.searchParams.set('view', mode);
+  history.replaceState(null, '', url);
   document.querySelectorAll('[role=tabpanel]').forEach(panel=>panel.hidden=panel.id!==mode);
   document.querySelectorAll('[role=tab]').forEach(tab=>tab.setAttribute('aria-selected',String(tab.dataset.view===mode)));
-  if(mode==='model'&&current.model){
-    if(!modelViewer){try{const module=await import('./model-viewer.js');modelViewer=new module.PlanViewer($('canvas-wrap'),$('minimap'));}catch(error){$('canvas-wrap').textContent='3D rendering is unavailable in this browser. Open the source plan or try a browser with WebGL support.';return;}}
-    try{await modelViewer.load(current);}catch(error){$('model-help').textContent=`Model could not load: ${error.message}`;}
+  $('model-error').hidden = true;
+  if(mode==='model'){
+    const listing = current;
+    $('model-error').textContent = 'Loading 3D floor-plan model…';
+    $('model-error').hidden = false;
+    try{
+      if(!modelViewer){
+        const module=await import('./model-viewer.js');
+        if(current!==listing || mode!=='model') return;
+        if(!modelViewer) modelViewer=new module.PlanViewer($('canvas-wrap'),$('minimap'));
+      }
+      await modelViewer.load(listing);
+      if(current===listing && mode==='model') $('model-error').hidden=true;
+    }catch(error){
+      $('model-error').textContent = `3D rendering could not load. Open Source floor plan to inspect the original plan. ${error.message}`;
+      $('model-error').hidden=false;
+    }
   }
   modelViewer?.setActive(mode==='model');
 }
-function choose(listing){
+
+function choose(listing, requestedView = 'photos'){
   stop();current=listing;photoIndex=0;location.hash=listing.id;
   $('tour').hidden=false;$('address').textContent=listing.address.split(',')[0];
   $('specs').textContent=`${money.format(listing.price)}   ·   ${listing.beds} beds   ·   ${listing.baths} baths   ·   ${listing.sqft.toLocaleString()} sq ft   ·   ${listing.listing_status==='coming_soon'?'Coming soon':'For sale'}`;
@@ -50,8 +75,14 @@ function choose(listing){
   if(listing.model)$('plan-image').src=assetURL(listing.photos[listing.model.floor_plan_index]);
   document.querySelectorAll('.home').forEach(button=>button.setAttribute('aria-current',String(button.dataset.id===listing.id)));
   $('thumbnails').replaceChildren(...listing.photos.map((photo,i)=>{const button=make('button',null,'thumbnail');button.setAttribute('aria-label',`View original photo ${i+1}`);const img=make('img');img.src=assetURL(photo);img.alt='';img.loading='lazy';button.append(img);button.onclick=()=>{stop();showPhoto(i);};return button;}));
-  showPhoto(0);evidence();view('photos');
+  showPhoto(0);evidence();view(requestedView);
 }
+if(embedded){$('photos-tab').textContent='Photos';$('model-tab').textContent='3D model';$('plan-tab').textContent='Floor plan';$('evidence-tab').textContent='Verification';$('orbit').textContent='Orbit';$('walk').textContent='Walk';$('guide').textContent='Guided walk';$('reset').textContent='Reset';}
+window.addEventListener('hashchange',()=>{
+  if(!manifest) return;
+  const listing=manifest.listings.find(item=>`#${item.id}`===location.hash);
+  if(listing && listing!==current) choose(listing,new URLSearchParams(location.search).get('view') || 'photos');
+});
 $('photo').onerror=()=>{$('photo').hidden=true;$('photo-error').hidden=false;};
 $('prev').onclick=()=>{stop();showPhoto(photoIndex-1);};$('next').onclick=()=>{stop();showPhoto(photoIndex+1);};
 $('play').onclick=()=>{if(timer){stop();return;}$('play').textContent='Pause photo sequence';timer=setInterval(()=>showPhoto(photoIndex+1),5000);};
@@ -60,11 +91,11 @@ $('orbit').onclick=()=>modelViewer?.orbit();$('walk').onclick=()=>{modelViewer?.
 $('guide').onclick=()=>modelViewer?.guide();
 $('export-model').onclick=()=>modelViewer?.downloadGLTF();
 document.querySelectorAll('[data-move]').forEach(button=>button.onclick=()=>modelViewer?.nudge(button.dataset.move));
-document.addEventListener('keydown',event=>{if(mode==='photos'&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){if(event.key==='ArrowRight')showPhoto(photoIndex+1);if(event.key==='ArrowLeft')showPhoto(photoIndex-1);}});
+document.addEventListener('keydown',event=>{if(embedded && event.key==='Escape'){event.preventDefault();stop();window.parent.postMessage({type:'homi-research-close'}, location.origin);return;}if(mode==='photos'&&!['INPUT','TEXTAREA','BUTTON'].includes(document.activeElement.tagName)){if(event.key==='ArrowRight')showPhoto(photoIndex+1);if(event.key==='ArrowLeft')showPhoto(photoIndex-1);}});
 try{
   const response=await fetch('/api/faithful/94404');if(!response.ok)throw new Error(`Server returned ${response.status}`);manifest=await response.json();
   $('selection-note').textContent=`Target: ${manifest.requested_count} highest-priced single-family houses. ${manifest.summary.homes} eligible listings verified; full market ranking remains unverified.`;
   $('batch-summary').textContent=`${manifest.summary.original_images} source images preserved · ${manifest.summary.schematic_models} schematic model · ${manifest.summary.needs_floor_plan} homes need plans · ${manifest.summary.unfilled_selection_slots} selection slots unfilled · 0 verified photorealistic conversions`;
   for(const listing of manifest.listings){const button=make('button',null,'home');button.dataset.id=listing.id;const img=make('img');img.src=assetURL(listing.photos[0]);img.alt='';const text=make('span');text.append(make('strong',listing.address.split(',')[0]),make('small',`${money.format(listing.price)} · ${listing.model?'3D schematic':'Needs floor plan'}`));button.append(make('span',String(listing.rank),'rank'),img,text);button.onclick=()=>choose(listing);$('homes').append(button);}
-  $('loading').hidden=true;choose(manifest.listings.find(l=>`#${l.id}`===location.hash)||manifest.listings[0]);
+  $('loading').hidden=true;choose(manifest.listings.find(l=>`#${l.id}`===location.hash)||manifest.listings[0], initialView);
 }catch(error){$('loading').textContent=`Tours could not load. ${error.message}. Run python scripts/build_94404.py --download, then reload.`;}

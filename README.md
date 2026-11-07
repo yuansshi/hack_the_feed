@@ -1,6 +1,6 @@
 # homi — Redfin-to-Viral Real Estate Feed, 3D Walkthrough & Amazon × YouTube Open House Rank
 
-> **Source-backed 94404 work:** open `/94404` for six eligible single-family houses in descending asking-price order, 147 unretouched source images, and one navigable floor-plan schematic. The requested ten-house selection remains incomplete; five current houses need usable plans. **Zero photorealistic 3D conversions are verified.** See [verification evidence and setup](docs/94404-verification.md). The hackathon feed below is a demo using stock/generated imagery.
+> **Source-backed 94404 work:** open `/?zip=94404` in the original swipe feed for six eligible single-family houses in descending asking-price order, 147 unretouched source images, and one navigable floor-plan schematic. The requested ten-house selection remains incomplete; five current houses need usable plans. **Zero photorealistic 3D conversions are verified.** Open a home’s **3D walkthrough + research** action for the model, photos, floor plan and verification without leaving the feed. A direct entry is `/?zip=94404&home=redfin-1062292&view=model`. See [verification evidence and setup](docs/94404-verification.md). The hackathon feed below is a demo using stock/generated imagery.
 
 Built for the **Hack the Feed: Creator Tools Hackathon** (Oriane × GMI Cloud × Lovable × Compound).
 

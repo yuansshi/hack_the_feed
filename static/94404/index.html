@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>homi · 94404 source-backed tours</title>
+<script>if(new URLSearchParams(location.search).get("embed")==="1")document.documentElement.classList.add("research-embed");</script>
 <link rel="stylesheet" href="/static/94404/viewer.css">
 </head>
 <body>
@@ -27,7 +28,8 @@
 <div id="thumbnails" class="thumbnails" aria-label="Choose a photo"></div>
 </section>
 <section id="model" role="tabpanel" aria-labelledby="model-tab" hidden>
-<div class="model-layout"><div><div id="canvas-wrap" tabindex="0" aria-label="Interactive 3D floor-plan model. Drag to look; W A S D to walk."></div><div class="toolbar"><button id="orbit">Orbit model</button><button id="walk">Walk inside</button><button id="guide">Guided plan walk</button><button id="reset">Reset view</button><button id="export-model">Download 3D model</button></div><div class="toolbar" id="move"><button data-move="left" aria-label="Turn left">Turn left</button><button data-move="forward">Forward</button><button data-move="backward">Back</button><button data-move="right" aria-label="Turn right">Turn right</button></div><p class="caption" id="model-help">Drag to orbit; scroll to zoom. Select Walk inside, then drag to look and use W A S D. Click the plan to move to an open area.</p></div><aside class="model-reference"><h3>Source plan</h3><canvas id="minimap" width="524" height="794" aria-label="Click an open area to walk there"></canvas><h3>Schematic only</h3><p>Walls come from the plan’s thick dark linework. Heights and scale are unmeasured. Photorealistic interiors have not been reconstructed.</p></aside></div>
+<p id="model-error" class="model-error" role="status" hidden></p>
+<div class="model-layout"><div class="model-main"><div id="canvas-wrap" tabindex="0" aria-label="Interactive 3D floor-plan model. Drag to look; W A S D to walk."></div><div class="toolbar model-controls"><button id="orbit">Orbit model</button><button id="walk">Walk inside</button><button id="guide">Guided plan walk</button><button id="reset">Reset view</button></div><div class="toolbar" id="move"><button data-move="left" aria-label="Turn left">Turn left</button><button data-move="forward">Forward</button><button data-move="backward">Back</button><button data-move="right" aria-label="Turn right">Turn right</button><button id="export-model">Download 3D model</button></div><p class="caption" id="model-help">Drag to orbit; scroll to zoom. Select Walk inside, then drag to look and use W A S D. Click the plan to move to an open area.</p></div><aside class="model-reference"><h3>Source plan</h3><canvas id="minimap" width="524" height="794" aria-label="Click an open area to walk there"></canvas><h3>Schematic only</h3><p>Walls come from the plan’s thick dark linework. Heights and scale are unmeasured. Photorealistic interiors have not been reconstructed.</p></aside></div>
 </section>
 <section id="plan" role="tabpanel" aria-labelledby="plan-tab" hidden><img id="plan-image" class="source-plan" alt="Original listing floor plan"><p class="caption">The original plan is preserved, including its measurement disclaimer. It is not a survey.</p></section>
 <section id="evidence" role="tabpanel" aria-labelledby="evidence-tab" hidden></section>

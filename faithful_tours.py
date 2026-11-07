@@ -20,6 +20,52 @@ def listings():
         raise HTTPException(503, 'Run python scripts/build_94404.py first.')
     return json.loads(path.read_text())
 
+
+@router.get('/api/feed/94404')
+def feed_listings():
+    manifest = listings()
+    feed = []
+    for listing in manifest['listings']:
+        street, city, _ = listing['address'].split(',', 2)
+        first_photo = listing['photos'][0]
+        feed.append({
+            **listing,
+            'source_backed': True,
+            'city': city.strip(),
+            'title': street,
+            'neighborhood': f"{city.strip()} · {listing['zip_code']}",
+            'price': f"${listing['price']:,.0f}",
+            'price_num': listing['price'],
+            'rooms': [{
+                'id': 'photo-0',
+                'image_url': f"/api/faithful/assets/{Path(first_photo['path']).name}",
+                'on_screen_hook': street,
+                'short_name': 'Original photo',
+            }],
+            'preview_clip_url': None,
+            'full_tour_url': None,
+            'video_duration_label': 'Original photos',
+            'research_url': f"/94404?embed=1&view=model#{listing['id']}",
+            'social': {
+                'thumbs_up': 0,
+                'thumbs_down': 0,
+                'open_house_live_count': 0,
+                'verified_checkins': 0,
+                'comments': [],
+                'visitor_media': [],
+                'attributes': {},
+                'amazon_stars': None,
+                'upvote_ratio': None,
+                'hybrid_rank_score': None,
+            },
+        })
+    return {
+        'listings': feed,
+        'summary': manifest['summary'],
+        'selection': manifest['selection'],
+        'requested_count': manifest['requested_count'],
+    }
+
 @router.get('/api/faithful/assets/{filename}')
 def asset(filename: str):
     path = TOURS / 'assets' / Path(filename).name

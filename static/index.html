@@ -8,8 +8,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/static/styles.css?v=9" />
+  <link rel="stylesheet" href="/static/feed-research.css" />
 </head>
-<body>
+<body class="feed-loading">
   <!-- Warm Ambient Background Glow -->
   <div id="ambient-bg" class="ambient-bg"></div>
 
@@ -18,13 +19,14 @@
     <div class="brand-minimal" id="brand-home-btn" title="Return to homi Zip Code Feed">
       <span class="brand-dot"></span>
       <span class="brand-name">homi</span>
-      <span class="brand-tag">Demo feed · generated imagery</span>
+      <span class="brand-tag">Swipe homes · Explore in depth</span>
     </div>
 
     <!-- Zip Code Filter Bar -->
     <div class="zip-filter-bar" id="zip-filter-bar">
       <div id="zip-pills-container" class="zip-pills-container">
-        <button class="zip-pill active" data-zip="ALL">All Bay Area</button>
+        <button class="zip-pill" data-zip="ALL">All Bay Area</button>
+        <button class="zip-pill active" data-zip="94404">94404 · Foster City</button>
         <button class="zip-pill" data-zip="94301">94301 · Palo Alto</button>
         <button class="zip-pill" data-zip="94115">94115 · San Francisco</button>
         <button class="zip-pill" data-zip="94941">94941 · Mill Valley</button>
@@ -41,7 +43,7 @@
       </div>
     </div>
 
-    <a class="subtle-action-btn" href="/94404">94404 · Original-photo tours</a>
+    <button id="btn-open-available-3d" class="subtle-action-btn gold-border-btn">🧭 3D walkthrough</button>
     <!-- Right Controls: TikTok 9:16 vs YouTube 16:9 + Open House Live + Architecture Deck -->
     <div class="topbar-actions">
       <div class="aspect-pill-group" title="Switch between TikTok Shorts (9:16) and YouTube Cinema (16:9)">
@@ -75,6 +77,8 @@
     </div>
   </header>
 
+  <p id="feed-load-message" role="status">Loading your home feed…</p>
+
   <!-- ===================================================================== -->
   <!-- STAGE 1 (FRONT PAGE): TIKTOK / YOUTUBE FLIP DECK + MULTI-HOUSE FEED   -->
   <!-- ===================================================================== -->
@@ -83,6 +87,8 @@
       <!-- Left/Center: Active TikTok / YouTube Flip-Through Reel Player (34s-43s video) -->
       <div class="flip-reel-column">
         <div id="flip-player-frame" class="flip-player-frame mode-9-16">
+          <img id="flip-source-photo" class="flip-source-photo hidden" alt="Original listing photo" />
+          <div id="feed-empty" class="feed-empty-message hidden" role="status">No homes match. Change the filter or restore hidden homes.</div>
           <video
             id="flip-main-video"
             class="flip-main-video"
@@ -196,7 +202,8 @@
           <div class="ranking-sort-bar">
             <button id="btn-restore-hidden" class="sort-pill hidden" title="Restore hidden houses back to feed">↺ Restore Hidden (<span id="hidden-count-badge">0</span>)</button>
             <span class="sort-label">Rank By:</span>
-            <button class="sort-pill active" data-sort="hybrid">🏆 Amazon × YouTube Rank</button>
+            <button class="sort-pill active" data-sort="price">Price ↓</button>
+            <button class="sort-pill" data-sort="hybrid">🏆 Amazon × YouTube Rank</button>
             <button class="sort-pill" data-sort="upvotes">👍 Most Upvoted (YouTube)</button>
             <button class="sort-pill" data-sort="stars">⭐ Verified Open House (Amazon)</button>
           </div>
@@ -608,7 +615,17 @@
     </div>
   </div>
 
+  <dialog id="source-research-dialog" class="source-research-dialog" aria-labelledby="research-heading">
+    <div class="research-header">
+      <button id="research-back" class="back-feed-btn">← Back to feed</button>
+      <h2 id="research-heading">Explore this home</h2>
+      <a id="research-new-tab" target="_blank" rel="noopener">Open full view</a>
+    </div>
+    <iframe id="source-research-frame" title="Home research: 3D walkthrough, original photos, floor plan and verification" src="about:blank"></iframe>
+  </dialog>
+
   <audio id="vo-audio-player" preload="auto"></audio>
-  <script src="/static/app.js?v=9"></script>
+  <script src="/static/feed-research.js"></script>
+  <script src="/static/app.js?v=10"></script>
 </body>
 </html>

@@ -1,0 +1,53 @@
+/* Keep the reel feed as the primary experience. Research opens above it. */
+.flip-source-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; background:#120f0d; }
+.source-backed .flip-hook-title { font-size:30px; }
+.source-backed .flip-live-comment-ticker { max-width:calc(100% - 28px); }
+.source-house-card .feed-card-poster { object-fit:contain; }
+.source-house-card .feed-card-hook { font-size:23px; }
+.source-research-button { margin-top:10px; font:inherit; }
+.source-research-dialog { position:fixed; inset:14px; width:calc(100% - 28px); height:calc(100dvh - 28px); max-width:none; max-height:none; padding:0; margin:0; color:var(--text-cream); background:var(--bg-gallery); border:1px solid var(--border-warm); border-radius:18px; overflow:hidden; box-shadow:0 25px 90px #000b; }
+.source-research-dialog[open] { display:flex; flex-direction:column; }
+.source-research-dialog::backdrop { background:#000b; backdrop-filter:blur(8px); }
+.research-header { display:flex; flex-shrink:0; align-items:center; gap:18px; padding:12px 18px; border-bottom:1px solid var(--border-warm); }
+.research-header h2 { font-family:"Cormorant Garamond",Georgia,serif; font-size:25px; font-weight:500; flex:1; }
+.research-header a { color:var(--accent-gold); font-size:12px; white-space:nowrap; }
+#source-research-frame { flex:1; width:100%; min-height:0; border:0; background:#0c0a09; }
+.feed-empty-message { margin:auto; padding:32px; line-height:1.8; text-align:center; }
+.flip-player-frame.feed-empty > :not(#feed-empty) { display:none!important; }
+.sort-pill:disabled { opacity:.35; cursor:not-allowed; }
+@media(max-width:1000px) {
+  .floating-topbar { flex-wrap:wrap; gap:10px; padding:8px 12px; }
+  .zip-filter-bar { flex:1; min-width:240px; }
+  .zip-pills-container { overflow-x:auto; max-width:calc(100vw - 28px); }
+  .front-showcase-layout { overflow-y:auto; }
+}
+@media(max-width:700px) {
+  .brand-tag,.zip-search-box { display:none; }
+  .floating-topbar { flex-shrink:0; }
+  .zip-filter-bar { order:3; width:100%; }
+  .topbar-actions { gap:6px; flex-wrap:wrap; }
+  .topbar-actions .aspect-pill-group { display:none; }
+  .zip-feed-stage { padding:4px 10px 10px; }
+  .front-showcase-layout { display:block; }
+  .flip-reel-column { height:calc(100dvh - 155px); min-height:530px; }
+  .flip-player-frame.mode-9-16,.flip-player-frame.mode-16-9 { width:100%; max-width:430px; height:100%; }
+  .multi-house-feed-column { margin-top:16px; }
+  .feed-subbar { flex-wrap:wrap; }
+  .source-research-dialog { inset:0; width:100%; height:100dvh; border-radius:0; }
+  .research-header { gap:9px; padding:10px; }
+  .research-header h2 { font-size:20px; }
+  .research-header a { display:none; }
+  .source-backed .flip-hook-title { font-size:26px; }
+}
+@media(min-width:701px) {
+  .floating-topbar { display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:8px 16px; }
+  .brand-tag { white-space:nowrap; }
+  .zip-filter-bar { min-width:0; }
+  .zip-pills-container { min-width:0; overflow:auto; }
+  .topbar-actions { grid-column:1 / -1; justify-content:flex-end; }
+  .flip-player-frame { height:100%; max-height:100%; }
+}
+@media(min-width:701px) and (max-width:1250px) { .zip-search-box,.brand-tag { display:none; } }
+#feed-load-message { display:none; position:absolute; inset:45% 20px auto; text-align:center; color:var(--text-warm-muted); }
+.feed-loading #feed-load-message { display:block; }
+.feed-loading #zip-feed-stage { visibility:hidden; }
