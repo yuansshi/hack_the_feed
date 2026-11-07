@@ -256,7 +256,7 @@ def register_ready_voiceover(listing_id: str, local_path: Path):
 
 
 def run_voiceovers_for_all_houses(client: httpx.Client):
-    voices = ["Amara", "Marcus", "Elena", "Julian", "Sophia"]
+    voices = ["Amara", "Marcus", "Amara", "Marcus", "Amara"]
     for i, listing in enumerate(CURATED_LISTINGS):
         lid = listing["id"]
         idx = json.loads(CACHE_INDEX_PATH.read_text()) if CACHE_INDEX_PATH.exists() else {}
