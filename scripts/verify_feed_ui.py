@@ -71,7 +71,7 @@ def main():
         wait('document.querySelectorAll(".source-house-card").length === 6')
         assert evaluate('document.getElementById("flip-main-video").getAttribute("src")') is None
         requests=evaluate('window.feedCheckRequests')
-        assert not any('/api/gmi/' in url or '/api/oriane/' in url or '/api/social/' in url for url in requests),requests
+        assert not any('/api/gemini/' in url or '/api/gmi/' in url or '/api/oriane/' in url or '/api/social/' in url for url in requests),requests
         run('set','viewport','390','844')
         assert evaluate('document.documentElement.scrollWidth <= innerWidth') is True
         scroll_before=evaluate('document.querySelector(".front-showcase-layout").scrollTop')

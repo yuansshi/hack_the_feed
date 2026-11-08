@@ -1,24 +1,25 @@
-from openai import OpenAI
-from pathlib import Path
-import os
+"""Direct Gemini example using only this project's designated credential."""
+import time
 
-def get_key(name: str) -> str:
-    if name in os.environ:
-        return os.environ[name]
-    for line in (Path(__file__).parent / "api_key.md").read_text().splitlines():
-        if line.startswith(f"{name}="):
-            return line.split("=", 1)[1].strip()
-    raise KeyError(name)
+from gemini_provider import GeminiClient, TEXT_MODEL, load_project_key, output_text
 
-client = OpenAI(
-    base_url="https://api.gmi-serving.com/v1",
-    api_key=get_key("GMI_API_KEY"),
-)
 
-response = client.chat.completions.create(
-    model="deepseek-ai/DeepSeek-V4-Pro",
-    messages=[{"role": "user", "content": "hi"}],
-)
+def main():
+    with GeminiClient(load_project_key()) as client:
+        interaction = client.create({
+            'model': TEXT_MODEL,
+            'input': 'Explain briefly how source photos and floor plans can guide a continuous property walkthrough video.',
+            'background': True,
+            'store': True,
+        })
+        print('Interaction:', interaction['id'])
+        deadline = time.monotonic() + 180
+        while interaction.get('status') in ('queued', 'in_progress') and time.monotonic() < deadline:
+            time.sleep(2)
+            interaction = client.get(interaction['id'])
+        print(output_text(interaction) if interaction.get('status') == 'completed'
+              else 'Resume this interaction by its ID; no duplicate request was submitted.')
 
-print(response.model)
-print(response.choices[0].message.content)
+
+if __name__ == '__main__':
+    main()

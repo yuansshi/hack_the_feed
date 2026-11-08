@@ -12,7 +12,7 @@ const state = {
   isWalking: false,
   isAutoTour: false,
   orianeData: null,
-  gmiPlan: null,
+  geminiPlan: null,
   pollTimer: null,
   tickerInterval: null,
   tickerIdx: 0,
@@ -151,10 +151,10 @@ const els = {
   orianeTotalViews: document.getElementById("oriane-total-views"),
   orianeOutlierRatio: document.getElementById("oriane-outlier-ratio"),
   orianeEngRate: document.getElementById("oriane-eng-rate"),
-  gmiViralScore: document.getElementById("gmi-viral-score"),
+  geminiViralScore: document.getElementById("gemini-viral-score"),
   orianeOstPills: document.getElementById("oriane-ost-pills"),
   orianeVideosList: document.getElementById("oriane-videos-list"),
-  gmiModelSelect: document.getElementById("gmi-model-select"),
+  geminiModelSelect: document.getElementById("gemini-model-select"),
   btnGenerateMissing: document.getElementById("btn-generate-missing"),
   transitionsList: document.getElementById("transitions-list"),
   exportModal: document.getElementById("export-modal"),
@@ -819,7 +819,7 @@ async function triggerInstantDemoCheckin() {
       room: "05 · Zero-Edge Pool",
       stars: 5,
       vote: "up",
-      text: "Just stepped onto the heated limestone pool deck at the Open House — 10/10 matches the GMI Veo 3.1 walkthrough! 👍🔥",
+      text: "Just stepped onto the heated limestone pool deck at the Open House — 10/10 matches the demo AI walkthrough! 👍🔥",
       verified_open_house: true,
       media_url: "/api/cache/palo-alto-glass-villa_seg3_20a9c759.mp4",
       media_type: "video",
@@ -901,7 +901,7 @@ async function openHouseAutoWalkthrough(listing, openDirectlyIn3D = false) {
   }
 
   fetchOrianeIntelligence(listing);
-  fetchGmiPlan(listing);
+  fetchGeminiPlan(listing);
   scheduleSegmentPolling();
 }
 
@@ -1376,64 +1376,72 @@ function renderOrianeIntelligence(data) {
   });
 }
 
-async function fetchGmiPlan(listing) {
+async function fetchGeminiPlan(listing) {
+  state.geminiPlan = null;
   try {
-    const res = await fetch("/api/gmi/plan-tour", {
+    const response = await fetch("/api/gemini/plan-tour", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        listing_id: listing.id,
-        oriane_summary: state.orianeData,
-      }),
+      body: JSON.stringify({ listing_id: listing.id, oriane_summary: state.orianeData }),
     });
-    const data = await res.json();
-    state.gmiPlan = data.plan || {};
-    if (state.gmiPlan.viral_score) {
-      els.gmiViralScore.textContent = `${state.gmiPlan.viral_score} / 100`;
-      els.orianeScoreRail.textContent = `${state.gmiPlan.viral_score}%`;
+    if (!response.ok) throw new Error(`Gemini plan request failed (HTTP ${response.status})`);
+    let data = await response.json();
+    for (let attempt = 0; attempt < 20 && ['queued', 'processing', 'in_progress'].includes(data.status); attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      if (state.currentListing?.id !== listing.id || state.stageMode === 'feed') return;
+      const poll = await fetch(`/api/gemini/poll/${encodeURIComponent(`plan_${listing.id}`)}`);
+      if (!poll.ok) throw new Error(`Gemini plan poll failed (HTTP ${poll.status})`);
+      data = await poll.json();
     }
-  } catch (err) {
-    console.error("GMI plan error:", err);
+    if (state.currentListing?.id !== listing.id) return;
+    state.geminiPlan = data.plan || null;
+    els.geminiViralScore.textContent = state.geminiPlan?.viral_score ? `${state.geminiPlan.viral_score} / 100` : data.status === 'ready' ? 'Unavailable' : 'Pending';
+    if (state.geminiPlan?.viral_score) els.orianeScoreRail.textContent = `${state.geminiPlan.viral_score}%`;
+  } catch (error) {
+    if (state.currentListing?.id === listing.id) els.geminiViralScore.textContent = 'Unavailable';
+    console.error("Gemini plan error:", error);
   }
 }
 
 async function generateMissingTransitions() {
-  const l = state.currentListing;
-  const model = els.gmiModelSelect.value;
+  const listing = state.currentListing;
+  const model = els.geminiModelSelect.value;
+  if (!listing || listing.source_backed || !model) return;
   els.btnGenerateMissing.disabled = true;
-  els.btnGenerateMissing.textContent = "⏳ Enqueueing on GMI Cloud...";
-
-  const rooms = l.rooms || [];
-  for (const t of l.transitions || []) {
-    if (t.status !== "ready") {
-      const fromRoom = rooms[t.index];
-      const toRoom = rooms[t.index + 1];
+  els.btnGenerateMissing.textContent = "⏳ Submitting to Gemini...";
+  let errorMessage;
+  try {
+    const rooms = listing.rooms || [];
+    for (const transition of listing.transitions || []) {
+      if (['ready', 'processing', 'queued', 'in_progress'].includes(transition.status)) continue;
+      const fromRoom = rooms[transition.index];
+      const toRoom = rooms[transition.index + 1];
       if (!fromRoom || !toRoom) continue;
-      try {
-        await fetch("/api/gmi/generate-segment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            listing_id: l.id,
-            transition_index: t.index,
-            from_room: t.from_room,
-            to_room: t.to_room,
-            first_frame_url: fromRoom.image_url,
-            last_frame_url: toRoom.image_url,
-            prompt: t.prompt,
-            model,
-          }),
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      const response = await fetch("/api/gemini/generate-segment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          listing_id: listing.id,
+          transition_index: transition.index,
+          from_room: transition.from_room,
+          to_room: transition.to_room,
+          first_frame_url: fromRoom.image_url,
+          last_frame_url: toRoom.image_url,
+          prompt: transition.prompt,
+          model,
+        }),
+      });
+      if (!response.ok) throw new Error(`Generation blocked (HTTP ${response.status})`);
     }
+    await refreshCurrentListingStatus();
+    scheduleSegmentPolling();
+  } catch (error) {
+    errorMessage = error.message || 'Generation request failed';
+    console.error('Gemini generation error:', error);
+  } finally {
+    els.btnGenerateMissing.disabled = false;
+    els.btnGenerateMissing.textContent = errorMessage || "⚡ Generate / Refresh Gemini Room Transitions";
   }
-
-  await refreshCurrentListingStatus();
-  els.btnGenerateMissing.disabled = false;
-  els.btnGenerateMissing.textContent = "⚡ Generate / Refresh GMI Room Transitions";
-  scheduleSegmentPolling();
 }
 
 async function refreshCurrentListingStatus() {
@@ -1448,17 +1456,34 @@ async function refreshCurrentListingStatus() {
 
 function scheduleSegmentPolling() {
   if (state.pollTimer) clearInterval(state.pollTimer);
+  let polling = false;
+  let attempts = 0;
+  const pending = status => ['processing', 'queued', 'in_progress'].includes(status);
   state.pollTimer = setInterval(async () => {
-    if (!state.currentListing) return;
-    const anyPending =
-      (state.currentListing.transitions || []).some((t) => t.status === "processing") ||
-      state.currentListing.voiceover_status === "processing";
-    if (!anyPending) {
+    const listing = state.currentListing;
+    if (!listing || listing.source_backed || polling) return;
+    if (attempts >= 60 || (!(listing.transitions || []).some(transition => pending(transition.status)) && !pending(listing.voiceover_status))) {
       clearInterval(state.pollTimer);
       state.pollTimer = null;
       return;
     }
-    await refreshCurrentListingStatus();
+    polling = true;
+    attempts++;
+    try {
+      const keys = (listing.transitions || []).filter(transition => pending(transition.status)).map(transition => `${listing.id}_seg${transition.index}`);
+      if (pending(listing.voiceover_status)) keys.push(`vo_${listing.id}`);
+      for (const key of keys) {
+        const response = await fetch(`/api/gemini/poll/${encodeURIComponent(key)}`);
+        if (!response.ok) throw new Error(`Gemini poll failed (HTTP ${response.status})`);
+      }
+      await refreshCurrentListingStatus();
+    } catch (error) {
+      console.error('Gemini status error:', error);
+      clearInterval(state.pollTimer);
+      state.pollTimer = null;
+    } finally {
+      polling = false;
+    }
   }, 5000);
 }
 
@@ -1839,7 +1864,7 @@ function setupEventListeners() {
       els.exportVideoLinks.appendChild(row);
     });
     const caption =
-      (state.gmiPlan && state.gmiPlan.compound_caption) ||
+      (state.geminiPlan && state.geminiPlan.compound_caption) ||
       `What does ${l.price} feel like at golden hour in ${l.neighborhood}? Smooth 3D walkthrough from courtyard to zero-edge pool ✨🏡 #HackTheFeed #RealEstate #HouseTour #LuxuryHomes`;
     els.exportCaptionBox.value = caption;
     els.exportModal.classList.remove("hidden");

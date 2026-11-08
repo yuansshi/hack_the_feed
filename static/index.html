@@ -223,7 +223,7 @@
         <!-- High-Res Still Layer for Paused / 3D Deep Explore Parallax -->
         <img id="room-still-img" class="media-layer still-layer" src="" alt="Architectural Space" />
 
-        <!-- Continuous Smooth GMI FLFV Walkthrough Video Layer -->
+        <!-- Continuous Generated Walkthrough Video Layer -->
         <video
           id="walkthrough-video"
           class="media-layer video-layer"
@@ -308,7 +308,7 @@
             <span id="rail-down-label" class="rail-label">28</span>
           </button>
 
-          <button id="btn-play-vo" class="rail-btn" title="Toggle Warm Creator Voiceover (GMI Inworld TTS)">
+          <button id="btn-play-vo" class="rail-btn" title="Toggle Creator Voiceover">
             <span class="rail-icon">🎙️</span>
             <span id="vo-rail-label" class="rail-label">Voice</span>
           </button>
@@ -494,11 +494,11 @@
     </div>
   </aside>
 
-  <!-- Slide-Over Drawer: Oriane Video Intelligence & GMI Engine -->
+  <!-- Slide-Over Drawer: Oriane Video Intelligence & Gemini Engine -->
   <aside id="oriane-drawer" class="slide-drawer hidden">
     <div class="drawer-header">
       <div>
-        <span class="vibe-eyebrow">BEHIND THE VIRAL LOOP · ORIANE + GMI CLOUD</span>
+        <span class="vibe-eyebrow">BEHIND THE VIRAL LOOP · ORIANE + GEMINI API</span>
         <h3>Why This Walkthrough Goes Viral</h3>
       </div>
       <button id="btn-close-oriane" class="btn-close">✕</button>
@@ -520,7 +520,7 @@
         </div>
         <div class="agg-box">
           <span class="agg-label">VIRAL SCORE</span>
-          <span id="gmi-viral-score" class="agg-val">97 / 100</span>
+          <span id="gemini-viral-score" class="agg-val">97 / 100</span>
         </div>
       </div>
 
@@ -535,16 +535,14 @@
       </div>
 
       <div class="drawer-section">
-        <div class="sub-label">GMI FIRST-TO-LAST-FRAME (FLFV) ROOM TRANSITIONS</div>
-        <div class="gmi-control-row">
-          <select id="gmi-model-select" class="gmi-select">
-            <option value="veo-3.1-lite-generate-001">Google Veo 3.1 Lite FLFV ($0.12 / clip)</option>
-            <option value="pixverse-v6-transition">PixVerse v6 Transition ($0.17 / clip)</option>
-            <option value="vidu-q2-pro-flfv">Vidu Q2 Pro FLFV ($0.05 / clip)</option>
-            <option value="kling-o1-flfv">Kling O1 FLFV Master ($0.42 / clip)</option>
+        <div class="sub-label">GEMINI IMAGE-GUIDED ROOM TRANSITIONS</div>
+        <div class="gemini-control-row">
+          <select id="gemini-model-select" class="gemini-select" aria-label="Video generation model">
+            <option value="gemini-omni-1.2-flash">Gemini Omni 1.2 Flash · image-guided video</option>
+            <option value="gemini-omni-1.1-flash">Gemini Omni 1.1 Flash · compatibility option</option>
           </select>
           <button id="btn-generate-missing" class="btn-warm full-width" style="margin-top:8px;">
-            ⚡ Generate / Refresh GMI Room Transitions
+            ⚡ Generate / Refresh Gemini Room Transitions
           </button>
         </div>
         <div id="transitions-list" class="transitions-list" style="margin-top:10px;"></div>
@@ -601,9 +599,9 @@
         </div>
         <div class="arch-arrow">→</div>
         <div class="arch-stage-box">
-          <div class="arch-step-num">03 · GMI CLOUD ENGINE</div>
-          <h4>Veo 3.1 FLFV + TTS</h4>
-          <p>Generates glitch-free First-to-Last-Frame room transitions (`veo-3.1-lite-generate-001` &amp; `pixverse-v6-transition`) + `inworld-tts-2-flash` voiceover (`34s–43s` movies).</p>
+          <div class="arch-step-num">03 · GEMINI API ENGINE</div>
+          <h4>Image-guided Video + Speech</h4>
+          <p>Generates image-guided camera transitions and creator voiceover through the Gemini API. Real-property videos require source and spatial review before appearing in the feed.</p>
         </div>
         <div class="arch-arrow">→</div>
         <div class="arch-stage-box">

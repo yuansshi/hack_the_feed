@@ -29,7 +29,7 @@ def client(monkeypatch, source_root):
 
     monkeypatch.setattr(server, 'load_api_key', forbidden)
     monkeypatch.setattr(server, 'get_or_init_listing_social', forbidden)
-    monkeypatch.setattr(server, 'poll_and_download_gmi_request', forbidden)
+    monkeypatch.setattr(server, 'call_gemini', forbidden)
     monkeypatch.setattr(httpx.HTTPTransport, 'handle_request', forbidden)
     monkeypatch.setattr(httpx.AsyncHTTPTransport, 'handle_async_request', forbidden)
     with TestClient(server.app) as client:

@@ -16,7 +16,7 @@ def client():
             yield client
 
 def test_browsing_and_worker_import_need_no_api_key(client):
-    importlib.import_module('gmi_agent_worker')
+    importlib.import_module('grounded_video')
     assert client.get('/').status_code == 200
     assert client.get('/94404').status_code == 200
     assert client.get('/api/listings').status_code == 200

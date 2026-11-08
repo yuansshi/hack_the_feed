@@ -1,14 +1,22 @@
 {
-  "id": "spinnaker-living-room-pilot-v1",
+  "id": "spinnaker-living-room-gemini-pilot-v2",
   "listing_id": "redfin-1062292",
   "scope": "Six-second single-room generated camera move; not a whole-home reconstruction.",
-  "model": "veo-3.1-generate-001",
+  "model": "gemini-omni-1.2-flash",
   "duration_seconds": 6,
   "resolution": "720p",
   "aspect_ratio": "16:9",
   "first_photo_index": 10,
   "last_photo_index": 11,
-  "support_photo_indices": [12, 13, 14, 15, 16, 17, 18],
+  "support_photo_indices": [
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18
+  ],
   "floor_plan_index": 43,
   "route": {
     "room": "LIVING ROOM, on the right of the source plan beside the FOYER",
@@ -23,10 +31,10 @@
   "prompt": "One uninterrupted six-second photorealistic property walkthrough shot of THIS EXACT living room. Start at the supplied first frame and finish at the supplied last frame. Make a small, slow, physically plausible lateral camera arc with gentle yaw toward the seating area. Keep a steady eye height on the wooden living-room floor. Show natural parallax with continuous perspective change and stable solid objects. Preserve the white sofa, exactly two white upholstered wood-frame chairs, rectangular wood coffee table, rug, white window blinds, window positions, wall art, lamps, plants, wood floor, ceiling and existing lighting from the input views. The source floor plan places this living room beside the foyer with the dining area beyond; remain within the living room throughout. Never cross the furniture, a wall or the raised floor edge beside the lower tiled foyer. Newly revealed surfaces must be consistent with these same materials and openings. The space and furniture must stay fixed while only the camera moves. This is a restrained real estate camera move, without restaging or renovation. Maintain the supplied endpoints as closely as possible. No cuts, dissolves, slideshows, planar photo zooms, teleportation, stretching walls, melting furniture, added windows, added doors or people.",
   "negative_prompt": "cuts, crossfades, dissolves, slideshow, photo collage, flat image zoom, morphing, warping, melting furniture, changing staging, added doors, added windows, new rooms, moving furniture, passing through objects, people, camera roll, abrupt speed changes",
   "conditioning": {
-    "provider_inputs": "Original first and last photos as public source URLs, plus text prompt.",
+    "provider_inputs": "Exact acquired first and last JPEG image bytes, verified by SHA-256 and uploaded inline, plus the camera-motion prompt.",
     "floor_plan_use": "Human-reviewed route constraint and later verification reference; not a spatial control image.",
     "support_photos_use": "Verification references only; not passed as model image inputs.",
-    "provider_limitation": "GMI Veo reference_image is ignored when a frame image is supplied. This request does not claim simultaneous floor-plan or multi-view conditioning.",
+    "provider_limitation": "This pilot uses two-image first/last-frame interpolation. The floor plan and supporting photos are route and review references, not geometric control inputs.",
     "aspect_ratio_limit": "Original photos are 3:2; 16:9 generation may crop or extend them. Inspect framing and reject missing or invented architectural details."
   },
   "review_required": [
@@ -34,6 +42,6 @@
     "Layout: verify fixed room boundaries, openings, seating arrangement and raised-floor edge against all source views and plan. Reject invented architecture.",
     "Motion: watch the complete clip at normal speed and scrub every frame; reject cuts, morphs, furniture collisions, jumps and flat photo animation."
   ],
-  "api_documentation": "https://docs.gmicloud.ai/model-quickstarts/video/veo-3-1-generate-001",
+  "api_documentation": "https://ai.google.dev/gemini-api/docs/omni",
   "automatic_acceptance": false
 }

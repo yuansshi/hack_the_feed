@@ -1,20 +1,22 @@
-"""Finite source-grounded video jobs. Generated outputs always require visual review."""
+"""Finite source-grounded Gemini video jobs; every generated output needs review."""
 import fcntl
 import hashlib
 import json
-import os
 import re
 import time
 from contextlib import contextmanager
 from pathlib import Path
 from urllib.parse import urlparse
 
-import httpx
+from gemini_provider import (
+    VIDEO_MODEL as MODEL, VIDEO_MODELS, GeminiClient, GeminiError,
+    load_project_key as credential, output_video_bytes, video_request, failure_details,
+)
 
 BASE = Path(__file__).resolve().parent
 TOURS = BASE / 'data' / '94404'
-QUEUE = 'https://console.gmicloud.ai/api/v1/ie/requestqueue/apikey/requests'
-MODEL = 'veo-3.1-generate-001'
+TERMINAL = {'generated_unreviewed', 'failed', 'cancelled', 'incomplete',
+            'requires_action', 'submission_rejected'}
 
 
 def digest(content):
@@ -27,12 +29,29 @@ def write_json(path, value):
     temporary.replace(path)
 
 
+@contextmanager
+def job_lock(job):
+    with (job / '.lock').open('a') as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        yield
+
+
+def _source_bytes(tours, record):
+    path = (tours / record['path']).resolve()
+    if not path.is_relative_to((tours / 'assets').resolve()):
+        raise ValueError('Source asset is outside the original-image directory.')
+    content = path.read_bytes()
+    if digest(content) != record['sha256']:
+        raise ValueError(f"Source integrity mismatch for photo {record['index']}.")
+    return content
+
+
 def prepare(plan_path, tours=TOURS):
     plan = json.loads(Path(plan_path).read_text())
     manifest = json.loads((tours / 'manifest.json').read_text())
     listing = next(row for row in manifest['listings'] if row['id'] == plan['listing_id'])
-    if plan['model'] != MODEL or plan['duration_seconds'] not in (4, 6, 8):
-        raise ValueError('This bounded pilot supports Veo 3.1 and 4/6/8 seconds only.')
+    if plan['model'] not in VIDEO_MODELS or type(plan['duration_seconds']) is not int or not 3 <= plan['duration_seconds'] <= 10:
+        raise ValueError('This bounded pilot needs a supported Gemini Omni model and a 3–10 second first/last-frame shot.')
     if plan['first_photo_index'] == plan['last_photo_index']:
         raise ValueError('A continuous camera pilot needs two distinct source views.')
     if plan['floor_plan_index'] != (listing.get('model') or {}).get('floor_plan_index'):
@@ -42,36 +61,26 @@ def prepare(plan_path, tours=TOURS):
     records = []
     for index in indices:
         record = next(photo for photo in listing['photos'] if photo['index'] == index)
-        path = (tours / record['path']).resolve()
-        if not path.is_relative_to((tours / 'assets').resolve()):
-            raise ValueError('Source asset is outside the original-image directory.')
-        if digest(path.read_bytes()) != record['sha256']:
-            raise ValueError(f'Source integrity mismatch for photo {index}.')
+        _source_bytes(tours, record)
         url = urlparse(record['source_url'])
         if url.scheme != 'https' or url.hostname != 'ssl.cdn-redfin.com':
-            raise ValueError('Pilot inputs must be observed original Redfin image URLs.')
+            raise ValueError('Pilot references must retain observed original Redfin image provenance.')
         records.append(record)
-    photos = {record['index']: record for record in records}
-    if len(plan['prompt']) > 2000 or len(plan['negative_prompt']) > 500:
-        raise ValueError('Prompt exceeds the documented provider limits.')
-    request = {'model': MODEL, 'payload': {
-        'prompt': plan['prompt'],
-        'image': photos[plan['first_photo_index']]['source_url'],
-        'lastFrame': photos[plan['last_photo_index']]['source_url'],
-        'durationSeconds': plan['duration_seconds'],
-        'aspectRatio': plan['aspect_ratio'],
-        'resolution': plan['resolution'],
-        'generateAudio': False, 'personGeneration': 'disallow',
-        'negativePrompt': plan['negative_prompt'], 'seed': 94404,
-    }}
-    provenance = {'listing_id': listing['id'], 'address': listing['address'],
+    request = {
+        'provider': 'gemini', 'model': plan['model'],
+        'prompt': plan['prompt'] + '\nThe first input image is the first frame; the second input image is the last frame.'
+                  + '\nAvoid: ' + plan['negative_prompt'],
+        'image_indices': [plan['first_photo_index'], plan['last_photo_index']],
+        'duration_seconds': plan['duration_seconds'], 'resolution': plan['resolution'],
+        'aspect_ratio': plan['aspect_ratio'],
+    }
+    provenance = {'provider': 'gemini', 'listing_id': listing['id'], 'address': listing['address'],
                   'listing_url': listing['redfin_url'], 'sources': records,
                   'scope': plan['scope'], 'conditioning': plan['conditioning']}
     fingerprint = digest(json.dumps({'plan': plan, 'provenance': provenance,
                                     'request': request}, sort_keys=True).encode())[:20]
     job = tours / 'video_jobs' / fingerprint
     job.mkdir(parents=True, exist_ok=True)
-    # Content-addressed inputs are immutable across resume attempts.
     with job_lock(job):
         for filename, value in [('plan.json', plan), ('request.json', request),
                                 ('provenance.json', provenance)]:
@@ -82,116 +91,90 @@ def prepare(plan_path, tours=TOURS):
     return job
 
 
-@contextmanager
-def job_lock(job):
-    with (job / '.lock').open('a') as lock:
-        fcntl.flock(lock, fcntl.LOCK_EX)
-        yield
+def _check_provider(state):
+    if state.get('provider') != 'gemini':
+        raise ValueError('Saved state is from another provider; do not poll it through Gemini.')
 
 
-def credential(credential_file=None):
-    # Never inspect ambient GMI_API_KEY or personal stores. Files are explicitly designated.
-    if credential_file:
-        content = Path(credential_file).read_text()
-        for name in ('HOMI_GMI_API_KEY', 'GMI_API_KEY'):
-            match = re.search(r'^\s*(?:export\s+)?' + name + r'\s*=\s*(\S.*?)\s*$', content, re.M)
-            if match:
-                key = match[1].strip().strip('\"\'')
-                if key:
-                    return key
-        lines = [line.strip() for line in content.splitlines()
-                 if line.strip() and not line.strip().startswith('```')]
-        tokens = set(re.findall(r'(?<![A-Za-z0-9._-])[A-Za-z0-9._-]{20,}(?![A-Za-z0-9._-])', content))
-        bare = len(lines) == 1 and re.fullmatch(r'[A-Za-z0-9._-]{20,}', lines[0].strip('`\"\''))
-        if len(tokens) == 1 and (bare or re.search(r'gmi', content, re.I)):
-            return tokens.pop()
-        raise ValueError('Project credential file needs a GMI key assignment or one clearly labeled GMI key.')
-    key = os.environ.get('HOMI_GMI_API_KEY', '').strip()
-    if not key:
-        raise ValueError('Configure the project HOMI_GMI_API_KEY or pass --credential-file; no personal key is read.')
-    return key
+def _save_result(job, state, result):
+    status = result.get('status')
+    state['provider_status'] = status
+    if status == 'completed':
+        try:
+            content = output_video_bytes(result)
+        except GeminiError:
+            state.update(status='failed', failure='invalid_video_output')
+            write_json(job / 'state.json', state)
+            raise
+        if content is None:
+            state.update(status='failed', failure='completed_without_video')
+        else:
+            target = job / 'generated.mp4'
+            temporary = target.with_suffix('.download')
+            temporary.write_bytes(content)
+            temporary.replace(target)
+            state.update(status='generated_unreviewed', sha256=digest(content),
+                         local_video=str(target.relative_to(job.parent.parent)),
+                         generated_at=time.time())
+    elif status in ('queued', 'in_progress'):
+        state['status'] = 'queued' if status == 'queued' else 'processing'
+    elif status in ('failed', 'cancelled', 'incomplete', 'requires_action'):
+        state['status'] = status
+        if status == 'failed':
+            state['failure_code'], state['failure_message'] = failure_details(result)
+    else:
+        state.update(status='failed', failure='unknown_provider_status')
+    write_json(job / 'state.json', state)
+    return state
 
 
 def submit(job, key, client):
-    """At most one POST per job, including ambiguous network failures."""
+    """Submit once, uploading the exact verified endpoint image bytes inline."""
     with job_lock(job):
         state_path = job / 'state.json'
         if state_path.exists():
             state = json.loads(state_path.read_text())
-            if state.get('request_id'):
+            _check_provider(state)
+            if state.get('interaction_id'):
                 return state
-            raise ValueError('A submission was already attempted. Reconcile its provider request ID before proceeding; automatic retry is disabled.')
+            raise ValueError('A submission was already attempted. Reconcile its interaction ID before proceeding; automatic retry is disabled.')
         request = json.loads((job / 'request.json').read_text())
+        if request.get('provider') != 'gemini' or request.get('model') not in VIDEO_MODELS:
+            raise ValueError('Prepare a new Gemini pilot instead of submitting a historical provider request.')
         sources = json.loads((job / 'provenance.json').read_text())['sources']
-        for field in ('image', 'lastFrame'):
-            url = request['payload'][field]
-            expected = next(source['sha256'] for source in sources if source['source_url'] == url)
-            original = client.get(url, timeout=30, follow_redirects=False)
-            if original.status_code != 200 or digest(original.content) != expected:
-                raise ValueError('Provider input URL is unavailable or changed from the acquired original. No generation was submitted.')
-        write_json(state_path, {'status': 'submission_pending_reconciliation',
-                                'attempted_at': time.time(), 'automatic_retry': False})
+        contents = {source['index']: _source_bytes(job.parent.parent, source) for source in sources}
+        first, last = request['image_indices']
+        body = video_request(request['prompt'], contents[first], contents[last], model=request['model'],
+                             duration=request['duration_seconds'], resolution=request['resolution'],
+                             aspect_ratio=request['aspect_ratio'])
+        pending = {'provider': 'gemini', 'model': request['model'],
+                   'status': 'submission_pending_reconciliation', 'attempted_at': time.time(),
+                   'automatic_retry': False}
+        write_json(state_path, pending)
         try:
-            response = client.post(QUEUE, headers={'Authorization': f'Bearer {key}'},
-                                   json=request, timeout=45)
-        except httpx.HTTPError:
-            raise RuntimeError('Submission outcome unknown. Check the GMI dashboard; do not resubmit this job.') from None
-        if response.status_code not in (200, 201, 202):
-            write_json(state_path, {'status': 'submission_rejected',
-                                    'http_status': response.status_code,
-                                    'rejected_at': time.time(), 'automatic_retry': False})
-            raise RuntimeError(f'GMI submission HTTP {response.status_code}; no retry or alternate model was started.')
-        result = response.json()
-        request_id = result.get('request_id') or result.get('id')
-        if not isinstance(request_id, str) or not request_id or '/' in request_id:
-            raise RuntimeError('GMI response lacked a valid request ID. Reconcile in its dashboard; do not resubmit.')
-        state = {'status': 'queued', 'request_id': request_id, 'submitted_at': time.time(),
-                 'automatic_retry': False}
+            result = GeminiClient(key, client).create(body)
+        except GeminiError as error:
+            if not error.outcome_unknown:
+                write_json(state_path, {**pending, 'status': 'submission_rejected',
+                                        'http_status': error.status_code, 'rejected_at': time.time()})
+            raise
+        interaction_id = result.get('id')
+        if not isinstance(interaction_id, str) or not re.fullmatch(r'[A-Za-z0-9_-]{1,512}', interaction_id):
+            raise RuntimeError('Gemini response lacked a valid interaction ID. Reconcile the submission before retrying.')
+        state = {**pending, 'status': 'queued', 'interaction_id': interaction_id,
+                 'submitted_at': time.time()}
         write_json(state_path, state)
-        return state
+        return _save_result(job, state, result)
 
 
 def poll(job, key, client):
-    """Poll once, download once on success. Never starts a generation."""
+    """Resume one saved Gemini interaction; never submit another generation."""
     with job_lock(job):
-        state_path = job / 'state.json'
-        state = json.loads(state_path.read_text())
-        if state.get('status') in ('generated_unreviewed', 'failed', 'cancelled'):
+        state = json.loads((job / 'state.json').read_text())
+        _check_provider(state)
+        if state.get('status') in TERMINAL:
             return state
-        request_id = state.get('request_id')
-        if not isinstance(request_id, str) or not request_id or '/' in request_id:
-            raise ValueError('No valid request ID to poll.')
-        response = client.get(f'{QUEUE}/{request_id}', headers={'Authorization': f'Bearer {key}'}, timeout=30)
-        if response.status_code != 200:
-            raise RuntimeError(f'GMI poll HTTP {response.status_code}.')
-        result = response.json()
-        status = result.get('status')
-        state['status'] = status if status in ('failed', 'cancelled') else 'processing'
-        if status in ('success', 'finished', 'succeeded', 'completed'):
-            url = (result.get('outcome') or {}).get('video_url')
-            parsed = urlparse(url or '')
-            if parsed.scheme != 'https' or not parsed.hostname or parsed.username or parsed.password:
-                raise RuntimeError('GMI completed without a valid HTTPS video URL.')
-            target = job / 'generated.mp4'
-            temporary = target.with_suffix('.download')
-            try:
-                with client.stream('GET', url, timeout=90, follow_redirects=False) as download:
-                    if download.status_code != 200:
-                        raise RuntimeError(f'Video download HTTP {download.status_code}.')
-                    total = 0
-                    with temporary.open('wb') as output:
-                        for chunk in download.iter_bytes():
-                            total += len(chunk)
-                            if total > 200 * 1024 * 1024:
-                                raise RuntimeError('Generated pilot exceeded the 200 MiB download bound.')
-                            output.write(chunk)
-                if total < 1000:
-                    raise RuntimeError('Generated media is empty or invalid.')
-                temporary.replace(target)
-            finally:
-                temporary.unlink(missing_ok=True)
-            state.update(status='generated_unreviewed', sha256=digest(target.read_bytes()),
-                         local_video=str(target.relative_to(TOURS)) if target.is_relative_to(TOURS) else str(target),
-                         generated_at=time.time())
-        write_json(state_path, state)
-        return state
+        interaction_id = state.get('interaction_id')
+        if not interaction_id:
+            raise ValueError('No saved Gemini interaction ID to poll; reconcile the attempted submission.')
+        return _save_result(job, state, GeminiClient(key, client).get(interaction_id))

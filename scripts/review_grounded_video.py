@@ -93,8 +93,8 @@ def verified_sources(plan, provenance, tours):
 
 
 def inspect_video(video, expected_duration):
-    if expected_duration not in (4, 6, 8):
-        raise ReviewError('Pilot duration must be 4, 6 or 8 seconds.')
+    if type(expected_duration) is not int or not 3 <= expected_duration <= 10:
+        raise ReviewError('Gemini first/last-frame pilot duration must be 3–10 seconds.')
     probe = json.loads(run([
         'ffprobe', '-v', 'error', '-select_streams', 'v:0', '-count_frames',
         '-show_entries', 'stream=codec_name,width,height,avg_frame_rate,nb_read_frames,duration:format=duration',

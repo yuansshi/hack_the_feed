@@ -1,6 +1,6 @@
 # 94404 conversion evidence
 
-The full request is **incomplete**. The requested result is a newly generated continuous walkthrough video inside the original swipe feed, supported by photos, floor plans and 3D research. The current photo sequences and schematic do not satisfy it. Six eligible houses have an original-photo viewer; four of the ten requested selection slots remain unfilled. One has a navigable schematic derived from a listing floor plan. None has a verified photorealistic 3D reconstruction or accepted generated walkthrough video. A [finite GMI pilot and review workflow](grounded-video-pilot.md) are prepared for 140 Spinnaker.
+The full request is **incomplete**. The requested result is a newly generated continuous walkthrough video inside the original swipe feed, supported by photos, floor plans and 3D research. The current photo sequences and schematic do not satisfy it. Six eligible houses have an original-photo viewer; four of the ten requested selection slots remain unfilled. One has a navigable schematic derived from a listing floor plan. None has a verified photorealistic 3D reconstruction or accepted generated walkthrough video. A [finite Gemini pilot and review workflow](grounded-video-pilot.md) are prepared for 140 Spinnaker.
 
 ## Selection and sources
 

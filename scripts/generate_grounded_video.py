@@ -17,7 +17,7 @@ def main():
     parser.add_argument('action', choices=['prepare', 'submit', 'poll'])
     parser.add_argument('--plan', type=Path, default=BASE / 'data/94404/spinnaker-video-pilot.json')
     parser.add_argument('--credential-file', type=Path,
-                        help='Explicitly designated project GMI credential file (env assignment or labeled Markdown key)')
+                        help='Explicitly designated project Gemini credential file (env assignment or labeled Markdown key)')
     args = parser.parse_args()
     try:
         job = grounded_video.prepare(args.plan)
@@ -32,7 +32,7 @@ def main():
         print(json.dumps(result, indent=2))
     except (OSError, ValueError, RuntimeError, KeyError, StopIteration, httpx.HTTPError) as error:
         # Never print provider response bodies, request headers, or credential values.
-        print(str(error) if not isinstance(error, httpx.HTTPError) else 'GMI connection failed; resume the same job.', file=sys.stderr)
+        print(str(error) if not isinstance(error, httpx.HTTPError) else 'Gemini connection failed; resume the same job.', file=sys.stderr)
         return 1
     return 0
 
