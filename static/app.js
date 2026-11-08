@@ -2,9 +2,9 @@ const state = {
   listings: [],
   filteredListings: [],
   activeFlipIndex: 0,
-  selectedZip: "ALL",
+  selectedZip: new URLSearchParams(location.search).get("zip") || "94404",
   searchQuery: "",
-  sortBy: "hybrid", // "hybrid" | "upvotes" | "stars"
+  sortBy: "price", // "hybrid" | "upvotes" | "stars"
   viewOrientation: "reel", // "reel" (9:16 TikTok/Shorts) or "gallery" (16:9 YouTube)
   stageMode: "feed", // "feed" (Stage 1) | "auto_walkthrough" (Stage 2) | "explore_3d" (Stage 3)
   currentListing: null,
@@ -12,7 +12,7 @@ const state = {
   isWalking: false,
   isAutoTour: false,
   orianeData: null,
-  gmiPlan: null,
+  geminiPlan: null,
   pollTimer: null,
   tickerInterval: null,
   tickerIdx: 0,
@@ -151,10 +151,10 @@ const els = {
   orianeTotalViews: document.getElementById("oriane-total-views"),
   orianeOutlierRatio: document.getElementById("oriane-outlier-ratio"),
   orianeEngRate: document.getElementById("oriane-eng-rate"),
-  gmiViralScore: document.getElementById("gmi-viral-score"),
+  geminiViralScore: document.getElementById("gemini-viral-score"),
   orianeOstPills: document.getElementById("oriane-ost-pills"),
   orianeVideosList: document.getElementById("oriane-videos-list"),
-  gmiModelSelect: document.getElementById("gmi-model-select"),
+  geminiModelSelect: document.getElementById("gemini-model-select"),
   btnGenerateMissing: document.getElementById("btn-generate-missing"),
   transitionsList: document.getElementById("transitions-list"),
   exportModal: document.getElementById("export-modal"),
@@ -191,13 +191,31 @@ async function initApp() {
   setupEventListeners();
   setup3DParallax();
   await fetchListings();
+  document.body.classList.remove("feed-loading");
+  const entry = new URLSearchParams(location.search);
+  const index = state.filteredListings.findIndex(home => home.source_backed && home.id === entry.get("home"));
+  if (index >= 0) {
+    state.activeFlipIndex = index;
+    renderFlipReelPlayer();
+    highlightActiveCardInGrid();
+    openSourceResearch(state.filteredListings[index], entry.get("view") || "model");
+  }
   startLiveTickerCycle();
 }
 
+async function loadFeedListings() {
+  const [demoResponse, sourceResponse] = await Promise.all([
+    fetch("/api/listings"), fetch("/api/feed/94404")
+  ]);
+  if (!demoResponse.ok || !sourceResponse.ok) throw new Error("Home feed could not load. Reload to retry.");
+  const [demo, source] = await Promise.all([demoResponse.json(), sourceResponse.json()]);
+  state.sourceSummary = source.summary;
+  return [...source.listings, ...demo.listings];
+}
+
 async function fetchListings() {
-  const res = await fetch("/api/listings");
-  const data = await res.json();
-  state.listings = data.listings || [];
+  state.listings = await loadFeedListings();
+  document.querySelectorAll(".zip-pill").forEach(pill => pill.classList.toggle("active", pill.dataset.zip === state.selectedZip));
   if (state.listings.length > 0 && !state.currentListing) {
     state.currentListing = state.listings[0];
   }
@@ -211,11 +229,9 @@ function applyZipFilterAndRenderFeed() {
   const q = state.searchQuery.trim().toLowerCase();
   const filtered = state.listings.filter((item) => {
     if (state.hiddenIds.has(item.id)) return false;
-    if (state.selectedZip === "SAVED") {
-      return state.savedIds.has(item.id);
-    }
+    if (state.selectedZip === "SAVED" && !state.savedIds.has(item.id)) return false;
     const zipMatch =
-      state.selectedZip === "ALL" ||
+      state.selectedZip === "ALL" || state.selectedZip === "SAVED" ||
       String(item.zip_code || "").includes(state.selectedZip) ||
       String(item.address || "").includes(state.selectedZip);
     if (!zipMatch) return false;
@@ -237,6 +253,7 @@ function applyZipFilterAndRenderFeed() {
 
   // Sort by Amazon x YouTube Hybrid Rank, Upvotes, or Amazon Stars
   filtered.sort((a, b) => {
+    if (state.selectedZip === "94404" || state.sortBy === "price") return (b.price_num || 0) - (a.price_num || 0);
     const sa = a.social || {};
     const sb = b.social || {};
     if (state.sortBy === "upvotes") {
@@ -257,21 +274,32 @@ function applyZipFilterAndRenderFeed() {
     state.selectedZip === "ALL" ? "ALL BAY AREA ZIPS" : `ZIP ${state.selectedZip}`;
   els.feedSummaryText.textContent = `${zipLabel} (${state.filteredListings.length} HOMES) · RANKED BY AMAZON ★ × YOUTUBE 👍`;
 
+  if (state.selectedZip === "94404") {
+    els.feedSummaryText.textContent = `94404 · ${filtered.length} houses · Asking price ↓ · 6 of 10 requested verified`;
+  }
+  document.querySelectorAll(".sort-pill[data-sort]").forEach(pill => {
+    pill.disabled = state.selectedZip === "94404" && pill.dataset.sort !== "price";
+    pill.classList.toggle("active", pill.dataset.sort === (state.selectedZip === "94404" ? "price" : state.sortBy));
+  });
+  document.getElementById("btn-open-available-3d").hidden = !filtered.some(home => home.source_backed && home.model);
   renderFlipReelPlayer();
   renderZipFeedCards();
 }
 
 function getActiveFlipListing() {
-  return (
-    state.filteredListings[state.activeFlipIndex] ||
-    state.currentListing ||
-    state.listings[0]
-  );
+  return state.filteredListings[state.activeFlipIndex];
 }
 
 function renderFlipReelPlayer() {
-  if (!state.filteredListings.length) return;
+  clearInterval(sourceSlideTimer);
+  const empty = !state.filteredListings.length;
+  els.flipPlayerFrame.classList.toggle("feed-empty", empty);
+  document.getElementById("feed-empty").classList.toggle("hidden", !empty);
+  if (empty) { els.flipMainVideo.pause(); return; }
   const listing = getActiveFlipListing();
+  els.flipPlayerFrame.dataset.listingId = listing.id;
+  setSourceFeedControls(Boolean(listing.source_backed));
+  if (listing.source_backed) { renderSourceReel(listing); return; }
   const firstRoom = (listing.rooms && listing.rooms[0]) || {};
   const soc = listing.social || {};
   const clipUrl =
@@ -333,7 +361,7 @@ function startLiveTickerCycle() {
   if (state.tickerInterval) clearInterval(state.tickerInterval);
   state.tickerInterval = setInterval(() => {
     const listing = getActiveFlipListing();
-    if (!listing || !listing.social) return;
+    if (!listing || listing.source_backed || !listing.social) return;
     const comments = listing.social.comments || [];
     if (!comments.length) return;
     state.tickerIdx = (state.tickerIdx + 1) % comments.length;
@@ -343,10 +371,12 @@ function startLiveTickerCycle() {
 }
 
 function flipToNextHouse(delta = 1) {
-  if (!state.filteredListings.length) return;
+  if (state.stageMode !== "feed" || !state.filteredListings.length) return;
   const slideOffset = delta > 0 ? "-38px" : "38px";
   els.flipPlayerFrame.style.transform = `translateX(${slideOffset}) scale(0.98)`;
   setTimeout(() => {
+    els.flipPlayerFrame.style.transform = "translate(0px, 0px) rotate(0deg)";
+    if (state.stageMode !== "feed") return;
     state.activeFlipIndex =
       (state.activeFlipIndex + delta + state.filteredListings.length) %
       state.filteredListings.length;
@@ -367,11 +397,12 @@ function showSwipeStamp(text, borderColor = "#ebc388") {
 
 function swipeSaveActiveHouse() {
   const listing = getActiveFlipListing();
-  if (!listing) return;
+  if (state.stageMode !== "feed" || !listing) return;
   state.savedIds.add(listing.id);
-  showSwipeStamp("▲ SAVED HOME 💛 + 👍", "#ebc388");
+  els.savedCountBadge.textContent = String(state.savedIds.size);
+  showSwipeStamp(listing.source_backed ? "▲ SAVED HOME 💛" : "▲ SAVED HOME 💛 + 👍", "#ebc388");
   els.flipPlayerFrame.style.transform = "translateY(-36px) scale(1.02)";
-  castRealtimeVote(listing.id, "up");
+  if (!listing.source_backed) castRealtimeVote(listing.id, "up");
   if (els.btnFlipSaveUp) els.btnFlipSaveUp.classList.add("is-saved");
   if (els.flipSaveLabel) els.flipSaveLabel.textContent = "Saved 💛";
   setTimeout(() => {
@@ -382,7 +413,7 @@ function swipeSaveActiveHouse() {
 
 function swipeHideActiveHouse() {
   const listing = getActiveFlipListing();
-  if (!listing) return;
+  if (state.stageMode !== "feed" || !listing) return;
   showSwipeStamp("▼ HIDDEN · NOT SHOWING 🚫", "#f87171");
   els.flipPlayerFrame.style.transform = "translateY(42px) scale(0.95)";
   setTimeout(() => {
@@ -493,7 +524,9 @@ function highlightActiveCardInGrid() {
   cards.forEach((c, idx) => {
     if (idx === state.activeFlipIndex) {
       c.classList.add("active-flip-card");
-      c.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      if (window.matchMedia("(min-width: 701px)").matches) {
+        c.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
     } else {
       c.classList.remove("active-flip-card");
     }
@@ -507,6 +540,7 @@ function renderZipFeedCards() {
     (state.viewOrientation === "reel" ? "view-vertical" : "view-horizontal");
 
   state.filteredListings.forEach((listing, idx) => {
+    if (listing.source_backed) { renderSourceCard(listing, idx); return; }
     const card = document.createElement("article");
     card.className =
       "feed-house-card" + (idx === state.activeFlipIndex ? " active-flip-card" : "");
@@ -624,6 +658,7 @@ function triggerReactionBurst(label = "👍 +1") {
 }
 
 async function castRealtimeVote(listingId, direction = "up") {
+  if (state.listings.find(home => home.id === listingId)?.source_backed) return;
   triggerReactionBurst(direction === "up" ? "👍 +1 Rank!" : "👎 Noted");
   const res = await fetch("/api/social/vote", {
     method: "POST",
@@ -646,8 +681,9 @@ async function castRealtimeVote(listingId, direction = "up") {
 }
 
 function openOpenHouseDrawer(listing) {
-  const target = listing || state.currentListing || getActiveFlipListing();
+  const target = listing || (state.stageMode === "feed" ? getActiveFlipListing() : state.currentListing);
   if (!target) return;
+  if (target.source_backed) { openSourceResearch(target, "evidence"); return; }
   state.currentListing = target;
   renderOpenHouseDrawerContent(target);
   els.openhouseDrawer.classList.remove("hidden");
@@ -783,7 +819,7 @@ async function triggerInstantDemoCheckin() {
       room: "05 · Zero-Edge Pool",
       stars: 5,
       vote: "up",
-      text: "Just stepped onto the heated limestone pool deck at the Open House — 10/10 matches the GMI Veo 3.1 walkthrough! 👍🔥",
+      text: "Just stepped onto the heated limestone pool deck at the Open House — 10/10 matches the demo AI walkthrough! 👍🔥",
       verified_open_house: true,
       media_url: "/api/cache/palo-alto-glass-villa_seg3_20a9c759.mp4",
       media_type: "video",
@@ -825,6 +861,7 @@ function returnToZipFeed() {
 /* STAGE 2: AUTOMATIC LARGER FULL-SCREEN WALKTHROUGH                     */
 /* ===================================================================== */
 async function openHouseAutoWalkthrough(listing, openDirectlyIn3D = false) {
+  if (listing.source_backed) { openSourceResearch(listing, listing.model ? "model" : "evidence"); return; }
   els.flipMainVideo.pause();
   document.querySelectorAll(".feed-card-video").forEach((v) => v.pause());
 
@@ -864,7 +901,7 @@ async function openHouseAutoWalkthrough(listing, openDirectlyIn3D = false) {
   }
 
   fetchOrianeIntelligence(listing);
-  fetchGmiPlan(listing);
+  fetchGeminiPlan(listing);
   scheduleSegmentPolling();
 }
 
@@ -1339,70 +1376,76 @@ function renderOrianeIntelligence(data) {
   });
 }
 
-async function fetchGmiPlan(listing) {
+async function fetchGeminiPlan(listing) {
+  state.geminiPlan = null;
   try {
-    const res = await fetch("/api/gmi/plan-tour", {
+    const response = await fetch("/api/gemini/plan-tour", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        listing_id: listing.id,
-        oriane_summary: state.orianeData,
-      }),
+      body: JSON.stringify({ listing_id: listing.id, oriane_summary: state.orianeData }),
     });
-    const data = await res.json();
-    state.gmiPlan = data.plan || {};
-    if (state.gmiPlan.viral_score) {
-      els.gmiViralScore.textContent = `${state.gmiPlan.viral_score} / 100`;
-      els.orianeScoreRail.textContent = `${state.gmiPlan.viral_score}%`;
+    if (!response.ok) throw new Error(`Gemini plan request failed (HTTP ${response.status})`);
+    let data = await response.json();
+    for (let attempt = 0; attempt < 20 && ['queued', 'processing', 'in_progress'].includes(data.status); attempt++) {
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      if (state.currentListing?.id !== listing.id || state.stageMode === 'feed') return;
+      const poll = await fetch(`/api/gemini/poll/${encodeURIComponent(`plan_${listing.id}`)}`);
+      if (!poll.ok) throw new Error(`Gemini plan poll failed (HTTP ${poll.status})`);
+      data = await poll.json();
     }
-  } catch (err) {
-    console.error("GMI plan error:", err);
+    if (state.currentListing?.id !== listing.id) return;
+    state.geminiPlan = data.plan || null;
+    els.geminiViralScore.textContent = state.geminiPlan?.viral_score ? `${state.geminiPlan.viral_score} / 100` : data.status === 'ready' ? 'Unavailable' : 'Pending';
+    if (state.geminiPlan?.viral_score) els.orianeScoreRail.textContent = `${state.geminiPlan.viral_score}%`;
+  } catch (error) {
+    if (state.currentListing?.id === listing.id) els.geminiViralScore.textContent = 'Unavailable';
+    console.error("Gemini plan error:", error);
   }
 }
 
 async function generateMissingTransitions() {
-  const l = state.currentListing;
-  const model = els.gmiModelSelect.value;
+  const listing = state.currentListing;
+  const model = els.geminiModelSelect.value;
+  if (!listing || listing.source_backed || !model) return;
   els.btnGenerateMissing.disabled = true;
-  els.btnGenerateMissing.textContent = "⏳ Enqueueing on GMI Cloud...";
-
-  const rooms = l.rooms || [];
-  for (const t of l.transitions || []) {
-    if (t.status !== "ready") {
-      const fromRoom = rooms[t.index];
-      const toRoom = rooms[t.index + 1];
+  els.btnGenerateMissing.textContent = "⏳ Submitting to Gemini...";
+  let errorMessage;
+  try {
+    const rooms = listing.rooms || [];
+    for (const transition of listing.transitions || []) {
+      if (['ready', 'processing', 'queued', 'in_progress'].includes(transition.status)) continue;
+      const fromRoom = rooms[transition.index];
+      const toRoom = rooms[transition.index + 1];
       if (!fromRoom || !toRoom) continue;
-      try {
-        await fetch("/api/gmi/generate-segment", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            listing_id: l.id,
-            transition_index: t.index,
-            from_room: t.from_room,
-            to_room: t.to_room,
-            first_frame_url: fromRoom.image_url,
-            last_frame_url: toRoom.image_url,
-            prompt: t.prompt,
-            model,
-          }),
-        });
-      } catch (e) {
-        console.error(e);
-      }
+      const response = await fetch("/api/gemini/generate-segment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          listing_id: listing.id,
+          transition_index: transition.index,
+          from_room: transition.from_room,
+          to_room: transition.to_room,
+          first_frame_url: fromRoom.image_url,
+          last_frame_url: toRoom.image_url,
+          prompt: transition.prompt,
+          model,
+        }),
+      });
+      if (!response.ok) throw new Error(`Generation blocked (HTTP ${response.status})`);
     }
+    await refreshCurrentListingStatus();
+    scheduleSegmentPolling();
+  } catch (error) {
+    errorMessage = error.message || 'Generation request failed';
+    console.error('Gemini generation error:', error);
+  } finally {
+    els.btnGenerateMissing.disabled = false;
+    els.btnGenerateMissing.textContent = errorMessage || "⚡ Generate / Refresh Gemini Room Transitions";
   }
-
-  await refreshCurrentListingStatus();
-  els.btnGenerateMissing.disabled = false;
-  els.btnGenerateMissing.textContent = "⚡ Generate / Refresh GMI Room Transitions";
-  scheduleSegmentPolling();
 }
 
 async function refreshCurrentListingStatus() {
-  const res = await fetch("/api/listings");
-  const data = await res.json();
-  state.listings = data.listings || [];
+  state.listings = await loadFeedListings();
   if (!state.currentListing) return;
   const updated = state.listings.find((x) => x.id === state.currentListing.id);
   if (updated) {
@@ -1413,21 +1456,39 @@ async function refreshCurrentListingStatus() {
 
 function scheduleSegmentPolling() {
   if (state.pollTimer) clearInterval(state.pollTimer);
+  let polling = false;
+  let attempts = 0;
+  const pending = status => ['processing', 'queued', 'in_progress'].includes(status);
   state.pollTimer = setInterval(async () => {
-    if (!state.currentListing) return;
-    const anyPending =
-      (state.currentListing.transitions || []).some((t) => t.status === "processing") ||
-      state.currentListing.voiceover_status === "processing";
-    if (!anyPending) {
+    const listing = state.currentListing;
+    if (!listing || listing.source_backed || polling) return;
+    if (attempts >= 60 || (!(listing.transitions || []).some(transition => pending(transition.status)) && !pending(listing.voiceover_status))) {
       clearInterval(state.pollTimer);
       state.pollTimer = null;
       return;
     }
-    await refreshCurrentListingStatus();
+    polling = true;
+    attempts++;
+    try {
+      const keys = (listing.transitions || []).filter(transition => pending(transition.status)).map(transition => `${listing.id}_seg${transition.index}`);
+      if (pending(listing.voiceover_status)) keys.push(`vo_${listing.id}`);
+      for (const key of keys) {
+        const response = await fetch(`/api/gemini/poll/${encodeURIComponent(key)}`);
+        if (!response.ok) throw new Error(`Gemini poll failed (HTTP ${response.status})`);
+      }
+      await refreshCurrentListingStatus();
+    } catch (error) {
+      console.error('Gemini status error:', error);
+      clearInterval(state.pollTimer);
+      state.pollTimer = null;
+    } finally {
+      polling = false;
+    }
   }, 5000);
 }
 
 function setupEventListeners() {
+  setupSourceResearch();
   els.brandHomeBtn.onclick = () => returnToZipFeed();
   els.btnBackToFeed.onclick = (e) => {
     e.stopPropagation();
@@ -1481,7 +1542,7 @@ function setupEventListeners() {
     openOpenHouseDrawer(getActiveFlipListing());
   };
   els.btnTopOpenhouse.onclick = () => {
-    openOpenHouseDrawer(state.currentListing || getActiveFlipListing());
+    openOpenHouseDrawer(state.stageMode === "feed" ? getActiveFlipListing() : state.currentListing);
   };
   els.btnStageOpenhouse.onclick = (e) => {
     e.stopPropagation();
@@ -1540,6 +1601,11 @@ function setupEventListeners() {
     if (active) openHouseAutoWalkthrough(active, false);
   };
   els.flipVideoScrubber.oninput = (e) => {
+    const listing = getActiveFlipListing();
+    if (listing?.source_backed && !listing.preview_clip_url) {
+      showSourcePhoto(listing, Math.round(Number(e.target.value) / 1000 * (listing.photos.length - 1)));
+      return;
+    }
     const dur = els.flipMainVideo.duration || 35;
     els.flipMainVideo.currentTime = (Number(e.target.value) / 1000) * dur;
   };
@@ -1668,6 +1734,10 @@ function setupEventListeners() {
   };
 
   window.addEventListener("keydown", (e) => {
+    if (document.getElementById("source-research-dialog").open) {
+      if (e.code === "Escape") { e.preventDefault(); closeSourceResearch(); }
+      return;
+    }
     if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
     if (state.stageMode === "feed") {
       if (e.code === "ArrowRight" || e.code === "KeyD") {
@@ -1722,6 +1792,15 @@ function setupEventListeners() {
         body: JSON.stringify({ url }),
       });
       const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || "Listing could not be imported.");
+      if (data.viewer_url) {
+        const id = new URL(data.viewer_url, location.origin).hash.slice(1);
+        const listing = state.listings.find(home => home.id === id && home.source_backed);
+        if (!listing) throw new Error("Source home is unavailable. Reload the feed and try again.");
+        els.redfinPopover.classList.add("hidden");
+        openSourceResearch(listing, listing.model ? "model" : "evidence");
+        return;
+      }
       if (data.listing) {
         const exists = state.listings.find((x) => x.id === data.listing.id);
         if (!exists) state.listings.unshift(data.listing);
@@ -1729,6 +1808,8 @@ function setupEventListeners() {
         applyZipFilterAndRenderFeed();
         await openHouseAutoWalkthrough(data.listing, false);
       }
+    } catch (error) {
+      alert(error.message);
     } finally {
       els.btnImportRedfin.textContent = "Transform Space →";
     }
@@ -1783,7 +1864,7 @@ function setupEventListeners() {
       els.exportVideoLinks.appendChild(row);
     });
     const caption =
-      (state.gmiPlan && state.gmiPlan.compound_caption) ||
+      (state.geminiPlan && state.geminiPlan.compound_caption) ||
       `What does ${l.price} feel like at golden hour in ${l.neighborhood}? Smooth 3D walkthrough from courtyard to zero-edge pool ✨🏡 #HackTheFeed #RealEstate #HouseTour #LuxuryHomes`;
     els.exportCaptionBox.value = caption;
     els.exportModal.classList.remove("hidden");
@@ -1797,4 +1878,4 @@ function setupEventListeners() {
   };
 }
 
-initApp();
+initApp().catch(error => { document.getElementById("feed-load-message").textContent = error.message; });

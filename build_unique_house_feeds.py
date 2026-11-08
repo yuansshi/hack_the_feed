@@ -2,10 +2,10 @@
 """
 Builds 100% distinct, slow-paced architectural walkthrough segments and 40-48s feed tours
 for every house in CURATED_LISTINGS.
-- Auto-discovers all genuine house-specific GMI AI video clips on disk in data/cache/
-  (e.g. {lid}_seg{t_idx}_{reqid}.mp4), GMI voiceovers (vo_{lid}_{reqid}.mp3),
-  and GMI 2K room photos (img_{lid}_{rid}_*.jpg).
-- Never overwrites a real GMI video clip with a photo-glide fallback.
+- Auto-discovers all genuine house-specific cached generated video clips on disk in data/cache/
+  (e.g. {lid}_seg{t_idx}_{reqid}.mp4), cached voiceovers (vo_{lid}_{reqid}.mp3),
+  and cached generated demo images (img_{lid}_{rid}_*.jpg).
+- Never overwrites a generated video clip with a photo-glide fallback.
 - Stitches each house's full 40-48s tour_*.mp4 with its own voiceover audio.
 """
 import json
@@ -20,7 +20,7 @@ ROOMS_DIR = CACHE_DIR / "rooms"
 ROOMS_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def find_newest_gmi_segment_mp4(lid: str, t_idx: int) -> Optional[Path]:
+def find_newest_generated_segment_mp4(lid: str, t_idx: int) -> Optional[Path]:
     prefix = f"{lid}_seg{t_idx}_"
     candidates = []
     for p in CACHE_DIR.glob(f"{prefix}*.mp4"):
@@ -34,9 +34,9 @@ def find_newest_gmi_segment_mp4(lid: str, t_idx: int) -> Optional[Path]:
     return candidates[0]
 
 
-def find_newest_gmi_voiceover(lid: str) -> Optional[Path]:
+def find_newest_voiceover(lid: str) -> Optional[Path]:
     candidates = [
-        p for p in CACHE_DIR.glob(f"vo_{lid}_*.mp3")
+        p for p in [*CACHE_DIR.glob(f"vo_{lid}_*.mp3"), *CACHE_DIR.glob(f"vo_{lid}_*.wav")]
         if p.is_file() and p.stat().st_size > 5000
     ]
     if not candidates:
@@ -45,7 +45,7 @@ def find_newest_gmi_voiceover(lid: str) -> Optional[Path]:
     return candidates[0]
 
 
-def find_newest_gmi_room_image(lid: str, rid: str) -> Optional[Path]:
+def find_newest_generated_room_image(lid: str, rid: str) -> Optional[Path]:
     candidates = [
         p for p in CACHE_DIR.glob(f"img_{lid}_{rid}_*.jpg")
         if p.is_file() and p.stat().st_size > 10000
@@ -63,9 +63,9 @@ def download_room_images():
             for room in listing.get("rooms", []):
                 rid = room["id"]
                 local_img = ROOMS_DIR / f"{lid}_{rid}.jpg"
-                gmi_img = find_newest_gmi_room_image(lid, rid)
-                if gmi_img:
-                    local_img.write_bytes(gmi_img.read_bytes())
+                generated_img = find_newest_generated_room_image(lid, rid)
+                if generated_img:
+                    local_img.write_bytes(generated_img.read_bytes())
                     continue
                 if not local_img.exists() or local_img.stat().st_size < 5000:
                     url = room["image_url"]
@@ -100,8 +100,8 @@ def make_slow_cinematic_glide(img_a: Path, img_b: Path, out_mp4: Path):
 
 def normalize_and_slow_clip(in_mp4: Path, out_mp4: Path):
     """
-    Normalizes a raw GMI video clip to 1280x720@30fps and slows it down by 1.55x
-    so a 5s-8s GMI clip becomes a serene 8s-12s architectural walkthrough glide.
+    Normalizes a generated video clip to 1280x720@30fps and slows it down by 1.55x
+    so a 5s-8s generated clip becomes a serene 8s-12s architectural walkthrough glide.
     """
     vf = (
         "setpts=1.55*PTS,"
@@ -133,10 +133,15 @@ def rebuild_all_house_tours():
         norm_clips = []
 
         # Auto-discover voiceover on disk
-        vo_disk = find_newest_gmi_voiceover(lid)
+        vo_disk = find_newest_voiceover(lid)
         if vo_disk:
             req_short = vo_disk.stem.split("_")[-1]
+            metadata = voiceovers.get(lid, {})
+            if metadata.get("local_file") != vo_disk.name:
+                metadata = {}
             voiceovers[lid] = {
+                **metadata,
+                "provider": metadata.get("provider", "gmi-cloud"),
                 "request_id": req_short,
                 "status": "ready",
                 "local_file": vo_disk.name,
@@ -149,23 +154,26 @@ def rebuild_all_house_tours():
             to_id = t["to_room"]
             existing = segments.get(seg_key, {})
 
-            # Always prefer a real GMI segment MP4 on disk for this house + segment
-            real_gmi_mp4 = find_newest_gmi_segment_mp4(lid, t_idx)
-            if real_gmi_mp4:
-                req_short = real_gmi_mp4.stem.split("_")[-1]
+            # Always prefer a real generated segment MP4 on disk for this house + segment
+            generated_mp4 = find_newest_generated_segment_mp4(lid, t_idx)
+            if generated_mp4:
+                req_short = generated_mp4.stem.split("_")[-1]
+                metadata = existing if existing.get("local_file") == generated_mp4.name else {}
                 segments[seg_key] = {
+                    **metadata,
                     "request_id": req_short,
-                    "model": existing.get("model", "veo-3.1-fast-generate-001"),
+                    "model": metadata.get("model", "historical-unknown"),
+                    "provider": metadata.get("provider", "gmi-cloud"),
                     "status": "ready",
                     "from_room": from_id,
                     "to_room": to_id,
-                    "local_file": real_gmi_mp4.name,
+                    "local_file": generated_mp4.name,
                 }
-                slow_name = f"slow_{real_gmi_mp4.name}"
+                slow_name = f"slow_{generated_mp4.name}"
                 slow_path = CACHE_DIR / slow_name
                 if not slow_path.exists() or slow_path.stat().st_size < 10000:
-                    print(f"[Slow-Mo Real GMI Clip] {seg_key}: {real_gmi_mp4.name} -> {slow_name}")
-                    normalize_and_slow_clip(real_gmi_mp4, slow_path)
+                    print(f"[Normalize Cached Clip] {seg_key}: {generated_mp4.name} -> {slow_name}")
+                    normalize_and_slow_clip(generated_mp4, slow_path)
                 norm_clips.append(slow_path)
             else:
                 glide_name = f"{lid}_seg{t_idx}_glide.mp4"
@@ -178,7 +186,9 @@ def rebuild_all_house_tours():
                 if glide_path.exists():
                     segments[seg_key] = {
                         "request_id": f"glide-{lid}-{t_idx}",
-                        "model": "gmi-room-glide",
+                        "model": "local-photo-glide",
+                        "provider": "local",
+                        "media_kind": "photo_sequence",
                         "status": "ready",
                         "from_room": from_id,
                         "to_room": to_id,
@@ -230,7 +240,7 @@ def rebuild_all_house_tours():
             print(f"[Stitched Unique Tour] {lid} -> {tour_filename} ({tour_path.stat().st_size // 1024} KB)")
 
     save_cache_index(idx)
-    print("All houses updated with latest GMI video segments, voiceovers & room images!")
+    print("All houses updated with cached video segments, voiceovers & room images!")
 
 
 if __name__ == "__main__":

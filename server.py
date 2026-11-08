@@ -3,18 +3,20 @@ import hashlib
 import json
 import os
 import re
+import tempfile
 import time
 from pathlib import Path
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Literal, Optional
 from urllib.parse import urlparse
 
 import httpx
-from bs4 import BeautifulSoup
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
+
+import gemini_provider as gemini
 
 BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / "data"
@@ -26,35 +28,55 @@ CACHE_INDEX_PATH = DATA_DIR / "cache_index.json"
 
 
 def load_api_key(name: str) -> str:
-    if os.environ.get(name):
-        return os.environ[name].strip()
+    if os.environ.get(f"HOMI_{name}"):
+        return os.environ[f"HOMI_{name}"].strip()
     for env_file in [BASE_DIR / "api_key.md", BASE_DIR / ".env"]:
         if env_file.exists():
             for line in env_file.read_text().splitlines():
                 line = line.strip()
                 if line.startswith(f"{name}="):
                     return line.split("=", 1)[1].strip()
-    raise RuntimeError(f"Missing required key {name} in environment or api_key.md")
+    raise HTTPException(status_code=503, detail=f"Configure project credential HOMI_{name} or a project .env before using this service.")
 
 
-GMI_API_KEY = load_api_key("GMI_API_KEY")
-ORIANE_API_KEY = load_api_key("ORIANE_API_KEY")
-GMI_LLM_BASE_URL = "https://api.gmi-serving.com/v1"
-GMI_QUEUE_BASE_URL = "https://console.gmicloud.ai/api/v1/ie/requestqueue/apikey"
 ORIANE_BASE_URL = "https://connect.oriane.xyz"
+generation_lock = asyncio.Lock()
+
+
+def migrate_cache_metadata(index: Dict[str, Any]) -> Dict[str, Any]:
+    """Retain historical media and IDs without treating them as new Gemini jobs."""
+    for section in ("segments", "voiceovers", "plans", "rooms"):
+        for record in index.get(section, {}).values():
+            if not isinstance(record, dict) or record.get("provider"):
+                continue
+            if record.get("model") == "gmi-room-glide":
+                record.update(provider="local", legacy_model=record["model"], model="local-photo-glide", media_kind="photo_sequence")
+            else:
+                record["provider"] = "gmi-cloud"
+                record["provenance"] = "Historical cached output; original media retained."
+                if record.get("status") in ("processing", "queued", "in_progress") and not record.get("local_file"):
+                    record["status"] = "archived"
+    history = index.setdefault("generation_history", [])
+    for record in index.pop("gmi_generations", []):
+        history.append({**record, "provider": "gmi-cloud"})
+    return index
 
 
 def load_cache_index() -> Dict[str, Any]:
     if CACHE_INDEX_PATH.exists():
         try:
-            return json.loads(CACHE_INDEX_PATH.read_text())
+            return migrate_cache_metadata(json.loads(CACHE_INDEX_PATH.read_text()))
         except Exception:
             pass
     return {"segments": {}, "voiceovers": {}, "oriane": {}, "plans": {}}
 
 
 def save_cache_index(index: Dict[str, Any]) -> None:
-    CACHE_INDEX_PATH.write_text(json.dumps(index, indent=2))
+    with tempfile.NamedTemporaryFile(mode="w", dir=CACHE_INDEX_PATH.parent, delete=False) as temporary:
+        json.dump(index, temporary, indent=2)
+        temporary.flush()
+        os.fsync(temporary.fileno())
+    Path(temporary.name).replace(CACHE_INDEX_PATH)
 
 
 # Curated Bay Area Redfin Luxury Listings with spatially coherent room sequences & 3D hotspots
@@ -818,13 +840,13 @@ class OrianeAnalyzeRequest(BaseModel):
     hashtags: Optional[List[str]] = None
 
 
-class GMIPlanRequest(BaseModel):
+class GeminiPlanRequest(BaseModel):
     listing_id: str
     oriane_summary: Optional[Dict[str, Any]] = None
     custom_listing: Optional[Dict[str, Any]] = None
 
 
-class GMIGenerateSegmentRequest(BaseModel):
+class GeminiGenerateSegmentRequest(BaseModel):
     listing_id: str
     transition_index: int
     from_room: str
@@ -832,21 +854,21 @@ class GMIGenerateSegmentRequest(BaseModel):
     first_frame_url: str
     last_frame_url: str
     prompt: str
-    model: str = "veo-3.1-lite-generate-001"
-    duration: int = 4
+    model: Literal["gemini-omni-1.2-flash", "gemini-omni-1.1-flash"] = gemini.VIDEO_MODEL
+    duration: int = Field(default=6, ge=3, le=10)
 
 
-class GMIVoiceoverRequest(BaseModel):
+class GeminiVoiceoverRequest(BaseModel):
     listing_id: str
     text: str
-    voice_id: str = "Amara"
+    voice_id: str = "Kore"
 
 
 def get_listing_by_id(listing_id: str) -> Dict[str, Any]:
     for item in CURATED_LISTINGS:
         if item["id"] == listing_id:
             return item
-    return CURATED_LISTINGS[0]
+    raise HTTPException(404, "Listing not found")
 
 
 def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
@@ -854,23 +876,25 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
     enriched = json.loads(json.dumps(listing))
     lid = enriched["id"]
 
-    # Upgrade room photos to bespoke GMI 2K generated images if present in data/cache/
+    # Historical demo imagery remains cached; source-backed homes bypass this path.
     for room in enriched.get("rooms", []):
         rid = room["id"]
-        gmi_imgs = sorted(
+        generated_imgs = sorted(
             [p for p in CACHE_DIR.glob(f"img_{lid}_{rid}_*.jpg") if p.is_file() and p.stat().st_size > 10000],
             key=lambda x: x.stat().st_mtime,
             reverse=True,
         )
-        if gmi_imgs:
-            room["image_url"] = f"/api/cache/{gmi_imgs[0].name}"
+        if generated_imgs:
+            room["image_url"] = f"/api/cache/{generated_imgs[0].name}"
 
     for t in enriched.get("transitions", []):
         t_idx = t["index"]
         seg_key = f"{lid}_seg{t_idx}"
         seg_info = idx.get("segments", {}).get(seg_key)
-        # Prefer newest real GMI video clip on disk for this house+segment
-        real_gmi_clips = sorted(
+        if seg_info and seg_info.get("provider") == "gemini" and seg_info.get("status") != "ready":
+            t.update(status=seg_info["status"], video_url=None, model=seg_info.get("model"), provider="gemini", interaction_id=seg_info.get("interaction_id"))
+            continue
+        generated_clips = sorted(
             [
                 p for p in CACHE_DIR.glob(f"{lid}_seg{t_idx}_*.mp4")
                 if not p.name.endswith("_glide.mp4") and not p.name.startswith("slow_") and p.stat().st_size > 20000
@@ -878,25 +902,31 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
             key=lambda x: x.stat().st_mtime,
             reverse=True,
         )
-        if real_gmi_clips:
-            best_clip = real_gmi_clips[0]
+        if generated_clips:
+            best_clip = generated_clips[0]
+            metadata = seg_info if seg_info and seg_info.get("local_file") == best_clip.name else {}
             slow_clip = CACHE_DIR / f"slow_{best_clip.name}"
             served_file = slow_clip.name if (slow_clip.exists() and slow_clip.stat().st_size > 20000) else best_clip.name
             t["status"] = "ready"
             t["video_url"] = f"/api/cache/{served_file}"
-            t["model"] = (seg_info or {}).get("model", "veo-3.1-fast-generate-001")
+            t["model"] = metadata.get("model", "historical-unknown")
+            t["provider"] = metadata.get("provider", "gmi-cloud")
+            t["interaction_id"] = metadata.get("interaction_id")
             t["request_id"] = best_clip.stem.split("_")[-1]
         elif seg_info and seg_info.get("local_file") and (CACHE_DIR / seg_info["local_file"]).exists():
             t["status"] = "ready"
             t["video_url"] = f"/api/cache/{seg_info['local_file']}"
-            t["model"] = seg_info.get("model", "veo-3.1-lite-generate-001")
+            t["model"] = seg_info.get("model", "historical-unknown")
+            t["provider"] = seg_info.get("provider", "gmi-cloud")
             t["request_id"] = seg_info.get("request_id")
         else:
             glide_file = f"{lid}_seg{t_idx}_glide.mp4"
             if (CACHE_DIR / glide_file).exists():
                 t["status"] = "ready"
                 t["video_url"] = f"/api/cache/{glide_file}"
-                t["model"] = "gmi-room-glide"
+                t["model"] = "local-photo-glide"
+                t["provider"] = "local"
+                t["media_kind"] = "photo_sequence"
             else:
                 t["status"] = "not_generated"
                 t["video_url"] = None
@@ -905,9 +935,9 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
     if vo_info and vo_info.get("local_file") and (CACHE_DIR / vo_info["local_file"]).exists():
         enriched["voiceover_status"] = "ready"
         enriched["voiceover_url"] = f"/api/cache/{vo_info['local_file']}"
-    elif vo_info and vo_info.get("request_id"):
+    elif vo_info and vo_info.get("interaction_id"):
         enriched["voiceover_status"] = vo_info.get("status", "processing")
-        enriched["voiceover_request_id"] = vo_info["request_id"]
+        enriched["voiceover_interaction_id"] = vo_info["interaction_id"]
     else:
         enriched["voiceover_status"] = "not_generated"
         enriched["voiceover_url"] = None
@@ -916,186 +946,27 @@ def enrich_listing_with_cache(listing: Dict[str, Any]) -> Dict[str, Any]:
     return enriched
 
 
-async def poll_and_download_gmi_request(request_id: str, target_prefix: str) -> Dict[str, Any]:
-    headers = {"Authorization": f"Bearer {GMI_API_KEY}"}
-    url = f"{GMI_QUEUE_BASE_URL}/requests/{request_id}"
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.get(url, headers=headers)
-        if resp.status_code != 200:
-            return {"status": "error", "detail": resp.text}
-        data = resp.json()
-        status = data.get("status", "processing")
-        if status in ("finished", "succeeded", "completed", "success"):
-            # Extract media URL from outcome/result/output
-            media_url = extract_media_url(data)
-            if media_url:
-                ext = ".mp3" if ("mp3" in media_url or "audio" in target_prefix or "vo_" in target_prefix) else ".mp4"
-                filename = f"{target_prefix}_{request_id[:8]}{ext}"
-                local_path = CACHE_DIR / filename
-                if not local_path.exists():
-                    dl = await client.get(media_url, follow_redirects=True, timeout=60.0)
-                    if dl.status_code == 200:
-                        local_path.write_bytes(dl.content)
-                if local_path.exists():
-                    return {
-                        "status": "ready",
-                        "local_file": filename,
-                        "video_url": f"/api/cache/{filename}",
-                        "raw": data,
-                    }
-            # Check base64 audio if TTS returned inline audio
-            b64_bytes = extract_base64_audio(data)
-            if b64_bytes:
-                filename = f"{target_prefix}_{request_id[:8]}.mp3"
-                local_path = CACHE_DIR / filename
-                local_path.write_bytes(b64_bytes)
-                return {
-                    "status": "ready",
-                    "local_file": filename,
-                    "video_url": f"/api/cache/{filename}",
-                }
-        return {"status": status, "raw": data}
-
-
-def extract_media_url(data: Any) -> Optional[str]:
-    if isinstance(data, str):
-        if data.startswith("http://") or data.startswith("https://"):
-            if any(x in data.lower() for x in [".mp4", ".webm", ".mp3", ".wav", "storage.googleapis", "cloudfront", "s3", "artifact", "media", "video", "audio"]):
-                return data
-        return None
-    if isinstance(data, dict):
-        for k in ["video_url", "audio_url", "url", "media_url", "output_url", "download_url", "uri", "file_url"]:
-            v = data.get(k)
-            if isinstance(v, str) and v.startswith("http"):
-                return v
-        for v in data.values():
-            found = extract_media_url(v)
-            if found:
-                return found
-    elif isinstance(data, list):
-        for item in data:
-            found = extract_media_url(item)
-            if found:
-                return found
-    return None
-
-
-def extract_base64_audio(data: Any) -> Optional[bytes]:
-    import base64
-    if isinstance(data, dict):
-        for k in ["audio_content", "audioContent", "audio_base64", "audio", "data"]:
-            v = data.get(k)
-            if isinstance(v, str) and len(v) > 500 and not v.startswith("http"):
-                try:
-                    return base64.b64decode(v)
-                except Exception:
-                    pass
-        for v in data.values():
-            res = extract_base64_audio(v)
-            if res:
-                return res
-    elif isinstance(data, list):
-        for item in data:
-            res = extract_base64_audio(item)
-            if res:
-                return res
-    return None
-
-
 @app.get("/api/listings")
 async def list_curated_listings():
-    # First refresh any processing jobs in cache_index
-    idx = load_cache_index()
-    changed = False
-    for seg_key, info in list(idx.get("segments", {}).items()):
-        if info.get("status") not in ("ready", "failed", "error") and info.get("request_id"):
-            res = await poll_and_download_gmi_request(info["request_id"], seg_key)
-            if res.get("status") == "ready":
-                info["status"] = "ready"
-                info["local_file"] = res["local_file"]
-                changed = True
-            elif res.get("status") in ("failed", "error", "cancelled"):
-                info["status"] = res["status"]
-                changed = True
-
-    for lid, info in list(idx.get("voiceovers", {}).items()):
-        if info.get("status") not in ("ready", "failed", "error") and info.get("request_id"):
-            res = await poll_and_download_gmi_request(info["request_id"], f"vo_{lid}")
-            if res.get("status") == "ready":
-                info["status"] = "ready"
-                info["local_file"] = res["local_file"]
-                changed = True
-            elif res.get("status") in ("failed", "error", "cancelled"):
-                info["status"] = res["status"]
-                changed = True
-
-    if changed:
-        save_cache_index(idx)
-
+    # Reading cached listings never submits or polls paid API jobs.
     return {"listings": [enrich_listing_with_cache(item) for item in CURATED_LISTINGS]}
 
 
 @app.post("/api/redfin/parse")
 async def parse_redfin_url(req: RedfinParseRequest):
     url = req.url.strip()
-    # Check if matches one of our curated URLs first
-    for item in CURATED_LISTINGS:
-        if item["redfin_url"].lower() in url.lower() or item["id"] in url.lower():
-            return {"listing": enrich_listing_with_cache(item), "source": "curated_bay_area"}
-
-    # Parse Redfin URL structure: https://www.redfin.com/CA/{City}/{Street}/home/{id}
     parsed = urlparse(url)
-    path_parts = [p for p in parsed.path.split("/") if p]
-    city = "Palo Alto"
-    state = "CA"
-    street = "Bay Area Luxury Residence"
-    if len(path_parts) >= 3 and len(path_parts[0]) == 2:
-        state = path_parts[0].upper()
-        city = path_parts[1].replace("-", " ")
-        street = path_parts[2].replace("-", " ")
-
-    # Try fetching live Redfin metadata if accessible, otherwise synthesize with GMI LLM + architectural photos
-    scraped_images: List[str] = []
-    scraped_title = f"{street}, {city}, {state}"
-    scraped_price = "$4,250,000"
-    try:
-        async with httpx.AsyncClient(
-            timeout=6.0,
-            headers={
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-            },
-            follow_redirects=True,
-        ) as client:
-            r = await client.get(url)
-            if r.status_code == 200:
-                soup = BeautifulSoup(r.text, "lxml")
-                og_title = soup.find("meta", property="og:title")
-                if og_title and og_title.get("content"):
-                    scraped_title = og_title["content"]
-                og_img = soup.find("meta", property="og:image")
-                if og_img and og_img.get("content"):
-                    scraped_images.append(og_img["content"])
-                for img in soup.find_all("img"):
-                    src = img.get("src") or ""
-                    if "ssl.cdn-redfin.com/photo" in src and src not in scraped_images:
-                        scraped_images.append(src)
-    except Exception:
-        pass
-
-    base = json.loads(json.dumps(CURATED_LISTINGS[0]))
-    slug_id = "redfin-" + hashlib.md5(url.encode()).hexdigest()[:8]
-    base["id"] = slug_id
-    base["redfin_url"] = url
-    base["title"] = f"{city} Architectural Showcase — {street}"
-    base["address"] = scraped_title
-    base["neighborhood"] = f"{city}, {state} • Redfin Live Import"
-    base["price"] = scraped_price
-    if len(scraped_images) >= 3:
-        for idx_r, room in enumerate(base["rooms"]):
-            if idx_r < len(scraped_images):
-                room["image_url"] = scraped_images[idx_r]
-
-    return {"listing": enrich_listing_with_cache(base), "source": "redfin_parsed"}
+    if parsed.scheme != "https" or parsed.hostname not in ("www.redfin.com", "redfin.com"):
+        raise HTTPException(422, "Use an https://www.redfin.com listing URL.")
+    manifest_path = DATA_DIR / "94404" / "manifest.json"
+    if manifest_path.exists():
+        for listing in json.loads(manifest_path.read_text())["listings"]:
+            if parsed.path.rstrip("/") == urlparse(listing["redfin_url"]).path.rstrip("/"):
+                return {"viewer_url": f"/94404#{listing['id']}", "source": "listing_originals"}
+    for item in CURATED_LISTINGS:
+        if parsed.path.rstrip("/") == urlparse(item["redfin_url"]).path.rstrip("/"):
+            return {"listing": enrich_listing_with_cache(item), "source": "synthetic_demo"}
+    raise HTTPException(422, "This listing has no verified source manifest. Import original photos and a floor plan first; no substitute property will be generated.")
 
 
 @app.post("/api/oriane/analyze")
@@ -1125,7 +996,7 @@ async def analyze_with_oriane(req: OrianeAnalyzeRequest):
     }
 
     headers = {
-        "Authorization": f"Bearer {ORIANE_API_KEY}",
+        "Authorization": f"Bearer {load_api_key('ORIANE_API_KEY')}",
         "Content-Type": "application/json",
     }
     url = f"{ORIANE_BASE_URL}/rest/contents/search?sort=viewsCount:desc&offset=0&limit=8&projection=full"
@@ -1221,229 +1092,222 @@ async def analyze_with_oriane(req: OrianeAnalyzeRequest):
     return result_payload
 
 
-@app.post("/api/gmi/plan-tour")
-async def plan_tour_with_gmi_llm(req: GMIPlanRequest):
-    listing = req.custom_listing or get_listing_by_id(req.listing_id)
-    idx = load_cache_index()
-    if req.listing_id in idx.get("plans", {}):
-        return idx["plans"][req.listing_id]
+# =====================================================================
+# Direct Gemini generation is explicit, finite, and resumable by interaction ID.
+async def call_gemini(method: str, *args):
+    def call():
+        with httpx.Client(timeout=90.0) as transport:
+            provider = gemini.GeminiClient(gemini.load_project_key(), client=transport)
+            return getattr(provider, method)(*args)
+    try:
+        return await asyncio.to_thread(call)
+    except gemini.GeminiError as error:
+        raise HTTPException(error.status_code or 503, str(error)) from None
 
-    rooms_summary = [
-        {"id": r["id"], "name": r["name"], "vibe": r["vibe"]}
-        for r in listing.get("rooms", [])
-    ]
-    oriane_hooks = (req.oriane_summary or {}).get("viral_playbook", {}).get("winning_spoken_hooks", [])
 
-    system_prompt = (
-        "You are an elite Luxury Real Estate Viral Video Director powered by Oriane Video Intelligence and GMI Cloud. "
-        "Given a Bay Area Redfin property's room sequence and Oriane's top-performing real estate video hooks, "
-        "return a JSON object with: "
-        "1) 'viral_score': integer 91-99, "
-        "2) 'predicted_outlier_multiplier': string like '142x follower reach', "
-        "3) 'hook_strategy': 1 concise sentence explaining why this room order works on TikTok/Reels, "
-        "4) 'voiceover_script': a punchy 35-45 word creator voiceover script walking through the rooms, "
-        "5) 'room_overlays': list of objects with {'room_id', 'on_screen_hook', 'camera_move', 'transition_prompt'}, "
-        "6) 'compound_caption': ready-to-post viral caption with #HackTheFeed and Bay Area real estate hashtags. "
-        "Output valid JSON only, no markdown fences."
-    )
-    user_prompt = json.dumps(
-        {
-            "property": {
-                "title": listing.get("title"),
-                "address": listing.get("address"),
-                "price": listing.get("price"),
-                "sqft": listing.get("sqft"),
-                "rooms": rooms_summary,
-            },
-            "oriane_top_hooks": oriane_hooks[:3],
-        }
-    )
-
-    headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
-        "Content-Type": "application/json",
-    }
-    body = {
-        "model": "google/gemini-3.8-flash",
-        "messages": [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_prompt},
-        ],
-        "temperature": 0.4,
-    }
-
-    async with httpx.AsyncClient(timeout=25.0) as client:
-        resp = await client.post(f"{GMI_LLM_BASE_URL}/chat/completions", json=body, headers=headers)
-        if resp.status_code != 200:
-            # Fallback to deepseek-ai/DeepSeek-V4-Pro
-            body["model"] = "deepseek-ai/DeepSeek-V4-Pro"
-            resp = await client.post(f"{GMI_LLM_BASE_URL}/chat/completions", json=body, headers=headers)
-
-    plan_data: Dict[str, Any] = {}
-    if resp.status_code == 200:
-        content = resp.json()["choices"][0]["message"]["content"].strip()
-        content = re.sub(r"^```(?:json)?\s*", "", content)
-        content = re.sub(r"\s*```$", "", content)
-        try:
-            plan_data = json.loads(content)
-        except Exception:
-            plan_data = {"raw_text": content}
-
-    if not plan_data.get("viral_score"):
-        plan_data = {
-            "viral_score": 96,
-            "predicted_outlier_multiplier": "184x follower reach (Top 1% Oriane Outlier)",
-            "hook_strategy": "Anchors price + Old Palo Alto prestige in the first 1.8s, then uses continuous First-to-Last-Frame room glides to eliminate scroll drop-off.",
-            "voiceover_script": listing.get("voiceover_script"),
-            "compound_caption": f"What does {listing.get('price')} get you in {listing.get('neighborhood')}? Wait for the zero-edge pool transition 👀🏡 #HackTheFeed #RealEstate #HouseTour #BayAreaRealEstate #LuxuryHomes",
-        }
-
-    result = {"status": "ok", "model": body["model"], "plan": plan_data}
-    idx.setdefault("plans", {})[req.listing_id] = result
-    save_cache_index(idx)
+def job_response(record, key):
+    result = {field: record[field] for field in ("status", "provider", "model", "interaction_id", "plan", "error", "failure_code") if field in record}
+    result["seg_key"] = key
+    if record.get("local_file"):
+        if (CACHE_DIR / record["local_file"]).is_file():
+            field = "audio_url" if key.startswith("vo_") else "video_url"
+            result[field] = f"/api/cache/{record['local_file']}"
+        elif record.get("status") == "ready":
+            result.update(status="missing_media", error="The cached output is missing; no automatic regeneration was started.")
     return result
 
 
-@app.post("/api/gmi/generate-segment")
-async def generate_walkthrough_segment(req: GMIGenerateSegmentRequest):
-    seg_key = f"{req.listing_id}_seg{req.transition_index}"
-    idx = load_cache_index()
-    existing = idx.get("segments", {}).get(seg_key)
-    if existing and existing.get("local_file") and (CACHE_DIR / existing["local_file"]).exists():
-        return {
-            "status": "ready",
-            "cached": True,
-            "video_url": f"/api/cache/{existing['local_file']}",
-            "model": existing.get("model", req.model),
-            "request_id": existing.get("request_id"),
-        }
+def finish_gemini_job(record, interaction, key):
+    try:
+        decode_gemini_job(record, interaction, key)
+    except gemini.GeminiError as error:
+        record.update(status="failed", error=str(error))
 
-    # Build model-specific payload for First-Frame-to-Last-Frame (FLFV) smooth room transition
-    if req.model == "pixverse-v6-transition":
-        payload = {
-            "prompt": req.prompt,
-            "first_frame_img": req.first_frame_url,
-            "last_frame_img": req.last_frame_url,
-            "duration": 5,
-            "quality": "720p",
-            "generate_audio_switch": False,
-        }
-    elif req.model == "vidu-q2-pro-flfv":
-        payload = {
-            "prompt": req.prompt,
-            "first_frame_image": req.first_frame_url,
-            "last_frame_image": req.last_frame_url,
-            "duration": 5,
-        }
-    elif req.model == "kling-o1-flfv":
-        payload = {
-            "prompt": req.prompt,
-            "first_frame_image": req.first_frame_url,
-            "end_frame_image": req.last_frame_url,
-            "duration": "5",
-            "mode": "std",
-        }
+
+def decode_gemini_job(record, interaction, key):
+    status = interaction.get("status", "in_progress")
+    record["status"] = "processing" if status in ("queued", "in_progress") else status
+    if status != "completed":
+        if status not in ("queued", "in_progress"):
+            if status == "failed":
+                record["failure_code"], record["error"] = gemini.failure_details(interaction)
+            else:
+                record["error"] = f"Gemini interaction ended with {status}; no automatic resubmission."
+        return
+    if key.startswith("plan_"):
+        text = re.sub(r"^```(?:json)?\s*|\s*```$", "", gemini.output_text(interaction).strip())
+        try:
+            plan = json.loads(text)
+            if not isinstance(plan, dict):
+                raise ValueError()
+            record["plan"] = plan
+        except (ValueError, TypeError):
+            record.update(status="failed", error="Gemini returned no valid tour-plan object.")
+            return
     else:
-        # Default: veo-3.1-lite-generate-001 ($0.03/s = $0.12 per 4s clip!)
-        payload = {
-            "prompt": req.prompt,
-            "image": req.first_frame_url,
-            "lastFrame": req.last_frame_url,
-            "durationSeconds": 4,
-            "aspectRatio": "16:9",
-            "resolution": "720p",
-            "generateAudio": False,
-        }
+        if key.startswith("vo_"):
+            audio = gemini.output_audio_bytes(interaction)
+            content, mime = audio if audio else (None, None)
+            extension = {"audio/wav": ".wav", "audio/x-wav": ".wav", "audio/mpeg": ".mp3"}.get(mime)
+        else:
+            content, extension = gemini.output_video_bytes(interaction), ".mp4"
+        if not content or not extension:
+            record.update(status="failed", error="Gemini completed without the requested playable media.")
+            return
+        token = hashlib.sha256(record["interaction_id"].encode()).hexdigest()[:12]
+        filename = f"{key}_{token}{extension}"
+        (CACHE_DIR / filename).write_bytes(content)
+        record.update(local_file=filename, sha256=hashlib.sha256(content).hexdigest())
+    record["status"] = "ready"
 
-    headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
-        "Content-Type": "application/json",
+
+async def submit_gemini_job(index, section, item_key, key, body, metadata):
+    record = {**metadata, "provider": "gemini", "status": "submitting", "created_at": int(time.time())}
+    index.setdefault(section, {})[item_key] = record
+    save_cache_index(index)
+    try:
+        interaction = await call_gemini("create", body)
+    except HTTPException:
+        record.update(status="submission_uncertain", error="Submission did not return an interaction ID. Reconcile before resubmitting.")
+        save_cache_index(index)
+        raise
+    interaction_id = interaction.get("id")
+    if not isinstance(interaction_id, str) or not interaction_id:
+        record.update(status="submission_uncertain", error="Submission returned no interaction ID. Reconcile before resubmitting.")
+        save_cache_index(index)
+        raise HTTPException(502, record["error"])
+    record["interaction_id"] = interaction_id
+    save_cache_index(index)
+    finish_gemini_job(record, interaction, key)
+    save_cache_index(index)
+    return job_response(record, key)
+
+
+def existing_job(index, section, item_key, key):
+    record = index.get(section, {}).get(item_key)
+    if not record:
+        return None
+    if record.get("local_file") and (CACHE_DIR / record["local_file"]).is_file():
+        return {**job_response(record, key), "status": "ready", "cached": True}
+    if key.startswith("plan_") and record.get("plan"):
+        return {**job_response(record, key), "status": "ready", "cached": True}
+    if record.get("provider") == "gemini":
+        return job_response(record, key)
+    return None
+
+
+async def input_image(url, listing, room_id):
+    room = next((room for room in listing.get("rooms", []) if room["id"] == room_id), None)
+    if not room:
+        raise HTTPException(422, "The transition must use this listing's room images.")
+    if url.startswith("/api/cache/"):
+        filename = url.removeprefix("/api/cache/")
+        if Path(filename).name != filename or not filename.startswith(f"img_{listing['id']}_{room_id}_"):
+            raise HTTPException(422, "The cached image must belong to this listing and room.")
+        path = CACHE_DIR / filename
+        if not path.is_file():
+            raise HTTPException(404, "Cached input image is missing.")
+        return path.read_bytes()
+    if url != room["image_url"] or urlparse(url).scheme != "https":
+        raise HTTPException(422, "Use this listing's existing source image URL.")
+    try:
+        async with httpx.AsyncClient(timeout=30.0, follow_redirects=True) as client:
+            response = await client.get(url)
+    except httpx.HTTPError:
+        raise HTTPException(422, "The source image could not be loaded.") from None
+    if response.status_code != 200 or not response.headers.get("content-type", "").startswith("image/"):
+        raise HTTPException(422, "The source image could not be loaded.")
+    return response.content
+
+
+@app.post("/api/gemini/plan-tour")
+async def plan_tour_with_gemini(req: GeminiPlanRequest):
+    listing = req.custom_listing or get_listing_by_id(req.listing_id)
+    if req.custom_listing and listing.get("id") != req.listing_id:
+        raise HTTPException(422, "Custom listing identity must match listing_id.")
+    body = {
+        "model": gemini.TEXT_MODEL, "background": True, "store": True,
+        "input": json.dumps({"property": listing, "reference_hooks": req.oriane_summary or {}}),
+        "system_instruction": "Create a concise property tour plan as a JSON object with hook_strategy, voiceover_script, room_overlays and compound_caption. Preserve supplied property facts. Do not invent scores, engagement predictions, dimensions or architectural features. Mark unknown information explicitly.",
     }
-    async with httpx.AsyncClient(timeout=25.0) as client:
-        resp = await client.post(
-            f"{GMI_QUEUE_BASE_URL}/requests",
-            json={"model": req.model, "payload": payload},
-            headers=headers,
-        )
-        if resp.status_code != 200:
-            raise HTTPException(status_code=resp.status_code, detail=f"GMI Video API error: {resp.text}")
-        job = resp.json()
+    async with generation_lock:
+        index = load_cache_index()
+        key = f"plan_{req.listing_id}"
+        cached = existing_job(index, "plans", req.listing_id, key)
+        if cached:
+            return cached
+        return await submit_gemini_job(index, "plans", req.listing_id, key, body, {"model": gemini.TEXT_MODEL})
 
-    request_id = job.get("request_id")
-    idx.setdefault("segments", {})[seg_key] = {
-        "request_id": request_id,
-        "model": req.model,
-        "status": job.get("status", "processing"),
-        "from_room": req.from_room,
-        "to_room": req.to_room,
-        "created_at": int(time.time()),
+
+@app.post("/api/gemini/generate-segment")
+async def generate_walkthrough_segment(req: GeminiGenerateSegmentRequest):
+    listing = get_listing_by_id(req.listing_id)
+    transition = next((item for item in listing.get("transitions", []) if item["index"] == req.transition_index), None)
+    if not transition or (req.from_room, req.to_room) != (transition["from_room"], transition["to_room"]):
+        raise HTTPException(422, "Use an existing transition for this listing.")
+    key = f"{req.listing_id}_seg{req.transition_index}"
+    async with generation_lock:
+        index = load_cache_index()
+        cached = existing_job(index, "segments", key, key)
+        if cached:
+            return cached
+        first = await input_image(req.first_frame_url, listing, req.from_room)
+        last = await input_image(req.last_frame_url, listing, req.to_room)
+        try:
+            body = gemini.video_request(req.prompt, first, last, model=req.model, duration=req.duration)
+        except gemini.GeminiError as error:
+            raise HTTPException(422, str(error)) from None
+        body.update(background=True, store=True)
+        return await submit_gemini_job(index, "segments", key, key, body, {
+            "model": req.model, "from_room": req.from_room, "to_room": req.to_room,
+            "source_sha256": [hashlib.sha256(image).hexdigest() for image in (first, last)],
+        })
+
+
+@app.post("/api/gemini/generate-voiceover")
+async def generate_voiceover(req: GeminiVoiceoverRequest):
+    get_listing_by_id(req.listing_id)
+    body = {
+        "model": gemini.TTS_MODEL, "background": True, "store": True,
+        "input": [{"type": "user_input", "content": [{"type": "text", "text": req.text}]}],
+        "response_format": {"type": "audio"},
+        "generation_config": {"speech_config": [{"voice": req.voice_id}]},
     }
-    save_cache_index(idx)
-    return {"status": "processing", "request_id": request_id, "seg_key": seg_key, "model": req.model}
+    async with generation_lock:
+        index = load_cache_index()
+        key = f"vo_{req.listing_id}"
+        cached = existing_job(index, "voiceovers", req.listing_id, key)
+        if cached:
+            return cached
+        return await submit_gemini_job(index, "voiceovers", req.listing_id, key, body, {"model": gemini.TTS_MODEL})
 
 
-@app.post("/api/gmi/generate-voiceover")
-async def generate_voiceover(req: GMIVoiceoverRequest):
-    idx = load_cache_index()
-    existing = idx.get("voiceovers", {}).get(req.listing_id)
-    if existing and existing.get("local_file") and (CACHE_DIR / existing["local_file"]).exists():
-        return {
-            "status": "ready",
-            "cached": True,
-            "audio_url": f"/api/cache/{existing['local_file']}",
-            "request_id": existing.get("request_id"),
-        }
-
-    headers = {
-        "Authorization": f"Bearer {GMI_API_KEY}",
-        "Content-Type": "application/json",
-    }
-    payload = {
-        "text": req.text,
-        "voice_id": req.voice_id,
-        "speaking_rate": 1.05,
-    }
-    async with httpx.AsyncClient(timeout=25.0) as client:
-        resp = await client.post(
-            f"{GMI_QUEUE_BASE_URL}/requests",
-            json={"model": "inworld-tts-2-flash", "payload": payload},
-            headers=headers,
-        )
-        if resp.status_code != 200:
-            raise HTTPException(status_code=resp.status_code, detail=resp.text)
-        job = resp.json()
-
-    request_id = job.get("request_id")
-    idx.setdefault("voiceovers", {})[req.listing_id] = {
-        "request_id": request_id,
-        "status": job.get("status", "processing"),
-        "created_at": int(time.time()),
-    }
-    save_cache_index(idx)
-    return {"status": "processing", "request_id": request_id}
+@app.get("/api/gemini/poll/{key}")
+async def poll_gemini_job(key: str):
+    async with generation_lock:
+        index = load_cache_index()
+        if key.startswith("vo_"):
+            section, item_key = "voiceovers", key[3:]
+        elif key.startswith("plan_"):
+            section, item_key = "plans", key[5:]
+        else:
+            section, item_key = "segments", key
+        record = index.get(section, {}).get(item_key)
+        if not record:
+            raise HTTPException(404, "Generation job not found")
+        cached = existing_job(index, section, item_key, key)
+        if record.get("status") == "ready" and cached:
+            return cached
+        if record.get("provider") != "gemini" or not record.get("interaction_id"):
+            raise HTTPException(409, "Historical or uncertain jobs cannot be polled through Gemini. Existing cached media remains available.")
+        if record.get("status") not in ("processing", "queued", "in_progress"):
+            return job_response(record, key)
+        interaction = await call_gemini("get", record["interaction_id"])
+        finish_gemini_job(record, interaction, key)
+        save_cache_index(index)
+        return job_response(record, key)
 
 
-@app.get("/api/gmi/poll/{seg_key}")
-async def poll_segment_status(seg_key: str):
-    idx = load_cache_index()
-    seg_info = idx.get("segments", {}).get(seg_key)
-    if not seg_info:
-        raise HTTPException(status_code=404, detail="Segment not found")
-    if seg_info.get("local_file") and (CACHE_DIR / seg_info["local_file"]).exists():
-        return {
-            "status": "ready",
-            "video_url": f"/api/cache/{seg_info['local_file']}",
-            "model": seg_info.get("model"),
-        }
-    res = await poll_and_download_gmi_request(seg_info["request_id"], seg_key)
-    if res.get("status") == "ready":
-        seg_info["status"] = "ready"
-        seg_info["local_file"] = res["local_file"]
-        save_cache_index(idx)
-    return res
-
-
-# =====================================================================
 # AMAZON x YOUTUBE HYBRID RANKING & LIVE OPEN HOUSE SOCIAL ENGINE
 # =====================================================================
 SOCIAL_STORE_PATH = DATA_DIR / "social_store.json"
@@ -1856,6 +1720,8 @@ async def serve_cached_media(filename: str):
         raise HTTPException(status_code=404, detail="Cached file not found")
     if safe_name.endswith(".mp3"):
         media_type = "audio/mpeg"
+    elif safe_name.endswith(".wav"):
+        media_type = "audio/wav"
     elif safe_name.endswith((".mp4", ".mov", ".webm")):
         media_type = "video/mp4"
     else:
@@ -1866,7 +1732,7 @@ async def serve_cached_media(filename: str):
 @app.middleware("http")
 async def disable_static_caching(request, call_next):
     response = await call_next(request)
-    if request.url.path == "/" or request.url.path.startswith("/static/"):
+    if request.url.path in ("/", "/94404", "/api/faithful/94404") or request.url.path.startswith("/static/"):
         response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate, max-age=0"
     return response
 
@@ -1878,5 +1744,8 @@ async def serve_index():
         headers={"Cache-Control": "no-store, no-cache, must-revalidate, max-age=0"},
     )
 
+
+from faithful_tours import router as faithful_router
+app.include_router(faithful_router)
 
 app.mount("/static", StaticFiles(directory=str(STATIC_DIR)), name="static")
