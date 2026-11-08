@@ -104,6 +104,28 @@ def test_changed_remote_input_blocks_spending(job):
     assert not (path / 'state.json').exists()
 
 
+def test_billing_rejection_is_recorded_without_automatic_retry(job):
+    path, _, _ = job
+    posts = []
+
+    def transport(request):
+        if request.method == 'GET':
+            return httpx.Response(200, content=f'original {request.url.path.split("/")[-1].split(".")[0]}'.encode())
+        posts.append(request)
+        return httpx.Response(402, json={'detail': 'Simulated billing rejection'})
+
+    with httpx.Client(transport=httpx.MockTransport(transport)) as client:
+        with pytest.raises(RuntimeError, match='HTTP 402'):
+            video.submit(path, 'project-test-placeholder', client)
+        with pytest.raises(ValueError, match='already attempted'):
+            video.submit(path, 'project-test-placeholder', client)
+    state = json.loads((path / 'state.json').read_text())
+    assert state['status'] == 'submission_rejected'
+    assert state['http_status'] == 402
+    assert state['automatic_retry'] is False
+    assert len(posts) == 1
+
+
 def test_poll_download_is_unreviewed_and_never_a_new_generation(job):
     path, _, _ = job
     video.write_json(path / 'state.json', {'status': 'queued', 'request_id': 'request-123'})
@@ -138,3 +160,22 @@ def test_missing_project_credential_does_not_read_personal_environment(monkeypat
     monkeypatch.setattr(video.os.environ, 'get', project_only)
     with pytest.raises(ValueError, match='Configure the project'):
         video.credential()
+
+
+@pytest.mark.parametrize('content', [
+    'GMI API key\ngmi-project-test-placeholder-0000\n',
+    '```\ngmi-project-test-placeholder-0000\n```\n',
+    'GMI_API_KEY="gmi-project-test-placeholder-0000"\n',
+    'HOMI_GMI_API_KEY=gmi-project-test-placeholder-0000\n',
+])
+def test_explicit_project_credential_file_supports_markdown_and_assignments(tmp_path, content):
+    path = tmp_path / 'api_key.md'
+    path.write_text(content)
+    assert video.credential(path) == 'gmi-project-test-placeholder-0000'
+
+
+def test_ambiguous_markdown_credential_file_is_rejected(tmp_path):
+    path = tmp_path / 'api_key.md'
+    path.write_text('GMI keys\ngmi-project-test-placeholder-0000\ngmi-project-test-placeholder-1111\n')
+    with pytest.raises(ValueError, match='clearly labeled'):
+        video.credential(path)

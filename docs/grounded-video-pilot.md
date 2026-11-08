@@ -19,6 +19,8 @@ For rendering, configure an explicitly designated **project** credential as `HOM
 .venv/bin/python scripts/generate_grounded_video.py poll --credential-file .env
 ```
 
+An explicitly designated project `api_key.md` is also supported with `--credential-file api_key.md`. It may contain `GMI_API_KEY=...`, `HOMI_GMI_API_KEY=...`, a bare key, or a GMI label with one key. Ambiguous multiple-key Markdown is rejected. The file stays ignored and is not copied into job artifacts or commits.
+
 `prepare` prints the job directory. After successful generation, inspect it offline:
 
 ```sh
@@ -29,4 +31,6 @@ The review bundle includes sampled frames, source endpoint comparisons, decode/t
 
 Only an accepted clip with recorded appearance, layout and motion passes, reviewer notes, matching source hashes and matching MP4 hash may enter `data/94404/generated_videos.json`. Copy its MP4 into the ignored `data/94404/videos/` directory and use the review template's registry structure. The source feed serves accepted videos through the existing reel player. Unreviewed, rejected, missing or modified outputs never become a home's video. Accepting this pilot does not complete the ten-house task or verify a full 3D reconstruction.
 
-Validation on November 7, 2026: 41 automated tests passed. The real feed's desktop/mobile browsing, model research, return navigation and all 147 served original-image hashes passed. A separate temporary-data Chromium test confirmed native video playback, seeking, sound and paused/playing state across research; its test-pattern video was never added to production listings. Both public endpoint image URLs returned the acquired original hashes. These checks validate the pipeline and integration, not a generated property's appearance. Live rendering remains blocked by the missing project GMI credential.
+Validation on November 7, 2026: the initial 41 automated tests passed. The real feed's desktop/mobile browsing, model research, return navigation and all 147 served original-image hashes passed. A separate temporary-data Chromium test confirmed native video playback, seeking, sound and paused/playing state across research; its test-pattern video was never added to production listings. Both public endpoint image URLs returned the acquired original hashes. These checks validate the pipeline and integration, not a generated property's appearance.
+
+The user subsequently designated the project's ignored `api_key.md`. Its key passed authenticated GMI request-list access (HTTP 200). The single live pilot submission was rejected with HTTP 402 (payment required); no video was accepted or rendered. The job records the rejection and disables automatic resubmission. Resolve project billing/available credit in GMI before reconciling and retrying this same pilot. No personal credential was used, and the project key was never displayed or copied into tracked files.

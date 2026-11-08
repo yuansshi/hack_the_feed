@@ -3,6 +3,7 @@ import fcntl
 import hashlib
 import json
 import os
+import re
 import time
 from contextlib import contextmanager
 from pathlib import Path
@@ -89,15 +90,22 @@ def job_lock(job):
 
 
 def credential(credential_file=None):
-    # Deliberately never inspect generic GMI_API_KEY or personal credential stores.
+    # Never inspect ambient GMI_API_KEY or personal stores. Files are explicitly designated.
     if credential_file:
-        for line in Path(credential_file).read_text().splitlines():
-            name, separator, value = line.strip().partition('=')
-            if separator and name == 'HOMI_GMI_API_KEY':
-                key = value.strip().strip('\"\'')
+        content = Path(credential_file).read_text()
+        for name in ('HOMI_GMI_API_KEY', 'GMI_API_KEY'):
+            match = re.search(r'^\s*(?:export\s+)?' + name + r'\s*=\s*(\S.*?)\s*$', content, re.M)
+            if match:
+                key = match[1].strip().strip('\"\'')
                 if key:
                     return key
-        raise ValueError('Project file must define HOMI_GMI_API_KEY.')
+        lines = [line.strip() for line in content.splitlines()
+                 if line.strip() and not line.strip().startswith('```')]
+        tokens = set(re.findall(r'(?<![A-Za-z0-9._-])[A-Za-z0-9._-]{20,}(?![A-Za-z0-9._-])', content))
+        bare = len(lines) == 1 and re.fullmatch(r'[A-Za-z0-9._-]{20,}', lines[0].strip('`\"\''))
+        if len(tokens) == 1 and (bare or re.search(r'gmi', content, re.I)):
+            return tokens.pop()
+        raise ValueError('Project credential file needs a GMI key assignment or one clearly labeled GMI key.')
     key = os.environ.get('HOMI_GMI_API_KEY', '').strip()
     if not key:
         raise ValueError('Configure the project HOMI_GMI_API_KEY or pass --credential-file; no personal key is read.')
@@ -129,6 +137,9 @@ def submit(job, key, client):
         except httpx.HTTPError:
             raise RuntimeError('Submission outcome unknown. Check the GMI dashboard; do not resubmit this job.') from None
         if response.status_code not in (200, 201, 202):
+            write_json(state_path, {'status': 'submission_rejected',
+                                    'http_status': response.status_code,
+                                    'rejected_at': time.time(), 'automatic_retry': False})
             raise RuntimeError(f'GMI submission HTTP {response.status_code}; no retry or alternate model was started.')
         result = response.json()
         request_id = result.get('request_id') or result.get('id')

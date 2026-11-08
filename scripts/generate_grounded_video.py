@@ -17,7 +17,7 @@ def main():
     parser.add_argument('action', choices=['prepare', 'submit', 'poll'])
     parser.add_argument('--plan', type=Path, default=BASE / 'data/94404/spinnaker-video-pilot.json')
     parser.add_argument('--credential-file', type=Path,
-                        help='Explicitly designated project file containing HOMI_GMI_API_KEY=...')
+                        help='Explicitly designated project GMI credential file (env assignment or labeled Markdown key)')
     args = parser.parse_args()
     try:
         job = grounded_video.prepare(args.plan)
